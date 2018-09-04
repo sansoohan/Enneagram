@@ -1,6 +1,6 @@
 package ga.ndss;
 
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import org.apache.http.Header;
@@ -14,13 +14,9 @@ import edu.uci.ics.crawler4j.url.WebURL;
  * @author Yasser Ganjisaffar
  */
 public class BasicCrawler extends WebCrawler {
-
+    HiveQuery hive = new HiveQuery();
     private static final Pattern IMAGE_EXTENSIONS = Pattern.compile(".*\\.(bmp|gif|jpg|png)$");
-    private HiveQuery hive = new HiveQuery();
-    public BasicCrawler() throws Exception{
-        hive.connect("192.168.8.101","default","hdfs","cloudera");
-        hive.createTableQuery("pages","url","page","enneagram");
-    }
+
 
     /**
      * You should implement this function to specify whether the given url

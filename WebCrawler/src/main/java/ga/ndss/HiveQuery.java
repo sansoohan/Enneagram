@@ -1,11 +1,8 @@
 package ga.ndss;
 
+import java.io.*;
 import java.util.*;
-import java.sql.SQLException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.DriverManager;
+import java.sql.*;
 
 public class HiveQuery {
     private String driverName = "org.apache.hive.jdbc.HiveDriver";
@@ -26,21 +23,81 @@ public class HiveQuery {
         con.close();
     }
 
-    public void createTableQuery(String table, String url, String page, String enneagram) throws Exception {
+    public void createTableQuery(String table, ArrayList<String> attibutes) throws Exception {
         if(con==null || stmt==null){
             System.out.println("not connected");
             return;
         }
         stmt.execute("SET hive.auto.convert.join=false");
         stmt.execute("set hive.auto.convert.join.noconditionaltask=false");
-        stmt.execute("create table if not exists "+table+" ("+url+" string, "+page+" string, "+enneagram+" int)");
+        stmt.execute("create table if not exists "+table+" ("+String.join(",",attibutes)+")");
     }
 
-    public void insertQuery(String table,String url, String page, String enneagram, int batchsize) throws Exception {
+    public void refineDataAndSave() throws Exception {
         if(con==null || stmt==null){
             System.out.println("not connected");
             return;
         }
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("../mapReduceQuery.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("../refineData.txt", false));
+            String query = reader.readLine();
+            String[] splitedQuery = query.split(" ");
+            System.out.println(query);
+            if(splitedQuery[0].equals("select")){
+                ResultSet resultSet = stmt.executeQuery(query);
+                if (resultSet.next()) {
+
+                    ResultSetMetaData metaData = resultSet.getMetaData();
+                    int numberOfColumns = metaData.getColumnCount();
+                    // System.out.println("Database Records Listing");
+
+/*                    for (int i = 1; i <= numberOfColumns; i++) {
+                        System.out.print(metaData.getColumnLabel(i) + "\t");
+                    }
+                    System.out.println();*/
+                    StringBuilder refineData = new StringBuilder();
+                    do {
+                        for (int i = 1; i <= numberOfColumns; i++) {
+                            String result = resultSet.getObject(i)+"";
+                            if(result.equals("null")){
+                                result="0";
+                            }
+                            if(i==numberOfColumns){
+                                refineData.append(result + "\n");
+                            }
+                            else{
+                                refineData.append(result + ",");
+                            }
+                        }
+                    } while (resultSet.next());
+                    writer.write(refineData.toString());
+                    writer.flush();
+
+                } else {
+                    System.out.println("No database records found");
+                }
+            }
+            reader.close();
+            writer.close();
+        } catch (IOException e) {
+            System.err.println(e);
+            System.exit(1);
+        }
+    }
+
+    public void insertQuery(String table,String url, String page, String enneagram, int batchsize) throws Exception {
+        if(con==null || stmt==null){
+            connect("192.168.8.101","default","hdfs","cloudera");
+            ArrayList<String> attirebutes = new ArrayList<String>();
+            attirebutes.add("url string");
+            attirebutes.add("page string");
+            attirebutes.add("enneagram int");
+            createTableQuery("pages",attirebutes);
+            return;
+        }
+
+
         if(query == null){
             query = new Query(batchsize,table);
         }
@@ -48,6 +105,8 @@ public class HiveQuery {
         if(query.getStacked() == batchsize){            
             stmt.execute(query.getQuery());
             query.reset(batchsize,table);
+            con.close();
+            con = null;
         }
     }
 }

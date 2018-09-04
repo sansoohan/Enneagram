@@ -8,7 +8,8 @@ It also has library for hive jdbc for saving web page.<br>
 TestQ.java : Test Simple hive query.<br>
 Query.java : It stack the page until the number of column user set.<br>
 BasicCrawler.java : Make hive jdbc Connection and Table if not exists. And it config before query.<br>
-HiveQuery.java : Run query here.
+HiveQuery.java : Run query here.<br>
+DataRefining.java : Data Refining with mapReduceQuery.txt after the Crawling.
 
 WordGenerator.java
 ------------------
