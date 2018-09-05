@@ -1,4 +1,4 @@
-//mvn exec:java -e -Dexec.mainClass="ga.ndss.BasicCrawlController" -Dexec.args="crawling 4"
+//mvn exec:java -e -Dexec.mainClass="ga.ndss.BasicCrawlController" -Dexec.args="crawling 1"
 
 package ga.ndss;
 

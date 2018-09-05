@@ -6,9 +6,34 @@ import java.sql.*;
 
 public class HiveQuery {
     private String driverName = "org.apache.hive.jdbc.HiveDriver";
-    private Connection con;
+    private HashSet<String> scrapedPages = new HashSet<String>();
+    private Connection con;    
     private Statement stmt;
     private Query query;
+
+    public void getScrapedPagesToSkip() throws Exception {
+        if(con==null || stmt==null){
+            connect("192.168.8.101","default","hdfs","cloudera");
+            ArrayList<String> attirebutes = new ArrayList<String>();
+            attirebutes.add("url string");
+            attirebutes.add("page string");
+            attirebutes.add("enneagram int");
+            createTableQuery("pages",attirebutes);
+            return;
+        }
+        ResultSet resultSet = stmt.executeQuery("select url from pages");
+        if (resultSet.next()) {
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
+            do {
+                for (int i = 1; i <= numberOfColumns; i++) {                    
+                    scrapedPages.add(resultSet.getObject(i)+"");
+                }
+            } while (resultSet.next());
+        }
+        close();
+        con = null;
+    }
 
     public void connect(String server, String database, String user, String password) throws Exception {
         Class.forName(driverName);
@@ -87,6 +112,9 @@ public class HiveQuery {
     }
 
     public void insertQuery(String table,String url, String page, String enneagram, int batchsize) throws Exception {
+        if(scrapedPages.contains(url)){
+            return;
+        }
         if(con==null || stmt==null){
             connect("192.168.8.101","default","hdfs","cloudera");
             ArrayList<String> attirebutes = new ArrayList<String>();
@@ -94,7 +122,6 @@ public class HiveQuery {
             attirebutes.add("page string");
             attirebutes.add("enneagram int");
             createTableQuery("pages",attirebutes);
-            return;
         }
 
 

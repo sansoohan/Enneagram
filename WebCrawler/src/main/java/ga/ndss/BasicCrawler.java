@@ -16,7 +16,9 @@ import edu.uci.ics.crawler4j.url.WebURL;
 public class BasicCrawler extends WebCrawler {
     HiveQuery hive = new HiveQuery();
     private static final Pattern IMAGE_EXTENSIONS = Pattern.compile(".*\\.(bmp|gif|jpg|png)$");
-
+    public BasicCrawler() throws Exception{
+        hive.getScrapedPagesToSkip();
+    }
 
     /**
      * You should implement this function to specify whether the given url
