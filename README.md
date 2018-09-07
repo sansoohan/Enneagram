@@ -4,7 +4,6 @@ Enneagram - BigData Project for Analyzing Natural Language
 result
 ------
 ![costGraph](result/costGraph.png)
-
 ![execution](result/execution.png)
 
 webCrawling
@@ -17,16 +16,28 @@ BasicCrawler.java : Make hive jdbc Connection and Table if not exists. And it co
 HiveQuery.java : Run query here.<br>
 DataRefining.java : Data Refining with mapReduceQuery.txt after the Crawling.
 
-WordGenerator.java
-------------------
+wordGenerating
+--------------
+WordGenerator.java<br>
 It generate words like Natural Language.<br>
 Generated words and attributes are saved on words.txt.<br>
 It also make a long query on mapReduceQuery.txt. This query is used after finishing WebCrawling.
 
-PageGenerator.java
-------------------
+pageGenerating
+--------------
+PageGenerator.java<br>
 It generate page using words.txt.<br>
 It also generate a-tags that linked into each pages on index.html for crawling.
+
+training
+--------
+It train the model with the data 'refineData.txt'<br>
+It reached at 99 percent accuracy so that you can predict the character of the page using this.
+
+nextReserch
+-----------
+I made word_list that assumed natural language.<br>
+So i will try to make a real word_list from now on.
 
 Contact
 ----------
