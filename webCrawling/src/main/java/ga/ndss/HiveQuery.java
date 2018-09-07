@@ -10,10 +10,13 @@ public class HiveQuery {
     private Connection con;    
     private Statement stmt;
     private Query query;
-
-    public void getScrapedPagesToSkip() throws Exception {
+    private static String[] args;
+    public static void setArgs(String[] mainArgs){
+        args = mainArgs;
+    }
+    public void getScrapedPagesToSkip(String[] args) throws Exception {
         if(con==null || stmt==null){
-            connect("192.168.8.101","default","hdfs","cloudera");
+            connect(args[2],args[3],args[4],args[5]);
             ArrayList<String> attirebutes = new ArrayList<String>();
             attirebutes.add("url string");
             attirebutes.add("page string");
@@ -64,8 +67,8 @@ public class HiveQuery {
             return;
         }
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("../mapReduceQuery.txt"));
-            BufferedWriter writer = new BufferedWriter(new FileWriter("../refineData.txt", false));
+            BufferedReader reader = new BufferedReader(new FileReader("../data/mapReduceQuery.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("../data/refineData.txt", false));
             String query = reader.readLine();
             String[] splitedQuery = query.split(" ");
             System.out.println(query);

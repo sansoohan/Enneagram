@@ -1,4 +1,15 @@
-//mvn exec:java -e -Dexec.mainClass="ga.ndss.BasicCrawlController" -Dexec.args="crawling 1"
+/*
+args[0] = crawlStorageFolder
+args[1] = numOfCrawler
+args[2] = hiveServer2 IP
+args[3] = hiveServer2 Database
+args[4] = hiveServer2 ID
+args[5] = hiveServer2 PASS
+args[6] = domain(sendbox)
+args[7] ~ args[...]= seed page
+*/
+
+//mvn exec:java -e -Dexec.mainClass="ga.ndss.BasicCrawlController" -Dexec.args="crawling 1 '192.168.8.101' 'default' 'hdfs' 'cloudera' 'http://192.168.9.9/' 'http://192.168.9.9/IT/Enneagram/pages/'"
 
 package ga.ndss;
 
@@ -10,21 +21,25 @@ import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
-
+import edu.uci.ics.crawler4j.crawler.WebCrawler;
 /**
  * @author Yasser Ganjisaffar
  */
 public class BasicCrawlController {
     private static final Logger logger = LoggerFactory.getLogger(BasicCrawlController.class);
-
-    public static void main(String[] args) throws Exception {
-        if (args.length != 2) {
-            logger.info("Needed parameters: ");
-            logger.info("\t rootFolder (it will contain intermediate crawl data)");
-            logger.info("\t numberOfCralwers (number of concurrent threads)");
+    public static <T extends WebCrawler> void main(String[] args) throws Exception {
+        int numOfSeeds = args.length - 7;
+        if(numOfSeeds <= 0){
+            logger.info("args[0] = crawlStorageFolder");
+            logger.info("args[1] = numOfCrawler");
+            logger.info("args[2] = hiveServer2 IP");
+            logger.info("args[3] = hiveServer2 Database");
+            logger.info("args[4] = hiveServer2 ID");
+            logger.info("args[5] = hiveServer2 PASS");
+            logger.info("args[6] = domain(sendbox)");
+            logger.info("args[7] ~ args[...]= seed page");
             return;
         }
-
     /*
      * crawlStorageFolder is a folder where intermediate crawl data is
      * stored.
@@ -83,6 +98,9 @@ public class BasicCrawlController {
      */
         config.setResumableCrawling(false);
 
+
+
+        config.setMaxOutgoingLinksToFollow(20000);
     /*
      * Instantiate the controller for this crawl.
      */
@@ -90,18 +108,23 @@ public class BasicCrawlController {
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
         CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
-
     /*
      * For each crawl, you need to add some seed urls. These are the first
      * URLs that are fetched and then the crawler starts following links
      * which are found in these pages
      */
-        controller.addSeed("http://192.168.9.9/IT/Enneagram/pages/");
+
+
+        for(int i=0;i<numOfSeeds;i++){
+            controller.addSeed(args[7+i]);
+        }
 
     /*
      * Start the crawl. This is a blocking operation, meaning that your code
      * will reach the line after this only when crawling is finished.
      */
+
+        BasicCrawler.setArgs(args);
         controller.start(BasicCrawler.class, numberOfCrawlers);
     }
 }

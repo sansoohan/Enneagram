@@ -1,7 +1,7 @@
 Enneagram - BigData Project for Analyzing Natural Language
 ==========================================================
 
-WebCrawler
+webCrawling
 ----------
 This is not only crawl but also scrap.<br>
 It also has library for hive jdbc for saving web page.<br>

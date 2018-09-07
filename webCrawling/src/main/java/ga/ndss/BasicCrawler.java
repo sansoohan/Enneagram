@@ -15,9 +15,15 @@ import edu.uci.ics.crawler4j.url.WebURL;
  */
 public class BasicCrawler extends WebCrawler {
     HiveQuery hive = new HiveQuery();
+    private static String[] args;
     private static final Pattern IMAGE_EXTENSIONS = Pattern.compile(".*\\.(bmp|gif|jpg|png)$");
     public BasicCrawler() throws Exception{
-        hive.getScrapedPagesToSkip();
+        hive.getScrapedPagesToSkip(args);
+    }
+
+    public static void setArgs(String[] main_args){
+        args = main_args;
+        HiveQuery.setArgs(main_args);
     }
 
     /**
@@ -33,7 +39,7 @@ public class BasicCrawler extends WebCrawler {
         }
 
         // Only accept the url if it is in the "www.ics.uci.edu" domain and protocol is "http".
-        return href.startsWith("http://192.168.9.9/");
+        return href.startsWith(args[6]);
     }
 
     /**

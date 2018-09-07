@@ -50,7 +50,7 @@ class Model:
 	def predict(self, x_test):
 		return self.sess.run(self.H, feed_dict={self.X:x_test,self.keep_prob: 1})
 
-xy = np.loadtxt('refineData.txt', delimiter=',', dtype=np.float32)
+xy = np.loadtxt('../data/refineData.txt', delimiter=',', dtype=np.float32)
 x_data = xy[:, 0:-1]
 y_data = np.array(xy[:, [-1]],dtype=np.int)
 target = np.array(y_data).reshape(-1)
@@ -61,9 +61,6 @@ X_train, X_test, y_train_one_hot, y_test_one_hot = train_test_split(x_data, y_da
 training_epochs = 10
 batch_size = 100
 
-
-
-
 cost_history = []
 accuracy_history = []
 models = []
@@ -73,7 +70,6 @@ models = []
 num_models = 7
 for m in range(num_models):
 	models.append(Model(sess,"model"+str(m)))
-
 
 sess.run(tf.global_variables_initializer())
 

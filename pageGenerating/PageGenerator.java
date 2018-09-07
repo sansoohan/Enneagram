@@ -9,7 +9,7 @@ public class PageGenerator {
 	public static WordData readWord(){
 		WordData wd = new WordData();
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader("words.txt"));
+			BufferedReader reader = new BufferedReader(new FileReader("../data/words.txt"));
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] splitedLine = line.split(" ");
