@@ -1,6 +1,12 @@
 Enneagram - BigData Project for Analyzing Natural Language
 ==========================================================
 
+result
+------
+![costGraph](result/costGraph.png)
+
+![execution](result/execution.png)
+
 webCrawling
 ----------
 This is not only crawl but also scrap.<br>
