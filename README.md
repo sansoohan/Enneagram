@@ -3,8 +3,20 @@ Enneagram - BigData Project for Analyzing Natural Language
 
 result
 ------
-![costGraph](result/costGraph.png)
+1. Crawl and scrap the web page and save it on hive database.
+![hadoop](result/hadoop.png)
+
+2. MapReduce all the page for refinining.
+![mapreduce](result/mapreduce.png)
+
+3. Refine data for maching learning.
+![refining](result/refining.png)
+
+4. Make a classification model using tensorflow.
 ![execution](result/execution.png)
+![costGraph](result/costGraph.png)
+
+
 
 webCrawling
 ----------
