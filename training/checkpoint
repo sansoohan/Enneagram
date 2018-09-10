@@ -1,0 +1,2 @@
+model_checkpoint_path: "enneagram_classification_model.ckpt"
+all_model_checkpoint_paths: "enneagram_classification_model.ckpt"
