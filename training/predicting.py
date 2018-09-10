@@ -6,21 +6,9 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from myModel import Model
 
-xy = np.array(sys.argv[1].split(","), dtype=np.float32)
-xy = np.reshape(xy, (-1,677))
+X_test = np.array(sys.argv[1].split(",")[:-1], dtype=np.float32)
+X_test = np.reshape(X_test, (-1,676))
 
-x_data = xy[:, 0:-1]
-y_data = np.array(xy[:, [-1]],dtype=np.int)
-target = np.array(y_data).reshape(-1)
-y_data_one_hot = np.eye(10)[target]
-
-X_train, X_test, y_train_one_hot, y_test_one_hot = train_test_split(x_data, y_data_one_hot, test_size=0.2)
-
-training_epochs = 10
-batch_size = 100
-
-cost_history = []
-accuracy_history = []
 models = []
 
 sess = tf.Session()
