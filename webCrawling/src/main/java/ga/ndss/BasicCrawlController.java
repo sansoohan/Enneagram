@@ -5,7 +5,7 @@ args[2] = hiveServer2 IP
 args[3] = hiveServer2 Database
 args[4] = hiveServer2 ID
 args[5] = hiveServer2 PASS
-args[6] = domain(sendbox)
+args[6] = domain(sandbox)
 args[7] ~ args[...]= seed page
 */
 
