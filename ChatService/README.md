@@ -17,7 +17,11 @@ Developement Steps.
 --------------
 1. Select The dev platform [done]<br>
 2. Make a login app with database [done]<br>
+![login](result/login.png)<br>
 3. Design simple function and make a simple UI [done]<br>
+![login](result/friendlist.png)
+![login](result/friendchat.png)
+![login](result/ideamatching.png)><br>
 4. Link and test simple-data function to database.<br>
 5. Link and test multi-interation function to database.<br>
 6. Design OOP model and database.<br>
