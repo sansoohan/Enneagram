@@ -17,7 +17,7 @@ Developement Steps.
 --------------
 1. Select The dev platform [done]<br>
 2. Make a login app with database [done]<br>
-<img src="result/login.jpg" height="300px">
+<img src="result/login.png" height="300px">
 3. Design simple function and make a simple UI [done]<br>
 <p>
 <img src="result/friendlist.jpg" height="300px">
