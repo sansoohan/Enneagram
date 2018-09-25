@@ -1,8 +1,5 @@
 Enneagram - Analyzing Natural Language
 ============================
+Three System for Enneagram platform
 
-ChatService
-----------------
-
-BigDataAnalyzing
-----------------
+<img src="map/flow.png">
