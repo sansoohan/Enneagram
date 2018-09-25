@@ -1,0 +1,52 @@
+<ActionBar class="action-bar" backgroundColor="#2B3238">
+	<NavigationButton visibility="collapsed"></NavigationButton>
+	<GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
+		<ActionButton (tap)="onTap($event)" isArrow="true"></ActionButton>
+		<Label col="1" text="National Parks" class="action-bar-label"></Label>
+		<Image col="2" #search src="~/icons/search.png" tintColor="#ffffff" (loaded)="animateOut(search)" class="action-bar-icon"></Image>
+	</GridLayout>
+</ActionBar>
+
+<GridLayout>
+	<ScrollView (scroll)="onScroll($event)">
+		<StackLayout *ngIf="landmark" [minHeight]="minHeight">
+			<GridLayout #imageContainer [translateY]="offset" backgroundColor="#000000" class="header-background-view" (loaded)="animateIn(imageContainer,300,0)"
+			 class="landmark-header">
+				<Image #image [opacity]="imageOpacity" [src]="landmark.image" stretch="aspectFit"></Image>
+			</GridLayout>
+
+			<GridLayout #landmarkLayout rows="auto,auto,auto,auto" columns="auto,auto,*" translateY="500" (loaded)="animateIn(landmarkLayout,300,150)"
+			 class="landmark-content">
+
+				<Label #title colSpan="3" textWrap="true" [text]="landmark.name" scaleX="0.7" scaleY="0.7" translateX="-30" (loaded)="animateIn(title,250,150)"
+				 class="landmark-name"></Label>
+
+				<StackLayout #landmarkStat1 row="1" translateY="500" (loaded)="animateIn(landmarkStat1,250,350)" orientation="horizontal">
+					<Image src="./images/location.png" class="landmark-stat-icon"></Image>
+					<Label [text]="landmark.location" class="landmark-stat-label"></Label>
+				</StackLayout>
+
+				<StackLayout #landmarkStat2 row="1" col="1" translateY="500" (loaded)="animateIn(landmarkStat2,250,400)" orientation="horizontal">
+					<Image src="./images/likes.png" class="landmark-stat-icon"></Image>
+					<Label text="{{ landmark.likes }} Likes" class="landmark-stat-label"></Label>
+				</StackLayout>
+
+				<StackLayout #landmarkStat3 row="1" col="2" translateY="500" (loaded)="animateIn(landmarkStat3,250,450)" orientation="horizontal">
+					<Image src="./images/comments.png" class="landmark-stat-icon"></Image>
+					<Label text="{{ landmark.comments }} Comments" class="landmark-stat-label"></Label>
+				</StackLayout>
+
+				<Label #landmarkDescription row="2" colSpan="3" translateY="500" textWrap="true" [text]="landmark.description" (loaded)="animateIn(landmarkDescription,250,500)"
+				 class="landmark-description"></Label>
+
+				<Label #landmarkFooter row="3" colSpan="3" translateY="500" textWrap="true" text="nationalparktripsmedia.com" (loaded)="animateIn(landmarkFooter,250,500)"
+				 class="landmark-footer"></Label>
+
+			</GridLayout>
+
+		</StackLayout>
+	</ScrollView>
+	<GridLayout #dockedLabelContainer verticalAlignment="top" height="48" [opacity]="dockedLabelOpacity" class="docked-label-container">
+		<Label [text]="landmark.name" [opacity]="dockedLabelTextOpacity" class="docked-label-text"></Label>
+	</GridLayout>
+</GridLayout>

@@ -1,0 +1,5 @@
+<GridLayout (tap)="onTap($event)" rows="*,*,*" class="main-layout">
+	<StackLayout #lineTop row="0" (loaded)="updateTop(lineTop,true)" class="line"></StackLayout>
+	<StackLayout #lineCenter row="1" (loaded)="updateCenter(lineCenter,true)" class="line"></StackLayout>
+	<StackLayout #lineBottom row="2" (loaded)="updateBottom(lineBottom,true)" class="line"></StackLayout>
+</GridLayout>

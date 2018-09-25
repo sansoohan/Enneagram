@@ -1,4 +1,4 @@
-Enneagram - BigData Project for Analyzing Natural Language
+Analyzing System
 ==========================================================
 
 result

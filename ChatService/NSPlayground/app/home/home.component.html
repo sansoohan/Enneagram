@@ -1,0 +1,21 @@
+<ActionBar title="Friend Library" class="action-bar">
+	<ActionItem text="Logout" ios.position="true" (tap)="logout()"></ActionItem>
+</ActionBar>
+
+<TabView class="tab-view">
+	<GridLayout class="tabs" *tabItem="{iconSource: '~/home/images/user-avatar-main-picture.png'}">
+		<router-outlet name="friendlistoutlet"></router-outlet>
+	</GridLayout>
+	
+	<GridLayout class="tabs" *tabItem="{iconSource: '~/home/images/speech-bubble.png'}">
+		<router-outlet name="friendchatoutlet"></router-outlet>
+	</GridLayout>
+	
+	<GridLayout class="tabs" *tabItem="{iconSource: '~/home/images/magnifier-with-a-heart.png'}">
+		<router-outlet name="friendmatchingoutlet"></router-outlet>
+	</GridLayout>
+	
+	<GridLayout class="tabs" *tabItem="{iconSource: '~/home/images/magnifier-with-a-star.png'}">
+		<router-outlet name="ideamatchingoutlet"></router-outlet>
+	</GridLayout>
+</TabView>

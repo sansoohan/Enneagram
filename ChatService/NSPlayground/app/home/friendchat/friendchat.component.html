@@ -1,0 +1,10 @@
+<ScrollView class="page">
+	<ListView class="list-group" [items]="chats" (itemTap)="onItemTap($event)">
+		<ng-template let-item="item">
+			<GridLayout class="list-group-item" rows="*" columns="auto, *">
+				<Image row="0" col="0" [src]="item.src" class="thumb img-circle"></Image>
+				<Label row="0" col="1" [text]="item.text"></Label>
+			</GridLayout>
+		</ng-template>
+	</ListView>
+</ScrollView>

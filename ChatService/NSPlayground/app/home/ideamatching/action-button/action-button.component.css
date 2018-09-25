@@ -1,0 +1,12 @@
+.main-layout {
+	width: 24;
+	height: 24;
+	padding: 4 2;
+}
+
+.line {
+    height: 2;
+    background-color: white;
+	margin: 5 1;
+	border-radius: 1;
+}
