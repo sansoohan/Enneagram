@@ -19,7 +19,7 @@ Developement Steps.
 2. Make a login app with database [done]<br>
 ![login](result/login.png)<br>
 3. Design simple function and make a simple UI [done]<br>
-<img src="result/friendlist.jpg">
+<img src="result/friendlist.jpg" style="height:500px">
 
 ![friendchat](result/friendchat.jpg)
 ![ideamatching](result/ideamatching.jpg)><br>
