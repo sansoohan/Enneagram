@@ -1,6 +1,6 @@
 Chat Service for Gathering Data
 ==========================================================
-We can give a recommendation with enneagram.<br>
+We can give some recommendation to users with enneagram.<br>
 User can make friends easy with this app.<br>
 We can get some data from user. This data will be used for data analyzing.
 
@@ -27,7 +27,14 @@ Developement Steps.
 10. Refactoring.<br>
 11. Beta test and bug report.<br>
 
+myApp(Back-End Development)
+-----
+This is fo testing database. I have tested firebase database with this.
 
+NSPlayground(Front-End Development)
+------------
+This is for UI test in the application.<br>
+If you want to make some UI for mobile application, it will be good choice using NSPlayground.
 
 Contact
 --------
