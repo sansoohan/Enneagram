@@ -19,10 +19,11 @@ Developement Steps.
 2. Make a login app with database [done]<br>
 <img src="result/login.jpg" height="300px">
 3. Design simple function and make a simple UI [done]<br>
+<p>
 <img src="result/friendlist.jpg" height="300px">
 <img src="result/friendchat.jpg" height="300px">
 <img src="result/ideamatching.jpg" height="300px">
-
+</p>
 4. Link and test simple-data function to database.<br>
 5. Link and test multi-interation function to database.<br>
 6. Design OOP model and database.<br>
