@@ -22,6 +22,7 @@ Developement Steps.
 <p>
 <img src="result/friendlist.jpg" height="300px">
 <img src="result/friendchat.jpg" height="300px">
+<img src="result/friendmatching.jpg" height="300px">
 <img src="result/ideamatching.jpg" height="300px">
 </p>
 4. Link and test simple-data function to database.<br>

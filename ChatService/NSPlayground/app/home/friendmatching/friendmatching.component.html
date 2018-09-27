@@ -1,8 +1,14 @@
-
-
-<ScrollView class="page">
-	<StackLayout class="home-panel">
-
-		<!--Add your page content here-->
-	</StackLayout>
-</ScrollView>
+<ListView class="list-group" [items]="countries" (itemTap)="onItemTap($event)">
+	<ng-template let-country="item">
+		<FlexboxLayout flexDirection="row" class="list-group-item">
+			<Image [src]="country.imageSrc" class="thumb img-circle"></Image>
+			<Label [text]="country.name" class="list-group-item-heading" verticalAlignment="center" style="width: 60%"></Label>
+		</FlexboxLayout>
+	</ng-template>
+</ListView>
+<AbsoluteLayout>
+	<FloatButton text="+" (tap)="onTap($event)"></FloatButton>
+	<ChildButton1 #childButton1></ChildButton1>
+	<ChildButton2 #childButton2></ChildButton2>
+	<ChildButton3 #childButton3></ChildButton3>
+</AbsoluteLayout>

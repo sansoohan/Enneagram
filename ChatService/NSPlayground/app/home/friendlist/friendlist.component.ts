@@ -1,6 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Friend } from "./friend.model";
-
+import { ChildButton1Component } from "../../buttons/child-button1/child-button1.component";
+import { ChildButton2Component } from "../../buttons/child-button2/child-button2.component";
+import { ChildButton3Component } from "../../buttons/child-button3/child-button3.component";
 @Component({
 	selector: "Friendlist",
 	moduleId: module.id,
@@ -8,7 +10,10 @@ import { Friend } from "./friend.model";
 	styleUrls: ['./friendlist.component.css']
 })
 export class FriendlistComponent implements OnInit {
-
+	public drawer: boolean;
+	@ViewChild("childButton1") childButton1: ChildButton1Component;
+	@ViewChild("childButton2") childButton2: ChildButton2Component;
+	@ViewChild("childButton3") childButton3: ChildButton3Component;
 	friends = [];
 
 	constructor() {
@@ -34,5 +39,19 @@ export class FriendlistComponent implements OnInit {
 
 	onItemTap(args) {
 		console.log("You tapped: " + this.friends[args.index].name);
+	}
+	public onTap(args) {
+		if (this.drawer) {
+			this.drawer = false;
+			this.childButton1.drawerOpen(this.drawer);
+			this.childButton2.drawerOpen(this.drawer);
+			this.childButton3.drawerOpen(this.drawer);
+		}
+		else {
+			this.drawer = true;
+			this.childButton1.drawerOpen(this.drawer);
+			this.childButton2.drawerOpen(this.drawer);
+			this.childButton3.drawerOpen(this.drawer);
+		}
 	}
 }

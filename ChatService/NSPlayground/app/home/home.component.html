@@ -1,5 +1,12 @@
-<ActionBar title="Friend Library" class="action-bar">
-	<ActionItem text="Logout" ios.position="true" (tap)="logout()"></ActionItem>
+<ActionBar class="action-bar" backgroundColor="#2B3238">
+
+	<NavigationButton visibility="collapsed"></NavigationButton>
+	<GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
+		<ActionButton #actionButton></ActionButton>
+		<Label col="1" text="Friend Library" class="action-bar-label"></Label>
+		<!-- <Image #search col="2" src="~/home/ideamatching/images/search.png" class="action-bar-icon" tintColor="#ffffff"></Image> -->
+		<Label col="2" text="Logout" class="logout-label" (tap)="logout()"></Label>
+	</GridLayout>
 </ActionBar>
 
 <TabView class="tab-view">

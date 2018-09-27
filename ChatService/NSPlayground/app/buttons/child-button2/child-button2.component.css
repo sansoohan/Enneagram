@@ -1,0 +1,44 @@
+.child2-btn{
+	border-radius:28;
+	background-color: yellow;
+	width: 56;
+	height: 56;
+	margin-top: 80%;
+	margin-left: 80%;
+	opacity: 0;
+}
+.child2-btn-text{
+	color: #000000;
+	font-size:36;
+	margin-left:20;
+}
+.child2-btn.drawer-down{
+	animation-name: child2-drawer-down;
+	animation-duration:0.2s;
+	animation-fill-mode: forwards;
+}
+.child2-btn.drawer-up{
+	animation-name: child2-drawer-up;
+	animation-duration:0.2s;
+	animation-fill-mode: forwards;
+}
+@keyframes child2-drawer-down{
+	from { 
+		opacity: 0;
+		transform: translate(0, 0);
+	}
+	to {
+		opacity: 1;
+		transform: translate(0, -128);
+	}
+}
+@keyframes child2-drawer-up{
+	from { 
+		opacity: 1;
+		transform: translate(0, -128);
+	}
+	to {
+		opacity: 0;
+		transform: translate(0, 0);
+	}
+}

@@ -18,10 +18,15 @@ import { AppComponent } from "./app.component";
 import { HomeComponent } from "./home/home.component";
 import { FriendlistComponent } from "./home/friendlist/friendlist.component";
 import { FriendmatchingComponent } from "./home/friendmatching/friendmatching.component";
+import { FloatButtonComponent } from "./buttons/float-button/float-button.component";
+import { ChildButton1Component } from "./buttons/child-button1/child-button1.component";
+import { ChildButton2Component } from "./buttons/child-button2/child-button2.component";
+import { ChildButton3Component } from "./buttons/child-button3/child-button3.component";
 import { FriendchatComponent } from "./home/friendchat/friendchat.component";
 import { IdeamatchingComponent } from "./home/ideamatching/ideamatching.component";
 import { DetailsComponent } from "./home/ideamatching/details/details.component";
 import { ActionButtonComponent } from "./home/ideamatching/action-button/action-button.component";
+
 
 @NgModule({
     bootstrap: [
@@ -45,6 +50,10 @@ import { ActionButtonComponent } from "./home/ideamatching/action-button/action-
         HomeComponent,
         FriendlistComponent,
         FriendmatchingComponent,
+        FloatButtonComponent,
+        ChildButton1Component,
+        ChildButton2Component,
+        ChildButton3Component,
         FriendchatComponent,
         IdeamatchingComponent,
         DetailsComponent,

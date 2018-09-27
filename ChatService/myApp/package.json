@@ -28,6 +28,7 @@
         "nativescript-angular": "6.1.0",
         "nativescript-background-http": "3.3.0",
         "nativescript-camera": "4.0.2",
+        "nativescript-floatingactionbutton": "^4.1.4",
         "nativescript-fresco": "4.0.0",
         "nativescript-geolocation": "4.3.0",
         "nativescript-intl": "3.0.0",

@@ -1,0 +1,45 @@
+.float-btn{
+	border-radius:28;
+	background-color: #30bcff;
+	width: 56;
+	height: 56;
+	margin-top: 80%;
+	margin-left: 80%;
+	text-align: center;
+}
+.float-btn-text{
+	color: #ffffff;
+	font-size:36;
+	margin-top:+2;
+	margin-left:+2;
+}
+.float-btn.down{
+	animation-name: down;
+	animation-duration:0.2s;
+	animation-fill-mode: forwards;
+}
+.float-btn.up{
+	animation-name: up;
+	animation-duration:0.2s;
+	animation-fill-mode: forwards;
+}
+@keyframes down{
+	from { 
+		background-color: #30bcff;
+		transform: rotate(0deg); 
+	}
+	to {
+		background-color: orange;
+		transform: rotate(45deg); 
+	}
+}
+@keyframes up{
+	from { 
+		background-color: orange;
+		transform: rotate(45deg); 
+	}
+	to {
+		background-color: #30bcff;
+		transform: rotate(0deg); 
+	}
+}

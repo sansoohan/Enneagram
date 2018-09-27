@@ -22,17 +22,17 @@
 				 class="landmark-name"></Label>
 
 				<StackLayout #landmarkStat1 row="1" translateY="500" (loaded)="animateIn(landmarkStat1,250,350)" orientation="horizontal">
-					<Image src="./images/location.png" class="landmark-stat-icon"></Image>
+					<Image src="~/home/ideamatching/details/images/location.png" class="landmark-stat-icon"></Image>
 					<Label [text]="landmark.location" class="landmark-stat-label"></Label>
 				</StackLayout>
 
 				<StackLayout #landmarkStat2 row="1" col="1" translateY="500" (loaded)="animateIn(landmarkStat2,250,400)" orientation="horizontal">
-					<Image src="./images/likes.png" class="landmark-stat-icon"></Image>
+					<Image src="~/home/ideamatching/details/images/likes.png" class="landmark-stat-icon"></Image>
 					<Label text="{{ landmark.likes }} Likes" class="landmark-stat-label"></Label>
 				</StackLayout>
 
 				<StackLayout #landmarkStat3 row="1" col="2" translateY="500" (loaded)="animateIn(landmarkStat3,250,450)" orientation="horizontal">
-					<Image src="./images/comments.png" class="landmark-stat-icon"></Image>
+					<Image src="~/home/ideamatching/details/images/comments.png" class="landmark-stat-icon"></Image>
 					<Label text="{{ landmark.comments }} Comments" class="landmark-stat-label"></Label>
 				</StackLayout>
 
