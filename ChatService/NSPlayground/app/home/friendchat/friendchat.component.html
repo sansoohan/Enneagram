@@ -1,9 +1,10 @@
 <ScrollView class="page">
-	<ListView class="list-group" [items]="chats" (itemTap)="onItemTap($event)">
+	<ListView class="list-group" text="Chat Room" [items]="rooms" (itemTap)="onItemTap($event)">
 		<ng-template let-item="item">
-			<GridLayout class="list-group-item" rows="*" columns="auto, *">
-				<Image row="0" col="0" [src]="item.src" class="thumb img-circle"></Image>
-				<Label row="0" col="1" [text]="item.text"></Label>
+			<GridLayout class="list-group-item" rows="auto, auto, auto" columns="auto, auto">
+				<Image row="0" col="0" rowSpan="3" [src]="item.topUserSrc" class="thumb img-circle"></Image>
+				<Label class="list-title" row="0" col="1" [text]="item.title"></Label>
+				<Label class="list-items" row="1" col="1" rowSpan="2" [text]="item.topMessage"></Label>
 			</GridLayout>
 		</ng-template>
 	</ListView>

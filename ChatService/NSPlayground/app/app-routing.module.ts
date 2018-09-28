@@ -5,6 +5,7 @@ import { HomeComponent } from "./home/home.component";
 import { FriendlistComponent } from "./home/friendlist/friendlist.component";
 import { FriendmatchingComponent } from "./home/friendmatching/friendmatching.component";
 import { FriendchatComponent } from "./home/friendchat/friendchat.component";
+import { ChatRoomComponent } from "./home/friendchat/chat-room/chat-room.component";
 import { IdeamatchingComponent } from "./home/ideamatching/ideamatching.component";
 import { DetailsComponent } from "./home/ideamatching/details/details.component";
 
@@ -19,6 +20,7 @@ const routes: Routes = [
         ]
     },
     { path: "details", component: DetailsComponent },
+    { path: "chatroom", component: ChatRoomComponent },
 ];
 
 @NgModule({

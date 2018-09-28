@@ -1,4 +1,6 @@
+import { User } from "./user.model";
 export class Chat {
-    constructor(public text: string, public src: string) {
-    }
+
+    public user: User;
+    public contents: string;
 }

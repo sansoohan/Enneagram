@@ -1,0 +1,61 @@
+.landmark-name {
+	vertical-align: center;
+	font-size: 22;
+	color: black;
+	margin: 16 0;
+}
+
+.landmark-content {
+	padding: 0 16;
+	background-color: #ffffff;
+}
+
+.landmark-stat-icon {
+	height: 24;
+}
+
+.landmark-stat-label {
+	margin-left: 6;
+	margin-right: 14;
+	font-size: 12;
+	color: #909090;
+	vertical-align: center;
+}
+
+.landmark-description {
+	vertical-align: center;
+	font-size: 15;
+	color: black;
+	margin: 16 0;
+}
+
+.landmark-footer {
+	vertical-align: center;
+	font-size: 10;
+	color: #909090;
+	margin: 4 0 16 0;
+}
+
+.docked-label-container {
+	background-color: #000000;
+}
+
+.docked-label-text {
+	margin: 0 16;
+	font-size: 18;
+	color: #909090;
+	vertical-align: center;
+}
+
+.action-bar-label {
+    font-size: 22;
+    horizontal-align: center;
+    vertical-align: center;
+    color: white;
+}
+
+.action-bar-icon {
+    height: 20;
+    vertical-align: center;
+    margin: 12;
+}

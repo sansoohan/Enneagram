@@ -12,6 +12,7 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
 import { AnimationsService } from "./home/ideamatching/animations-service";
 import { LandmarksService } from "./home/ideamatching/landmarks-service";
+import { RoomsService } from "./home/friendchat/rooms-service";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -23,6 +24,7 @@ import { ChildButton1Component } from "./buttons/child-button1/child-button1.com
 import { ChildButton2Component } from "./buttons/child-button2/child-button2.component";
 import { ChildButton3Component } from "./buttons/child-button3/child-button3.component";
 import { FriendchatComponent } from "./home/friendchat/friendchat.component";
+import { ChatRoomComponent } from "./home/friendchat/chat-room/chat-room.component";
 import { IdeamatchingComponent } from "./home/ideamatching/ideamatching.component";
 import { DetailsComponent } from "./home/ideamatching/details/details.component";
 import { ActionButtonComponent } from "./home/ideamatching/action-button/action-button.component";
@@ -55,13 +57,15 @@ import { ActionButtonComponent } from "./home/ideamatching/action-button/action-
         ChildButton2Component,
         ChildButton3Component,
         FriendchatComponent,
+        ChatRoomComponent,
         IdeamatchingComponent,
         DetailsComponent,
         ActionButtonComponent
     ],
     providers: [
         AnimationsService,
-        LandmarksService
+        LandmarksService,
+        RoomsService,
     ],
     schemas: [
         NO_ERRORS_SCHEMA

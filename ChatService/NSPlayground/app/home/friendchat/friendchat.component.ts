@@ -1,8 +1,13 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Chat } from "./chat.model";
+import { Room } from "./room.model";
+import { ROOMS } from "./mock-rooms";
 import { ChildButton1Component } from "../../buttons/child-button1/child-button1.component";
 import { ChildButton2Component } from "../../buttons/child-button2/child-button2.component";
 import { ChildButton3Component } from "../../buttons/child-button3/child-button3.component";
+import { ActionButtonComponent } from "../ideamatching/action-button/action-button.component";
+import { RouterExtensions } from "nativescript-angular/router";
+import { RoomsService } from "./rooms-service";
 @Component({
 	selector: "Friendchat",
 	moduleId: module.id,
@@ -10,6 +15,8 @@ import { ChildButton3Component } from "../../buttons/child-button3/child-button3
 	styleUrls: ['./friendchat.component.css']
 })
 export class FriendchatComponent implements OnInit {
+	@ViewChild("actionButton") _buttonRef: ActionButtonComponent;
+
 	public drawer: boolean;
 	@ViewChild("childButton1") childButton1: ChildButton1Component;
 	@ViewChild("childButton2") childButton2: ChildButton2Component;
@@ -18,23 +25,20 @@ export class FriendchatComponent implements OnInit {
     currentMonth: number = new Date().getMonth() + 1;
     currentYear: number = new Date().getFullYear();
 
-	chats = [];
-
-	constructor() {
-		this.chats.push(new Chat("Hi", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"));
-		this.chats.push(new Chat("Hello", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"));
-		this.chats.push(new Chat("Class 201", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"));
-		this.chats.push(new Chat("Come here", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"));
-		this.chats.push(new Chat("Hurry", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"));
-		this.chats.push(new Chat("Hey, how's going?", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"));
-		this.chats.push(new Chat("What was homework in the C programming class?", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"));
+	rooms: Room[];
+	constructor(private routerExtensions: RouterExtensions,
+		private roomsService: RoomsService,) {
+		this.rooms = ROOMS;
 	}
 
 	ngOnInit(): void {
 	}
 
 	onItemTap(args) {
-		console.log("You tapped: " + this.chats[args.index].name);
+		console.log("You tapped: " + this.rooms[args.index].title);
+		this.roomsService.setSelectedId(args.index);
+		this.routerExtensions.navigate(['/chatroom'], { animated: false });
+		this._buttonRef.makeArrow();
 	}
 	public onTap(args) {
 		if (this.drawer) {

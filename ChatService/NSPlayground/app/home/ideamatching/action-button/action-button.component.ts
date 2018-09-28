@@ -94,7 +94,7 @@ export class ActionButtonComponent {
 		}).catch(() => { });
 	}
 
-	makeArrow() {
+	public makeArrow() {
 		this.updateTop(this._lineTopRef.nativeElement, false);
 		this.updateCenter(this._lineCenterRef.nativeElement, false);
 		this.updateBottom(this._lineBottomRef.nativeElement, false);

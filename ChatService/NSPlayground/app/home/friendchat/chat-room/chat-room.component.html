@@ -1,0 +1,19 @@
+<ActionBar class="action-bar" backgroundColor="#2B3238">
+	<NavigationButton visibility="collapsed"></NavigationButton>
+	<GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
+		<ActionButton (tap)="onTap($event)" isArrow="true"></ActionButton>
+		<Label col="1" [text]="room.title" class="action-bar-label"></Label>
+		<Image col="2" #search src="~/icons/search.png" tintColor="#ffffff" (loaded)="animateOut(search)" class="action-bar-icon"></Image>
+	</GridLayout>
+</ActionBar>
+<ScrollView class="page">
+	<ListView class="list-group" [items]="messages" (itemTap)="onItemTap($event)">
+		<ng-template let-item="item">
+			<GridLayout class="list-group-item" rows="auto, auto, auto" columns="auto, auto">
+				<Image row="0" col="0" rowSpan="3" [src]="item.user.picsrc" class="thumb img-circle"></Image>
+				<Label class="list-title" row="0" col="1" [text]="item.user.name"></Label>
+				<Label class="list-items" row="1" col="1" rowSpan="2" [text]="item.contents"></Label>
+			</GridLayout>
+		</ng-template>
+	</ListView>
+</ScrollView>
