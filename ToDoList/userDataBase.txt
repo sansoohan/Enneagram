@@ -1,0 +1,28 @@
+유저정보[] = [
+    {
+        에니어그램설문: {
+            행동:string,
+            감정:string,
+            사고:string
+        },
+        개인정보: {
+            이메일:string,
+            닉네임:string,
+            에니어그램번호:number,
+            프로필사진src:string,
+            배경사진src:string,
+        },
+        자주변하는데이터: {
+            유저별채팅방[] = [
+                {
+                    채팅방ID:number,
+                    채팅방참여중:boolean,
+                    채팅지속기간:Date,
+                    상대유저에니어그램번호:number[]
+                }
+            ],
+            친구정보얻어올친구이메일:string[];
+        }
+    },
+    ...
+]

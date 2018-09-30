@@ -1,0 +1,8 @@
+make InputForm for userText.
+    - input Text
+    - submit button
+    - attechment Button
+        - file attechment Button
+        - picture attechment Button
+
+make ScrollDown when the page loaded.
