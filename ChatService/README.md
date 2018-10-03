@@ -21,21 +21,21 @@ Developement Steps.
 3. Design simple function and make a simple UI [done]<br>
 <p>Home UI</p>
 <p>
-<img src="result/friendlist.jpg" height="300px">
-<img src="result/friendchat.jpg" height="300px">
-<img src="result/friendmatching.jpg" height="300px">
-<img src="result/ideamatching.jpg" height="300px">
+<img src="result/home/friendlist.jpg" height="300px">
+<img src="result/home/friendchat.jpg" height="300px">
+<img src="result/home/friendmatching.jpg" height="300px">
+<img src="result/home/ideamatching.jpg" height="300px">
 </p>
 
 4. Design complex function and make a complex UI<br>
 <p>Unlock Friend ChatUI</p>
 <p>
-<img src="locked.jpg" height="300px">
-<img src="asktest.jpg" height="300px">
-<img src="testsheet.jpg" height="300px">
-<img src="checkenneagram.jpg" height="300px">
-<img src="saveondatabase.jpg" height="300px">
-<img src="unlocked.jpg" height="300px">
+<img src="result/friendmatching/locked.jpg" height="300px">
+<img src="result/friendmatching/asktest.jpg" height="300px">
+<img src="result/friendmatching/testsheet.jpg" height="300px">
+<img src="result/friendmatching/checkenneagram.jpg" height="300px">
+<img src="result/friendmatching/saveondatabase.jpg" height="300px">
+<img src="result/friendmatching/unlocked.jpg" height="300px">
 </p>
 
 5. Link and test simple-data function to database.<br>
