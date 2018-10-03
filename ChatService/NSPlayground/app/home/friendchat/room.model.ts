@@ -1,10 +1,12 @@
-import { Chat } from "./chat.model";
-import { User } from "./user.model";
+import { Message } from "./message.model";
+import { Friend } from "./Friend.model";
 export class Room {
     public id: number;
     public title: string;
-    public messages: Chat[];
-    public users: User[];
-    public topMessage: string;
-    public topUserSrc: string;
+    public messages: Message[];
+    public bottomMessage: string;
+    public friends: Friend[];
+    public icon: string;
+    public startDate: Date;
+    public endDate: Date;
 }

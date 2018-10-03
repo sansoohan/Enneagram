@@ -1,28 +1,26 @@
 <ActionBar class="action-bar" backgroundColor="#2B3238">
-
 	<NavigationButton visibility="collapsed"></NavigationButton>
 	<GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
-		<ActionButton #actionButton></ActionButton>
-		<Label col="1" text="Friend Library" class="action-bar-label"></Label>
+		<ActionButton class="fa" #actionButton (tap)="onDrawerButtonTap()"></ActionButton>		
+		<Label horizontalAlignment="center" fontSize="25" col="1" text="Friend Library" class="action-bar-label"></Label>
 		<!-- <Image #search col="2" src="~/home/ideamatching/images/search.png" class="action-bar-icon" tintColor="#ffffff"></Image> -->
-		<Label col="2" text="Logout" class="logout-label" (tap)="logout()"></Label>
 	</GridLayout>
 </ActionBar>
 
-<TabView class="tab-view">
-	<GridLayout class="tabs" *tabItem="{iconSource: '~/home/images/user-avatar-main-picture.png'}">
+<TabView class="tab-view" (selectedIndexChanged)="onSelectedIndexChanged($event)">
+	<GridLayout class="tabs" *tabItem="{iconSource: friendlistIcon}">
 		<router-outlet name="friendlistoutlet"></router-outlet>
 	</GridLayout>
-	
-	<GridLayout class="tabs" *tabItem="{iconSource: '~/home/images/speech-bubble.png'}">
+
+	<GridLayout class="tabs" *tabItem="{iconSource: friendchatIcon}">
 		<router-outlet name="friendchatoutlet"></router-outlet>
 	</GridLayout>
-	
-	<GridLayout class="tabs" *tabItem="{iconSource: '~/home/images/magnifier-with-a-heart.png'}">
+
+	<GridLayout class="tabs" *tabItem="{iconSource: friendmatchingIcon}" (onload)="friendmathingTap()">
 		<router-outlet name="friendmatchingoutlet"></router-outlet>
 	</GridLayout>
-	
-	<GridLayout class="tabs" *tabItem="{iconSource: '~/home/images/magnifier-with-a-star.png'}">
+
+	<GridLayout class="tabs" *tabItem="{iconSource: ideamatchingIcon}" (tap)="ideamathingTap()">
 		<router-outlet name="ideamatchingoutlet"></router-outlet>
 	</GridLayout>
 </TabView>

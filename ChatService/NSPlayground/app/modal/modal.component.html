@@ -1,0 +1,8 @@
+<GridLayout (loaded)="onLoad($event)" (tap)="onTapHide()" [translateY]="translateY" opacity="0" class="overlay">
+	<GridLayout #bodyEl [verticalAlignment]="vAlignment" [width]="modalWidth" [height]="modalHeight" [translateY]="translateY"
+	 scaleY=".6" scaleX=".6" opacity="0" class="overlay-body">
+		<StackLayout #contentEl class="overlay-content">
+			<ng-content></ng-content>
+		</StackLayout>
+	</GridLayout>
+</GridLayout>

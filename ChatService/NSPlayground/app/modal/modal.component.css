@@ -1,0 +1,12 @@
+.overlay {
+	background-color: rgba(0, 0, 0, 0.8);
+	z-index: 999999;
+}
+.overlay .overlay-body { }
+.overlay .overlay-body .overlay-content {
+	vertical-align: center;
+}
+.overlay .overlay-body >>> .close {
+	color: red;
+	font-size: 16;
+}

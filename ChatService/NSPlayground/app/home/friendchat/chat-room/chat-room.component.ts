@@ -1,9 +1,11 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { GestureEventData } from "tns-core-modules/ui/gestures";
-import { Chat } from "../chat.model";
+import { Message } from "../message.model";
 import { Room } from "../room.model";
-import { RoomsService } from "../rooms-service";
+import { FriendChatService } from "../friend-chat.service";
+
+
 @Component({
 	selector: "ChatRoom",
 	moduleId: module.id,
@@ -11,13 +13,11 @@ import { RoomsService } from "../rooms-service";
 	styleUrls: ['./chat-room.component.css']
 })
 export class ChatRoomComponent implements OnInit {
-	@Input() room: Room;
-	messages: Chat[];
+	
 	constructor(private routerExtensions: RouterExtensions,
-		private roomsService: RoomsService,
+		private friendChatService: FriendChatService,
 	) {
-		this.room = this.roomsService.getSelected();
-		this.messages = this.room.messages;
+
 	}
 
 	ngOnInit(): void {

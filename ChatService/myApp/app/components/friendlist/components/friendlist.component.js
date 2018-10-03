@@ -17,7 +17,7 @@ default_1 = __decorate([
         styleUrls: ['./components/friendlist.component.scss']
     })
 ], default_1);
- %  > core_1.Component;
+core_1.Component;
 implements;
 core_1.OnInit;
 {

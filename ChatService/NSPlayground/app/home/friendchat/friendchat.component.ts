@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { Chat } from "./chat.model";
-import { Room } from "./room.model";
-import { ROOMS } from "./mock-rooms";
+import { Message } from "./message.model";
+
 import { ChildButton1Component } from "../../buttons/child-button1/child-button1.component";
 import { ChildButton2Component } from "../../buttons/child-button2/child-button2.component";
 import { ChildButton3Component } from "../../buttons/child-button3/child-button3.component";
 import { ActionButtonComponent } from "../ideamatching/action-button/action-button.component";
 import { RouterExtensions } from "nativescript-angular/router";
-import { RoomsService } from "./rooms-service";
+import { FriendChatService } from "./friend-chat.service";
 @Component({
 	selector: "Friendchat",
 	moduleId: module.id,
@@ -25,22 +24,21 @@ export class FriendchatComponent implements OnInit {
     currentMonth: number = new Date().getMonth() + 1;
     currentYear: number = new Date().getFullYear();
 
-	rooms: Room[];
+
 	constructor(private routerExtensions: RouterExtensions,
-		private roomsService: RoomsService,) {
-		this.rooms = ROOMS;
+		private friendChatService: FriendChatService,) {
 	}
 
 	ngOnInit(): void {
 	}
 
 	onItemTap(args) {
-		console.log("You tapped: " + this.rooms[args.index].title);
-		this.roomsService.setSelectedId(args.index);
+		console.log("You tapped: " + this.friendChatService.getRooms()[args.index].title);
+		this.friendChatService.setSelectedRoom(this.friendChatService.getRooms()[args.index]);
 		this.routerExtensions.navigate(['/chatroom'], { animated: false });
 		this._buttonRef.makeArrow();
 	}
-	public onTap(args) {
+	public onTap(args): void {
 		if (this.drawer) {
 			this.drawer = false;
 			this.childButton1.drawerOpen(this.drawer);
@@ -54,4 +52,5 @@ export class FriendchatComponent implements OnInit {
 			this.childButton3.drawerOpen(this.drawer);
 		}
 	}
+
 }

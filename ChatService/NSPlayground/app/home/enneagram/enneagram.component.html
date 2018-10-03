@@ -1,0 +1,48 @@
+<ActionBar class="action-bar" backgroundColor="#2B3238">
+	<NavigationButton visibility="collapsed"></NavigationButton>
+	<GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
+		<Label col="1" text="Matching Friend" class="action-bar-label"></Label>
+		<ActionButton (tap)="onTap($event)" isArrow="true"></ActionButton>
+	</GridLayout>
+</ActionBar>
+<StackLayout>
+	<WrapLayout class="question" orientation="horizontal" backgroundColor="lightgray">
+		<Label text="Which emotion do you usually feel?"></Label>
+	</WrapLayout>
+	<StackLayout class="p-10" *ngFor="let option of emotionOptionButtons">
+		<StackLayout orientation="horizontal" verticalAlignment="center">
+			<CheckBox #elem [checked]="option.selected" (checkedChange)="elem.checked !== option.selected && changeCheckedRadio(option)"
+			 class="checkbox" boxType="circle"></CheckBox>
+			<StackLayout verticalAlignment="center">
+				<Label [text]="option.text" textWrap="true" (tap)="changeCheckedRadio(option)"></Label>
+			</StackLayout>
+		</StackLayout>
+	</StackLayout>
+
+	<WrapLayout class="question" orientation="horizontal" backgroundColor="lightgray">
+		<Label text="What kind of person you are?"></Label>
+	</WrapLayout>
+	<StackLayout class="p-10" *ngFor="let option of behaviorOptionButtons">
+		<StackLayout orientation="horizontal" verticalAlignment="center">
+			<CheckBox #elem [checked]="option.selected" (checkedChange)="elem.checked !== option.selected && changeCheckedRadio(option)"
+			 class="checkbox" boxType="circle"></CheckBox>
+			<StackLayout verticalAlignment="center">
+				<Label [text]="option.text" textWrap="true" (tap)="changeCheckedRadio(option)"></Label>
+			</StackLayout>
+		</StackLayout>
+	</StackLayout>
+
+	<WrapLayout class="question" orientation="horizontal" backgroundColor="lightgray">
+		<Label text="Which one do you usually think?"></Label>
+	</WrapLayout>
+	<StackLayout class="p-10" *ngFor="let option of thoughtOptionButtons">
+		<StackLayout orientation="horizontal" verticalAlignment="center">
+			<CheckBox #elem [checked]="option.selected" (checkedChange)="elem.checked !== option.selected && changeCheckedRadio(option)"
+			 class="checkbox" boxType="circle"></CheckBox>
+			<StackLayout verticalAlignment="center">
+				<Label [text]="option.text" textWrap="true" (tap)="changeCheckedRadio(option)"></Label>
+			</StackLayout>
+		</StackLayout>
+	</StackLayout>
+	<Button text="Submit" (tap)="onButtonTap()"></Button>
+</StackLayout>

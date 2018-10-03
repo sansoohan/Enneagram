@@ -1,8 +1,8 @@
 <ScrollView class="page">
-	<ListView class="list-group" [items]="friends" (itemTap)="onItemTap($event)">
+	<ListView class="list-group" [items]="friendListService.getFriends()" (itemTap)="onItemTap($event)">
 		<ng-template let-item="item">
 			<GridLayout class="list-group-item" rows="*" columns="auto, *">
-				<Image row="0" col="0" [src]="item.src" class="thumb img-circle"></Image>
+				<Image row="0" col="0" [src]="item.profilePicsrc" class="thumb img-circle"></Image>
 				<Label row="0" col="1" [text]="item.name"></Label>
 			</GridLayout>
 		</ng-template>
@@ -14,3 +14,26 @@
 	<ChildButton2 #childButton2></ChildButton2>
 	<ChildButton3 #childButton3></ChildButton3>
 </AbsoluteLayout>
+<GridLayout>
+	<StackLayout style.zIndex="999" modal size="lg" alignment="middle" dismissable="true" duration="100" (open)="onOpenModal()"
+	 (close)="onCloseModal()">
+		<StackLayout class="modal">
+
+			<GridLayout marginBottom="40" horizontalAlignment="center" rows="auto,auto" columns="auto" (tap)="onChatTap()">
+				<Image row="0" col="0" width="128" height="128" [src]="friendListService.getSelectedFriend().profilePicsrc"></Image>
+				<Label row="1" col="0" fontSize="20" [text]="friendListService.getSelectedFriend().name"></Label>
+			</GridLayout>
+
+			<GridLayout marginBottom="40" horizontalAlignment="center" rows="auto,auto" columns="auto, auto">
+				<Image row="0" col="0" width="64" height="64" src="~/home/images/speech-bubble.png" (tap)="onChatTap();"></Image>
+				<Label row="1" col="0" fontSize="" text="Chat"></Label>
+				<Image row="0" col="1" width="64" height="64" src="~/home/images/house.png" (tap)="onHomeTap();"></Image>
+				<Label row="1" col="1" fontSize="" text="Home"></Label>
+			</GridLayout>
+
+			<WrapLayout marginBottom="20" horizontalAlignment="center">
+				<Label (tap)="closeModal()" text="CANCEL"></Label>
+			</WrapLayout>
+		</StackLayout>
+	</StackLayout>
+</GridLayout>

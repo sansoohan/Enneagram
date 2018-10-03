@@ -19,20 +19,33 @@ Developement Steps.
 2. Make a login app with database [done]<br>
 <img src="result/login.png" height="300px">
 3. Design simple function and make a simple UI [done]<br>
+<p>Home UI</p>
 <p>
 <img src="result/friendlist.jpg" height="300px">
 <img src="result/friendchat.jpg" height="300px">
 <img src="result/friendmatching.jpg" height="300px">
 <img src="result/ideamatching.jpg" height="300px">
 </p>
-4. Link and test simple-data function to database.<br>
-5. Link and test multi-interation function to database.<br>
-6. Design OOP model and database.<br>
-7. Build an IOS/android App.<br>
-8. Alpha test and bug report.<br>
-9. Redesign with fancy UI.<br>
-10. Refactoring.<br>
-11. Beta test and bug report.<br>
+
+4. Design complex function and make a complex UI<br>
+<p>Unlock Friend ChatUI</p>
+<p>
+<img src="locked.jpg" height="300px">
+<img src="asktest.jpg" height="300px">
+<img src="testsheet.jpg" height="300px">
+<img src="checkenneagram.jpg" height="300px">
+<img src="saveondatabase.jpg" height="300px">
+<img src="unlocked.jpg" height="300px">
+</p>
+
+5. Link and test simple-data function to database.<br>
+6. Link and test multi-interation function to database.<br>
+7. Design OOP model and database.<br>
+8. Build an IOS/android App.<br>
+9. Alpha test and bug report.<br>
+10. Redesign with fancy UI.<br>
+11. Refactoring.<br>
+12. Beta test and bug report.<br>
 
 myApp(Back-End Development)
 -----

@@ -8,6 +8,7 @@ import { FriendchatComponent } from "./home/friendchat/friendchat.component";
 import { ChatRoomComponent } from "./home/friendchat/chat-room/chat-room.component";
 import { IdeamatchingComponent } from "./home/ideamatching/ideamatching.component";
 import { DetailsComponent } from "./home/ideamatching/details/details.component";
+import { EnneagramComponent } from "./home/enneagram/enneagram.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/home/(friendlistoutlet:friendlist//friendchatoutlet:friendchat//friendmatchingoutlet:friendmatching//ideamatchingoutlet:ideamatching)", pathMatch: "full" },
@@ -21,6 +22,7 @@ const routes: Routes = [
     },
     { path: "details", component: DetailsComponent },
     { path: "chatroom", component: ChatRoomComponent },
+    { path: 'enneagram', component: EnneagramComponent },
 ];
 
 @NgModule({
