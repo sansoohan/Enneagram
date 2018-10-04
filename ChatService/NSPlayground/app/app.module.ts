@@ -1,13 +1,13 @@
+// import { NativeScriptCommonModule } from "nativescript-angular/common";
+// import { NativeScriptUICalendarModule } from "nativescript-ui-calendar/angular";
+// import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
+// import { NativeScriptUIGaugeModule } from "nativescript-ui-gauge/angular";
+// import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
 import { NgModule, NgModuleFactoryLoader, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
-import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
-import { NativeScriptUICalendarModule } from "nativescript-ui-calendar/angular";
-import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
-import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
 import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autocomplete/angular";
-import { NativeScriptUIGaugeModule } from "nativescript-ui-gauge/angular";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { TNSCheckBoxModule } from './nativescript-checkbox@3.0.3/angular';
 
@@ -40,15 +40,15 @@ import { ModalComponent } from "./modal/modal.component";
         AppComponent
     ],
     imports: [
+        // NativeScriptCommonModule,
+        // NativeScriptUICalendarModule,
+        // NativeScriptUIChartModule,
+        // NativeScriptUIDataFormModule,
+        // NativeScriptUIGaugeModule,
         NativeScriptModule,
-        NativeScriptCommonModule,
         NativeScriptUISideDrawerModule,
         NativeScriptUIListViewModule,
-        NativeScriptUICalendarModule,
-        NativeScriptUIChartModule,
-        NativeScriptUIDataFormModule,
         NativeScriptUIAutoCompleteTextViewModule,
-        NativeScriptUIGaugeModule,
         NativeScriptFormsModule,
         TNSCheckBoxModule,
         AppRoutingModule
