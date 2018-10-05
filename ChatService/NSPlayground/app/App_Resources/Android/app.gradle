@@ -4,13 +4,23 @@
 //dependencies {
 //	compile 'com.android.support:recyclerview-v7:+'
 //}
-
+project.ext {
+    googlePlayServicesVersion = "15.0.+"
+}
 android {  
   defaultConfig {  
     generatedDensities = []
-    applicationId = "__PACKAGE__"  
+    applicationId = "org.nativescript.blankng"  
   }  
   aaptOptions {  
     additionalParameters "--no-version-vectors"  
   }  
 } 
+
+dependencies {
+  // Add this line
+  implementation 'com.google.firebase:firebase-core:16.0.1'
+}
+
+// Add to the bottom of the file
+apply plugin: 'com.google.gms.google-services'

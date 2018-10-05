@@ -1,3 +1,7 @@
 /myApp/node_modules
 /myApp/platforms
+/NSPlayground/node_modules
+/NSPlayground/platforms
 *google-services.json
+*nativescript_google_maps_api.xml
+*AndroidManifest.xml

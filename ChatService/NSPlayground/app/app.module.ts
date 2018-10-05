@@ -1,16 +1,17 @@
-// import { NativeScriptCommonModule } from "nativescript-angular/common";
-// import { NativeScriptUICalendarModule } from "nativescript-ui-calendar/angular";
-// import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
-// import { NativeScriptUIGaugeModule } from "nativescript-ui-gauge/angular";
-// import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
+import { NativeScriptCommonModule } from "nativescript-angular/common";
+import { NativeScriptUICalendarModule } from "nativescript-ui-calendar/angular";
+import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
+import { NativeScriptUIGaugeModule } from "nativescript-ui-gauge/angular";
+import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
 import { NgModule, NgModuleFactoryLoader, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autocomplete/angular";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
-import { TNSCheckBoxModule } from './nativescript-checkbox@3.0.3/angular';
+import { TNSCheckBoxModule } from 'nativescript-checkbox/angular';
 
+import { FirebaseService } from "./services/firebase.service";
 import { AnimationsService } from "./home/ideamatching/animations-service";
 import { LandmarksService } from "./home/ideamatching/landmarks-service";
 import { FriendChatService } from "./home/friendchat/friend-chat.service";
@@ -19,9 +20,13 @@ import { UserHomeService } from "./home/friendchat/user-home.service";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+
+import { LoginComponent } from "./login/login.component";
+import { RegisterComponent } from "./register/register.component";
 import { HomeComponent } from "./home/home.component";
 import { FriendlistComponent } from "./home/friendlist/friendlist.component";
 import { FriendmatchingComponent } from "./home/friendmatching/friendmatching.component";
+import { MapExampleComponent } from "./home/friendmatching/map-example/map-example.component";
 import { ChatRoomComponent } from "./home/friendchat/chat-room/chat-room.component";
 import { IdeamatchingComponent } from "./home/ideamatching/ideamatching.component";
 import { DetailsComponent } from "./home/ideamatching/details/details.component";
@@ -35,16 +40,23 @@ import { FriendchatComponent } from "./home/friendchat/friendchat.component";
 import { ActionButtonComponent } from "./home/ideamatching/action-button/action-button.component";
 import { ModalComponent } from "./modal/modal.component";
 
+import * as platform from "platform";
+declare var GMSServices: any;
+
+if(platform.isIOS) {
+    GMSServices.provideAPIKey("AIzaSyAtRVvG3Be3xXiZFR7xp-K-9hy4nZ4hMFs");
+}
+
 @NgModule({
     bootstrap: [
         AppComponent
     ],
     imports: [
-        // NativeScriptCommonModule,
-        // NativeScriptUICalendarModule,
-        // NativeScriptUIChartModule,
-        // NativeScriptUIDataFormModule,
-        // NativeScriptUIGaugeModule,
+        NativeScriptCommonModule,
+        NativeScriptUICalendarModule,
+        NativeScriptUIChartModule,
+        NativeScriptUIDataFormModule,
+        NativeScriptUIGaugeModule,
         NativeScriptModule,
         NativeScriptUISideDrawerModule,
         NativeScriptUIListViewModule,
@@ -55,9 +67,12 @@ import { ModalComponent } from "./modal/modal.component";
     ],
     declarations: [
         AppComponent,
+        LoginComponent,
+        RegisterComponent,
         HomeComponent,
         FriendlistComponent,
         FriendmatchingComponent,
+        MapExampleComponent,
         FriendchatComponent,
         ChatRoomComponent,
         IdeamatchingComponent,
@@ -72,6 +87,7 @@ import { ModalComponent } from "./modal/modal.component";
         ModalComponent,
     ],
     providers: [
+        FirebaseService,
         AnimationsService,
         LandmarksService,
         FriendChatService,

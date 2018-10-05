@@ -1,0 +1,48 @@
+
+
+@startuml
+
+interface IdeamatchingService
+interface UserHomeService
+interface FriendChatService
+
+package "/home" {
+	[HomeComponent]
+
+	[HomeComponent] --> outlet
+	outlet -- [FriendlistComponent]
+	outlet -- [FriendchatComponent]
+	outlet -- [FriendmatchingComponent]
+	outlet -- [IdeamatchingComponent]
+}
+
+
+package "/detail"{
+	[DetailsComponent] -up- IdeamatchingService
+}
+
+package "/enneagram"{
+	[EnneagramComponent] -up-> UserHomeService
+}
+
+package "/chat"{
+	[ChatRoomComponent] -up- FriendChatService
+}
+
+[FriendchatComponent] -down-> FriendChatService
+
+[IdeamatchingComponent] -down-> IdeamatchingService
+
+[FriendlistComponent] -down-> FriendListService
+[ModalComponent] -up- FriendListService
+[ModalComponent] -up-> FriendChatService
+
+[FloatButtonComponent]
+[ChildButton1Component]
+[ChildButton2Component]
+[ChildButton3Component]
+
+[ActionButtonComponent]
+
+
+@enduml
