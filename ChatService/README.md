@@ -45,6 +45,87 @@ Developement Steps.
 <img src="result/gpstest/gpstest02.png" height="300px">
 </p>
 
+```
+
+            if(filterLevel === "high" || filterLevel === "low"){
+                if((thisUserEnneagramState==="good" || thisUserEnneagramState==="") && friendEnneagramState==="bad"){
+                    if(thisUserEnneagramNum == 9 && friendEnneagramNum == 3){this.filteredByEnneagram.push(true);}
+                    else if(thisUserEnneagramNum == 3 && friendEnneagramNum == 6){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 6 && friendEnneagramNum == 9){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 1 && friendEnneagramNum == 7){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 7 && friendEnneagramNum == 5){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 5 && friendEnneagramNum == 8){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 8 && friendEnneagramNum == 2){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 2 && friendEnneagramNum == 4){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 4 && friendEnneagramNum == 1){thisfriend = true;}
+                }
+                else if(thisUserEnneagramState==="bad" && (friendEnneagramState==="good" || friendEnneagramState==="")){
+                    if(thisUserEnneagramNum == 9 && friendEnneagramNum == 6){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 3 && friendEnneagramNum == 9){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 6 && friendEnneagramNum == 3){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 1 && friendEnneagramNum == 4){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 7 && friendEnneagramNum == 1){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 5 && friendEnneagramNum == 7){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 8 && friendEnneagramNum == 5){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 2 && friendEnneagramNum == 8){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 4 && friendEnneagramNum == 2){thisfriend = true;}    
+                }
+                if(thisfriend == true){
+                    this.friendListService.friends[i].marker.color = "green";
+                }  
+            }
+
+            if(filterLevel === "low"){
+                if((thisUserEnneagramState==="good" || thisUserEnneagramState==="") && (friendEnneagramState==="good" || friendEnneagramState==="")){
+                    if(thisUserEnneagramNum == 9 && friendEnneagramNum == 8){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 9 && friendEnneagramNum == 1){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 3 && friendEnneagramNum == 2){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 3 && friendEnneagramNum == 4){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 6 && friendEnneagramNum == 5){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 6 && friendEnneagramNum == 7){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 1 && friendEnneagramNum == 2){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 1 && friendEnneagramNum == 3){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 7 && friendEnneagramNum == 6){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 7 && friendEnneagramNum == 8){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 5 && friendEnneagramNum == 4){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 5 && friendEnneagramNum == 6){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 8 && friendEnneagramNum == 7){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 8 && friendEnneagramNum == 9){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 2 && friendEnneagramNum == 1){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 2 && friendEnneagramNum == 3){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 4 && friendEnneagramNum == 3){thisfriend = true;}
+                    else if(thisUserEnneagramNum == 4 && friendEnneagramNum == 5){thisfriend = true;}
+                }
+```
+
+```
+        var distanceURL = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=transit&origins="+origins.position.latitude+","+origins.position.longitude+"&destinations=";
+        for(var i=0;i<destinations.length;i++){
+            distanceURL += destinations[i].position.latitude+"%2C";
+            distanceURL += destinations[i].position.longitude;
+            if(i!=destinations.length-1){
+                distanceURL += "%7C";
+            }
+        }
+        distanceURL += "&key=AIzaSyDs-iKjb9fpImfEmGsEzF2ro60m0gNfxJY";
+        fetch(distanceURL)
+            .then((response) => response.json()).then((r) => {
+                console.log(r);
+                this.distancesResult = r;
+
+                console.log("Filtering a marker with distance ...");
+                this.filterByDistance(800);
+                console.log(this.filteredByDistance);
+
+                console.log("Filtering a marker with enneagram ...");
+                this.filterByUserEnneagram("low");
+                console.log(this.filteredByEnneagram);
+
+                console.log("Setting a marker...");
+                this.drawFilteredMarker();
+            });
+
+```
 
 5. Link and test simple-data function to database.<br>
 6. Link and test multi-interation function to database.<br>
