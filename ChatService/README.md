@@ -30,13 +30,21 @@ Developement Steps.
 4. Design complex function and make a complex UI<br>
 <p>Unlock Friend ChatUI</p>
 <p>
-<img src="result/enneagramunlock/locked.jpg" height="300px">
-<img src="result/enneagramunlock/asktest.jpg" height="300px">
-<img src="result/enneagramunlock/testsheet.jpg" height="300px">
-<img src="result/enneagramunlock/checkenneagram.jpg" height="300px">
-<img src="result/enneagramunlock/saveondatabase.jpg" height="300px">
-<img src="result/enneagramunlock/unlocked.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock01.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock02.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock03.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock04.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock05.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock06.jpg" height="300px">
 </p>
+
+<p>Friend Filtering with GPS and Enneagram ChatUI</p>
+<p>
+<img src="result/gpstest/gpstest00.png" height="300px">
+<img src="result/gpstest/gpstest01.png" height="300px">
+<img src="result/gpstest/gpstest02.png" height="300px">
+</p>
+
 
 5. Link and test simple-data function to database.<br>
 6. Link and test multi-interation function to database.<br>
