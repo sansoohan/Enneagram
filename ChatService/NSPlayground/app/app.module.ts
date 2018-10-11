@@ -1,8 +1,4 @@
 import { NativeScriptCommonModule } from "nativescript-angular/common";
-import { NativeScriptUICalendarModule } from "nativescript-ui-calendar/angular";
-import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
-import { NativeScriptUIGaugeModule } from "nativescript-ui-gauge/angular";
-import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
 import { NgModule, NgModuleFactoryLoader, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
@@ -53,10 +49,6 @@ if(platform.isIOS) {
     ],
     imports: [
         NativeScriptCommonModule,
-        NativeScriptUICalendarModule,
-        NativeScriptUIChartModule,
-        NativeScriptUIDataFormModule,
-        NativeScriptUIGaugeModule,
         NativeScriptModule,
         NativeScriptUISideDrawerModule,
         NativeScriptUIListViewModule,

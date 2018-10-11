@@ -4,9 +4,11 @@
 //dependencies {
 //	compile 'com.android.support:recyclerview-v7:+'
 //}
+
 project.ext {
-    googlePlayServicesVersion = "15.0.+"
+    googlePlayServicesVersion = "+"
 }
+
 android {  
   defaultConfig {  
     generatedDensities = []
@@ -18,9 +20,8 @@ android {
 } 
 
 dependencies {
-  // Add this line
-  implementation 'com.google.firebase:firebase-core:16.0.1'
+  implementation 'com.google.firebase:firebase-core:16.0.4'
+  implementation 'com.google.firebase:firebase-messaging:9.8.0'
 }
 
-// Add to the bottom of the file
 apply plugin: 'com.google.gms.google-services'

@@ -20,8 +20,8 @@ const routes: Routes = [
             { path: 'friendlist', component: FriendlistComponent, outlet: 'friendlistoutlet' },
             { path: 'friendchat', component: FriendchatComponent, outlet: 'friendchatoutlet' },
             { path: 'friendmatching', component: FriendmatchingComponent, outlet: 'friendmatchingoutlet' },
-            { path: 'ideamatching', component: MapExampleComponent,  outlet: 'ideamatchingoutlet' },
             // { path: 'ideamatching', component: IdeamatchingComponent, outlet: 'ideamatchingoutlet' },
+            { path: 'ideamatching', component: MapExampleComponent, outlet: 'ideamatchingoutlet' },
         ]
     },
     { path: "login", component: LoginComponent },

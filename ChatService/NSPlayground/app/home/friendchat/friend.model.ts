@@ -1,3 +1,4 @@
+import { Marker, Position } from 'nativescript-google-maps-sdk';
 export class Friend{
     public email: string;
     public name: string;
@@ -5,4 +6,7 @@ export class Friend{
     public backgroundPicsrc: string;
     public gender: string;
     public enneagramNumber: number;
+    public enneagramState: string;
+    public position: Position;
+    public marker: Marker;
 }

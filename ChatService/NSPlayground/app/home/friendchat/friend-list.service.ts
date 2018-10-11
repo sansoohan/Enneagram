@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { User } from "./user.model";
 import { Friend } from "./friend.model";
 import { FriendList, USER } from "./mock-rooms";
-
+import { ObservableArray } from "data/observable-array";
 @Injectable()
 export class FriendListService {
     thisUser: User;
@@ -17,6 +17,7 @@ export class FriendListService {
         this.selectedFriend.profilePicsrc = "";
         this.selectedFriend.backgroundPicsrc = "";
         this.selectedFriend.enneagramNumber = 0;
+        this.selectedFriend.enneagramState = "";
     }
     
     public getFriends(): Friend[] {

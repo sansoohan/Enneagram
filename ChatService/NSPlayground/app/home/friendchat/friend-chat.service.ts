@@ -13,9 +13,6 @@ export class FriendChatService {
             enneagramNumber: number,
         }
     ]
-
-
-
     constructor() {
         this.rooms = RoomList;
         for (var i = 0; i < this.rooms.length; i++) {

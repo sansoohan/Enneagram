@@ -7,6 +7,9 @@ import { ChildButton3Component } from "../../buttons/child-button3/child-button3
 import { ActionButtonComponent } from "../ideamatching/action-button/action-button.component";
 import { RouterExtensions } from "nativescript-angular/router";
 import { FriendChatService } from "./friend-chat.service";
+
+
+
 @Component({
 	selector: "Friendchat",
 	moduleId: module.id,
