@@ -58,6 +58,10 @@
 .card-layout .h1 {
 	margin-bottom: 15;
 }
+.list-image{
+    height: 60;
+    border-radius: 30;
+}
 .list-title{
     color: black;
     font-size: 20;

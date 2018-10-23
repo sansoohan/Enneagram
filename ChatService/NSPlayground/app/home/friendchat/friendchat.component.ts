@@ -5,7 +5,6 @@ import { ChildButton2Component } from "../../buttons/child-button2/child-button2
 import { ChildButton3Component } from "../../buttons/child-button3/child-button3.component";
 import { ActionButtonComponent } from "../ideamatching/action-button/action-button.component";
 import { RouterExtensions } from "nativescript-angular/router";
-import { FriendChatService } from "./friend-chat.service";
 import { FirebaseService } from "../../services/firebase.service";
 import { ngDevModeResetPerfCounters } from "@angular/core/src/render3/ng_dev_mode";
 import { last } from "@angular/router/src/utils/collection";
@@ -33,7 +32,6 @@ export class FriendchatComponent implements OnInit {
 
 
 	constructor(private routerExtensions: RouterExtensions,
-		private friendChatService: FriendChatService,
 		private firebaseService: FirebaseService) {
 	}
 
@@ -77,12 +75,13 @@ export class FriendchatComponent implements OnInit {
 
 	onItemTap(args) {
 		console.log(this.roomList.items[args.index]);
-		for(var selelctedRoomID in this.roomList.items[args.index]){
-			this.friendChatService.selectedRoomID = selelctedRoomID;
-			this.friendChatService.selectedRoomTitle = this.firebaseService.getRooms()[selelctedRoomID]['title'];
-			var messages = this.firebaseService.getRooms()[selelctedRoomID]['messages']
-			this.friendChatService.messageArray = this.firebaseService.jsonToArray(messages);
-			this.friendChatService.users = this.firebaseService.getRooms()[selelctedRoomID]['room_users'];
+		for(var selectedRoomID in this.roomList.items[args.index]){
+			this.firebaseService.selectedRoomID = selectedRoomID;
+			this.firebaseService.selectedRoomTitle = this.firebaseService.getRooms()[selectedRoomID]['title'];
+			var messages = this.firebaseService.getRooms()[selectedRoomID]['messages']
+			this.firebaseService.selectedRoomMessageArray = this.firebaseService.jsonToArray(messages);
+			this.firebaseService.selectedRoomUsers = this.firebaseService.getRooms()[selectedRoomID]['room_users'];
+			console.log(this.firebaseService.selectedRoomUsers);
 		}
 		this.routerExtensions.navigate(['/chatroom'], { animated: false });
 	}

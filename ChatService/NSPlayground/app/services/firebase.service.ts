@@ -15,10 +15,13 @@ export class FirebaseService {
     private rooms = {};
     private generatedRoomID: string;
 
-    public friendArray: Array<any>; 
+    public friendArray: Array<any>;
     public roomArray: Array<any>;
-    
 
+    public selectedRoomID: string;
+    public selectedRoomTitle: string;
+    public selectedRoomUsers: any;
+    public selectedRoomMessageArray: Array<any>;
 
 
     constructor(
@@ -102,10 +105,13 @@ export class FirebaseService {
     // It change the messages array.
     syncRoom(room_id:string){
         firebase.addValueEventListener(result => {
-            // console.log("Event type: " + result.type);
-            // console.log("Key: " + result.key);
-            // console.log("Value: " + JSON.stringify(result.value));
+            console.log("Event type: " + result.type);
+            console.log("Key: " + result.key);
+            console.log("Value: " + JSON.stringify(result.value));
             this.updateRoom(result.key, result.value);
+            if(result.key == this.selectedRoomID){
+                this.selectedRoomMessageArray = this.jsonToArray(result.value);
+            }
         }, "/rooms/"+room_id+"/messages").then(
             function(listenerWrapper) {
               var path = listenerWrapper.path;

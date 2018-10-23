@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { GestureEventData } from "tns-core-modules/ui/gestures";
-import { FriendChatService } from "../friend-chat.service";
 import { registerElement } from 'nativescript-angular/element-registry';
 import { CardView } from 'nativescript-cardview';
 import { FirebaseService } from "../../../services/firebase.service";
@@ -20,7 +19,6 @@ export class ChatRoomComponent implements OnInit {
 
 
 	constructor(private routerExtensions: RouterExtensions,
-		private friendChatService: FriendChatService,
 		private firebaseService: FirebaseService,
 	){	}
 
@@ -32,16 +30,13 @@ export class ChatRoomComponent implements OnInit {
 	}
 
 	getMessage(item:any): string{
-		var ret = "";
-		for(var key in item) {
-			ret = item[key]['message'];
-		}
-		console.log(item);
-		return ret;
+		return item[Object.keys(item)[0]]['message'];
 	}
-
+	getProfilePicsrc(item){
+		return this.firebaseService.selectedRoomUsers[item[Object.keys(item)[0]]['user']]['profile']['profilePicsrc'];
+	}
 	pushMessage(): void {
-		var room_id = this.friendChatService.selectedRoomID;
+		var room_id = this.firebaseService.selectedRoomID;
 		var user = this.firebaseService.thisUser;
 		if(this.str==""){
 			return;

@@ -6,7 +6,6 @@ import { ChildButton3Component } from "../../buttons/child-button3/child-button3
 import { FriendchatComponent } from "../friendchat/friendchat.component";
 import { ModalComponent } from "../../modal/modal.component";
 import { FriendListService } from "../friendchat/friend-list.service";
-import { FriendChatService } from "../friendchat/friend-chat.service";
 import { FirebaseService } from "../../services/firebase.service";
 
 import { RouterExtensions } from "nativescript-angular/router";
@@ -25,7 +24,6 @@ export class FriendlistComponent implements OnInit {
 	@ViewChild(ModalComponent) modal: ModalComponent;
 	public drawer: boolean;
 	constructor(private friendListService: FriendListService,
-		private friendChatService: FriendChatService,
 		private routerExtensions: RouterExtensions,
 		private firebaseService: FirebaseService
 	) {
@@ -96,7 +94,7 @@ export class FriendlistComponent implements OnInit {
 		var friend_id:string = this.friendListService.getSelectedFriendID();
 		var friend:any = this.firebaseService.getFriends()[friend_id];
 		this.firebaseService.pushFriendOnRoom(friend,room_id);
-		this.friendChatService.selectedRoomID = room_id;
+		this.firebaseService.selectedRoomID = room_id;
 		this.gotoChatRoom();
 	}
 	gotoChatRoom() {

@@ -11,7 +11,6 @@ import { FormsModule } from '@angular/forms';
 import { FirebaseService } from "./services/firebase.service";
 import { AnimationsService } from "./home/ideamatching/animations-service";
 import { LandmarksService } from "./home/ideamatching/landmarks-service";
-import { FriendChatService } from "./home/friendchat/friend-chat.service";
 import { FriendListService } from "./home/friendchat/friend-list.service";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -89,7 +88,6 @@ if(platform.isIOS) {
         FirebaseService,
         AnimationsService,
         LandmarksService,
-        FriendChatService,
         FriendListService,
     ],
     schemas: [
