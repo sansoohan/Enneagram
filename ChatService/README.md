@@ -15,10 +15,10 @@ You shouldn't let them know that they are getting surveyed.
 
 Developement Steps.
 --------------
-1. Select The dev platform [done]<br>
-2. Make a login app with database [done]<br>
+<h1>1. Select The dev platform [done]</h1>
+<h1>2. Make a login app with database [done]</h1>
 <img src="result/home/login.png" height="300px">
-3. Design simple function and make a simple UI [done]<br>
+<h1>3. Design simple function and make a simple UI [done]</h1>
 <p>Home UI</p>
 <p>
 <img src="result/home/friendlist.jpg" height="300px">
@@ -27,7 +27,7 @@ Developement Steps.
 <img src="result/home/ideamatching.jpg" height="300px">
 </p>
 
-4. Design complex function and make a complex UI<br>
+<h1>4. Design complex function and make a complex UI</h1>
 <p>Unlock Friend ChatUI</p>
 <p>
 <img src="result/enneagramunlock/enneagramunlock01.jpg" height="300px">
@@ -127,7 +127,9 @@ Developement Steps.
 
 ```
 
-5. Link and test simple-data function to database.<br>
+<h1>5. Link and test simple-data function to database.</h1>
+<h1>6. Link and test multi-interation function to database.</h1>
+<h1>7. Design OOP model and database.</h1>
 <p>Database Architect</p>
 <img src="result/database/database03.png"><br>
 <p>User Database</p>
@@ -136,14 +138,12 @@ Developement Steps.
 <img src="result/database/database04.png"><br>
 <p>Chat Database</p>
 <img src="result/database/database02.png"><br>
-6. Link and test multi-interation function to database.<br>
 
-7. Design OOP model and database.<br>
-8. Build an IOS/android App.<br>
-9. Alpha test and bug report.<br>
-10. Redesign with fancy UI.<br>
-11. Refactoring.<br>
-12. Beta test and bug report.<br>
+<h1>8. Build an IOS/android App.</h1>
+<h1>9. Alpha test and bug report.</h1>
+<h1>10. Redesign with fancy UI.</h1>
+<h1>11. Refactoring.</h1>
+<h1>12. Beta test and bug report.</h1>
 
 myApp(Back-End Development)
 -----
