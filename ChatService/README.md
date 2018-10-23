@@ -126,11 +126,11 @@ Developement Steps.
             });
 
 ```
-
 <h1>5. Link and test simple-data function to database.[done]</h1>
 <h1>6. Link and test multi-interation function to database.[done]</h1>
 
 <p>Enneagram\ChatService\NSPlayground\app\services\firebase.service.ts<p>
+
 ```
 import firebase = require("nativescript-plugin-firebase");
 import {Injectable, NgZone} from "@angular/core";
@@ -148,21 +148,16 @@ export class FirebaseService {
     private friends = {};
     private rooms = {};
     private generatedRoomID: string;
-
     public friendArray: Array<any>;
     public roomArray: Array<any>;
-
     public selectedRoomID: string;
     public selectedRoomTitle: string;
     public selectedRoomUsers: any;
     public selectedRoomMessageArray: Array<any>;
-
-
     constructor(
         private routerExtensions: RouterExtensions,    
     ){
     }
-
     uploadFile(filePath:string, remotePath:string){
         firebase.getCurrentUser().then(user => {
             // now upload the file with either of the options below:
