@@ -12,12 +12,16 @@ import { IdeamatchingComponent } from "./home/ideamatching/ideamatching.componen
 import { DetailsComponent } from "./home/ideamatching/details/details.component";
 import { EnneagramComponent } from "./home/enneagram/enneagram.component";
 import { MapExampleComponent } from "./home/friendmatching/map-example/map-example.component";
+import { BlogComponent } from "./home/blog/blog.component";
+import { ProfileComponent } from "./home/profile/profile.component";
+import { SettingComponent } from "./home/setting/setting.component";
 const routes: Routes = [
     { path: "", redirectTo: "login", pathMatch: "full" },
     { path: "home", redirectTo: "/home/(friendlistoutlet:friendlist//friendchatoutlet:friendchat//friendmatchingoutlet:friendmatching//ideamatchingoutlet:ideamatching)", pathMatch: "full" },
     {
         path: 'home', component: HomeComponent, children: [
             { path: 'friendlist', component: FriendlistComponent, outlet: 'friendlistoutlet' },
+            // { path: 'friendlist', component: BlogComponent, outlet: 'friendlistoutlet' },
             { path: 'friendchat', component: FriendchatComponent, outlet: 'friendchatoutlet' },
             { path: 'friendmatching', component: FriendmatchingComponent, outlet: 'friendmatchingoutlet' },
             // { path: 'ideamatching', component: IdeamatchingComponent, outlet: 'ideamatchingoutlet' },
@@ -30,6 +34,10 @@ const routes: Routes = [
     { path: "chatroom", component: ChatRoomComponent },
     { path: 'enneagram', component: EnneagramComponent },
     { path: 'map', component: MapExampleComponent },
+    { path: 'blog', component: BlogComponent},
+    { path: 'ideamatching', component: IdeamatchingComponent },
+    { path: 'profile', component: ProfileComponent},
+    { path: 'setting', component: SettingComponent}
 ];
 
 @NgModule({

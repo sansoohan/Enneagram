@@ -1,0 +1,63 @@
+<ActionBar class="action-bar" backgroundColor="#2B3238">
+	<NavigationButton visibility="collapsed"></NavigationButton>
+	<GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
+		<Label col="1" text="Profile" class="action-bar-label"></Label>
+		<ActionButton (tap)="onTap($event)" isArrow="true"></ActionButton>
+	</GridLayout>
+</ActionBar>
+
+<GridLayout>
+	<ScrollView>
+		<GridLayout rows="auto, auto">
+
+            <!-- <StackLayout class="image-button" padding="0 25" col="2" (tap)="onProfileImageTap()">
+                <Image *ngIf="!currentImageSource" class="image-button-image" src="~/images/add_new.png" ></Image>
+                <Label *ngIf="!currentImageSource" class="image-button-text" text="ADD NEW"></Label>
+                <Image *ngIf="currentImageSource" class="image-button-image" [src]="currentImageSource" ></Image>
+            </StackLayout> -->
+
+			<StackLayout class="site-main-content" row="1">
+				<Label class="site-item-header" text="E-mail"></Label>
+				<TextView textWrap="true" [text]="" class="site-input-field" autocorrect="false" isEnabled="false"></TextView>
+				<StackLayout android:opacity="0" class="line"></StackLayout>
+				
+				<StackLayout class="line"></StackLayout>
+				<Label class="site-item-header" text="Nick Name"></Label>
+				<TextView textWrap="true" class="site-input-field" autocorrect="false" hint="Enter NOTES"></TextView>
+
+				<Label class="site-item-header" text="Profile Image"></Label>
+				<TextView textWrap="true" [text]="currentProfileImageFilePath" class="site-input-field" autocorrect="false" (tap)="onAddImageTap('profile')"></TextView>
+				<StackLayout android:opacity="0" class="line"></StackLayout>
+
+				<Label class="site-item-header" text="Background Image"></Label>
+				<TextView textWrap="true" [text]="currentBackgroundImageFilePath" class="site-input-field" autocorrect="false" (tap)="onAddImageTap('background')"></TextView>
+				<StackLayout android:opacity="0" class="line"></StackLayout>
+
+				<StackLayout class="line"></StackLayout>
+				<Label class="site-item-header" text="Gender"></Label>
+				<TextView textWrap="true" class="site-input-field" autocorrect="false" hint="Enter NOTES"></TextView>
+
+				<StackLayout class="line"></StackLayout>
+				<Label class="site-item-header" text="Country"></Label>
+				<TextView textWrap="true" class="site-input-field" autocorrect="false" hint="Enter NOTES"></TextView>
+
+				<StackLayout class="line"></StackLayout>
+				<Label class="site-item-header" text="Language"></Label>
+				<TextView textWrap="true" class="site-input-field" autocorrect="false" hint="Enter NOTES"></TextView>
+
+				<StackLayout class="line"></StackLayout>
+				<Label class="site-item-header" text="Interest"></Label>
+				<TextView textWrap="true" class="site-input-field" autocorrect="false" hint="Enter NOTES"></TextView>
+
+				<StackLayout class="line"></StackLayout>
+				<Label class="site-item-header" text="Please inroduce your self here."></Label>
+				<GridLayout height="300">
+					<TextView></TextView>
+				</GridLayout>				
+			</StackLayout>
+
+		</GridLayout>
+	</ScrollView>
+	<ActivityIndicator verticalAlignment="center" horizontalAlignment="center" [busy]="isUpdating"></ActivityIndicator>
+	<OfflineNotification></OfflineNotification>
+</GridLayout>

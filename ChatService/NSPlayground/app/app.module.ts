@@ -6,13 +6,13 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autocomplete/angular";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { TNSCheckBoxModule } from 'nativescript-checkbox/angular';
+import { FormsModule } from '@angular/forms';
 
 import { FirebaseService } from "./services/firebase.service";
 import { AnimationsService } from "./home/ideamatching/animations-service";
 import { LandmarksService } from "./home/ideamatching/landmarks-service";
 import { FriendChatService } from "./home/friendchat/friend-chat.service";
 import { FriendListService } from "./home/friendchat/friend-list.service";
-import { UserHomeService } from "./home/friendchat/user-home.service";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -27,6 +27,9 @@ import { ChatRoomComponent } from "./home/friendchat/chat-room/chat-room.compone
 import { IdeamatchingComponent } from "./home/ideamatching/ideamatching.component";
 import { DetailsComponent } from "./home/ideamatching/details/details.component";
 import { EnneagramComponent } from "./home/enneagram/enneagram.component";
+import { BlogComponent } from "./home/blog/blog.component";
+import { ProfileComponent } from "./home/profile/profile.component";
+import { SettingComponent } from "./home/setting/setting.component";
 
 import { FloatButtonComponent } from "./buttons/float-button/float-button.component";
 import { ChildButton1Component } from "./buttons/child-button1/child-button1.component";
@@ -55,7 +58,8 @@ if(platform.isIOS) {
         NativeScriptUIAutoCompleteTextViewModule,
         NativeScriptFormsModule,
         TNSCheckBoxModule,
-        AppRoutingModule
+        AppRoutingModule,
+        FormsModule,
     ],
     declarations: [
         AppComponent,
@@ -70,6 +74,9 @@ if(platform.isIOS) {
         IdeamatchingComponent,
         DetailsComponent,
         EnneagramComponent,
+        BlogComponent,
+        ProfileComponent,
+        SettingComponent,
 
         ActionButtonComponent,
         FloatButtonComponent,
@@ -84,7 +91,6 @@ if(platform.isIOS) {
         LandmarksService,
         FriendChatService,
         FriendListService,
-        UserHomeService,
     ],
     schemas: [
         NO_ERRORS_SCHEMA

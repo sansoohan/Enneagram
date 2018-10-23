@@ -4,7 +4,7 @@ import { GestureEventData } from "tns-core-modules/ui/gestures";
 import { RadioOption } from "./radio-option";
 import { alert, confirm, prompt, login, action, inputType } from "tns-core-modules/ui/dialogs";
 import { ActionButtonComponent } from "../ideamatching/action-button/action-button.component";
-import { UserHomeService } from "../friendchat/user-home.service";
+import { FirebaseService } from "../../services/firebase.service";
 @Component({
 	selector: "Enneagram",
 	moduleId: module.id,
@@ -23,7 +23,8 @@ export class EnneagramComponent implements OnInit {
 
 
 	constructor(private routerExtensions: RouterExtensions,
-		private userHomeService: UserHomeService) {
+		private firebaseService: FirebaseService
+	) {
 	}
 
 	onButtonTap(): void {
@@ -42,10 +43,10 @@ export class EnneagramComponent implements OnInit {
 		}
     }
 	saveUserEnneagramOnDatebase() {
-		this.userHomeService.me.index.enneagramNumber = this.enneagramNum;
-		this.userHomeService.me.home.enneagram.emotion = this.emotion;
-		this.userHomeService.me.home.enneagram.behavior = this.behavior;
-		this.userHomeService.me.home.enneagram.thought = this.thought;
+		this.firebaseService.thisUser.enneagram.number = this.enneagramNum;
+		this.firebaseService.thisUser.enneagram.emotion = this.emotion;
+		this.firebaseService.thisUser.enneagram.behavior = this.behavior;
+		this.firebaseService.thisUser.enneagram.thought = this.thought;
 	}
 
 	confirm(checkMessage) {

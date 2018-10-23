@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild, Input } from "@angular/core";
-import { Friend } from "../friendchat/Friend.model";
-import { Room } from "../friendchat/room.model";
-import { FriendList } from "../friendchat/mock-rooms";
+import { ListView } from "tns-core-modules/ui/list-view";
 import { ChildButton1Component } from "../../buttons/child-button1/child-button1.component";
 import { ChildButton2Component } from "../../buttons/child-button2/child-button2.component";
 import { ChildButton3Component } from "../../buttons/child-button3/child-button3.component";
@@ -9,7 +7,7 @@ import { FriendchatComponent } from "../friendchat/friendchat.component";
 import { ModalComponent } from "../../modal/modal.component";
 import { FriendListService } from "../friendchat/friend-list.service";
 import { FriendChatService } from "../friendchat/friend-chat.service";
-import { ListView } from "ui/list-view";
+import { FirebaseService } from "../../services/firebase.service";
 
 import { RouterExtensions } from "nativescript-angular/router";
 @Component({
@@ -19,27 +17,60 @@ import { RouterExtensions } from "nativescript-angular/router";
 	styleUrls: ['./friendlist.component.css']
 })
 export class FriendlistComponent implements OnInit {
-	public drawer: boolean;
-	selectedRoom: Room;
+	@ViewChild("friendList") friendList: ListView;
 	@ViewChild("childButton1") childButton1: ChildButton1Component;
 	@ViewChild("childButton2") childButton2: ChildButton2Component;
 	@ViewChild("childButton3") childButton3: ChildButton3Component;
 	@ViewChild("friendchat") friendchat: FriendchatComponent;
-	
 	@ViewChild(ModalComponent) modal: ModalComponent;
-	
+	public drawer: boolean;
 	constructor(private friendListService: FriendListService,
 		private friendChatService: FriendChatService,
 		private routerExtensions: RouterExtensions,
+		private firebaseService: FirebaseService
 	) {
 		
+	}
+
+	getFriendProfilePicsrc(item):string{
+		var ret:string = "";
+		for(var friendID in item) {
+			ret = item[friendID]['profile']['profilePicsrc'];			
+		}
+		return ret;
+	}
+	getFriendName(item):string{
+		var ret:string = "";
+		for(var friendID in item) {
+			ret = item[friendID]['profile']['name'];
+		}
+		return ret;
+	}
+
+	getProfilePicSrcBySelectedFriendID(){
+		var selelctedFriendID = this.friendListService.getSelectedFriendID();
+		if(selelctedFriendID!= null){
+			return this.firebaseService.getFriends()[selelctedFriendID]['profile']['profilePicsrc'];		
+		}
+		else return null;
+	}
+	getNameBySelectedFriendID(){
+		var selelctedFriendID = this.friendListService.getSelectedFriendID();
+		if(selelctedFriendID!=null){
+			return this.firebaseService.getFriends()[selelctedFriendID]['profile']['name'];
+		}
+		else return null;
 	}
 
 	ngOnInit(): void {
 	}
 
 	onItemTap(args) {
-		this.friendListService.setSelectedFriend(this.friendListService.getFriends()[args.index]);
+		console.log(this.friendList.items[args.index]);
+		for(var selelctedFriendID in this.friendList.items[args.index]){
+			this.friendListService.selectedFriendID = selelctedFriendID;
+			
+		}
 		this.openModal();
 	}
 	public onTap(args) {
@@ -58,31 +89,17 @@ export class FriendlistComponent implements OnInit {
 	}
 	onChatTap(): void {
 		this.makeRoom();
-		this.gotoChatRoom();
 	}
 	makeRoom(): void {
-		var rooms = this.friendChatService.getRooms();
-		var selectedFriend = this.friendListService.getSelectedFriend();
-		for (var i = 0; i < rooms.length; i++) {
-			if (rooms[i].title === selectedFriend.name) {
-				this.selectedRoom = rooms[i];
-				return;
-			}
-		}
-		var newRoom = new Room();
-		newRoom.id = FriendChatService.nextID;
-		newRoom.icon = selectedFriend.profilePicsrc;
-		newRoom.startDate = null;
-		newRoom.endDate = null;
-		newRoom.messages = [];
-		newRoom.title = selectedFriend.name;
-		newRoom.friends = [this.friendListService.thisUser.index, selectedFriend];
-		this.friendChatService.addRoom(newRoom);
-		this.selectedRoom = newRoom;
-		FriendChatService.nextID++;
+		this.firebaseService.generateRoom(this.firebaseService.thisUser);
+		var room_id:string = this.firebaseService.getGeneratedRoomID();
+		var friend_id:string = this.friendListService.getSelectedFriendID();
+		var friend:any = this.firebaseService.getFriends()[friend_id];
+		this.firebaseService.pushFriendOnRoom(friend,room_id);
+		this.friendChatService.selectedRoomID = room_id;
+		this.gotoChatRoom();
 	}
 	gotoChatRoom() {
-		this.friendChatService.setSelectedRoom(this.selectedRoom);
 		this.routerExtensions.navigate(['/chatroom'], { animated: false });
 	}
 	onModalTap() {

@@ -2,6 +2,7 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import {registerElement} from "nativescript-angular/element-registry";
 import { MapView, Marker, Position } from 'nativescript-google-maps-sdk';
 import { FriendListService } from '../../friendchat/friend-list.service';
+import { FirebaseService } from "../../../services/firebase.service";
 import * as geolocation from "nativescript-geolocation";
 import { Accuracy } from "ui/enums";
 registerElement('MapView', () => MapView);
@@ -41,7 +42,8 @@ export class MapExampleComponent {
     lastCamera: String;
     markers = [];
 
-    constructor(private friendListService :FriendListService) {
+    constructor(private friendListService: FriendListService,
+        private firebaseService: FirebaseService) {
         // this.getDistance();
         setInterval(this.updateThisUserLocation.bind(this),5000);
     }
@@ -54,21 +56,21 @@ export class MapExampleComponent {
             this.speed = res.speed;
             // get the address (REQUIRES YOUR OWN GOOGLE MAP API KEY!)
             fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + res.latitude + "," + res.longitude + "&key=AIzaSyDs-iKjb9fpImfEmGsEzF2ro60m0gNfxJY")
-                .then((response) => response.json()).then((r) => {
-                    // console.log(r);
-                    if (r.results[0]) {
-                        this.addr = r.results[0].formatted_address;
-                    }
-                });
+            .then((response) => response.json()).then((r) => {
+                // console.log(r);
+                if (r.results[0]) {
+                    this.addr = r.results[0].formatted_address;
+                }
+            });
         });
     }
 
-    addAllMarkers(){
-        this.markers = [];
-        for(var i=0;i<this.friendListService.friends.length;i++){
-            this.markers.push(this.friendListService.friends[i].marker);
-        }
-    }
+    // addAllMarkers(){
+    //     this.markers = [];
+    //     for(var i=0;i<this.friendListService.friends.length;i++){
+    //         this.markers.push(this.friendListService.friends[i].marker);
+    //     }
+    // }
 
     getDistance(origins: Marker, destinations: Array<Marker>){
         this.distancesResult = null;
@@ -94,7 +96,7 @@ export class MapExampleComponent {
                 console.log(this.filteredByDistance);
 
                 console.log("Filtering a marker with enneagram ...");
-                this.filterByUserEnneagram("low");
+                // this.filterByUserEnneagram("low");
                 console.log(this.filteredByEnneagram);
 
                 console.log("Setting a marker...");
@@ -118,13 +120,14 @@ export class MapExampleComponent {
         }
     }
 
-    filterByUserEnneagram(filterLevel: string){
-        var thisUserEnneagramNum = this.friendListService.thisUser.index.enneagramNumber;
-        var thisUserEnneagramState = this.friendListService.thisUser.index.enneagramState;
-        for(var i=0;i<this.friendListService.friends.length;i++){
+    filterByUserEnneagram(filterLevel: string, users: any): Array<boolean>{
+        var enneagramFilter: Array<boolean> = new Array<boolean>();
+        var thisUserEnneagramNum = this.firebaseService.thisUser.enneagram.number;
+        var thisUserEnneagramState = this.firebaseService.thisUser.enneagram.state;
+        for(var uid in users){
             var thisfriend = false;
-            var friendEnneagramNum = this.friendListService.friends[i].enneagramNumber;
-            var friendEnneagramState = this.friendListService.friends[i].enneagramState;
+            var friendEnneagramNum = users[uid]['enneagram']['number'];
+            var friendEnneagramState = users[uid]['enneagram']['state'];
             if(filterLevel === "none"){
                 thisfriend = true;
             }
@@ -153,7 +156,7 @@ export class MapExampleComponent {
                     else if(thisUserEnneagramNum == 4 && friendEnneagramNum == 2){thisfriend = true;}    
                 }
                 if(thisfriend == true){
-                    this.friendListService.friends[i].marker.color = "green";
+                    // this.friendListService.friends[i].marker.color = "green";
                 }  
             }
 
@@ -182,15 +185,16 @@ export class MapExampleComponent {
                     // this.friendListService.friends[i].marker.color = "yellow";
                 }           
             }
-            this.filteredByEnneagram.push(thisfriend);
+            enneagramFilter.push(thisfriend);
         }
+        return enneagramFilter;
     }
 
 
     drawFilteredMarker(){
         for(var i=0;i<this.filteredByDistance.length;i++){
             if(this.filteredByDistance[i] && this.filteredByEnneagram[i]){
-                this.mapView.addMarker(this.friendListService.friends[i].marker);
+                // this.mapView.addMarker(this.friendListService.friends[i].marker);
             }
         }
     }
@@ -200,13 +204,13 @@ export class MapExampleComponent {
     onMapReady(event) {
         console.log('Map Ready');
         this.mapView = event.object;
-        this.mapView.addMarker(this.friendListService.thisUser.index.marker);
+        // this.mapView.addMarker(this.friendListService.thisUser.index.marker);
 
         console.log("Adding all markers...");
-        this.addAllMarkers();
+        // this.addAllMarkers();
 
         console.log("Get distance from origin to destinations ...");
-        this.getDistance(this.friendListService.thisUser.index.marker, this.markers);        
+        // this.getDistance(this.friendListService.thisUser.index.marker, this.markers);
     }
 
     onCoordinateTapped(args) {

@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { Location } from "@angular/common";
 import * as ApplicationSettings from "application-settings";
 import {FirebaseService} from '../services/firebase.service';
-import {User} from '../models/user.model';
 
 @Component({
     moduleId: module.id,
@@ -11,27 +10,27 @@ import {User} from '../models/user.model';
     styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-    isAuthenticating = false;
-    public user: User;
-
+    email:string;
+    passwd:string;
+    passwdConfirm:string;
     public constructor(private location: Location, private firebaseService: FirebaseService) {
-
-        this.user = new User();
     }
 
     public goBack() {
         this.location.back();
     }
     signUp() {
-    this.firebaseService.register(this.user)
+    if(this.passwd !== this.passwdConfirm){
+        alert("Password confirm error. Please retype passwd and passwdConfirm");
+        this.passwd = null;
+        this.passwdConfirm = null;
+    }
+    this.firebaseService.register(this.email, this.passwd)
       .then(() => {
-        this.isAuthenticating = false;
         this.location.back();
-      //  this.toggleDisplay();
       })
       .catch((message:any) => {
         alert(message);
-        this.isAuthenticating = false;
       });
   }
 

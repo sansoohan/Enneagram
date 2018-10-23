@@ -1,8 +1,8 @@
-<RadSideDrawer #homeDrawer [drawerTransition]="sideDrawerTransition">
+<RadSideDrawer #homeDrawer gesturesEnabled="true" [drawerTransition]="sideDrawerTransition">
 	<GridLayout tkDrawerContent rows="auto, *" class="sidedrawer sidedrawer-left">
-		<StackLayout row="0" class="sidedrawer-header">
-			<Label class="sidedrawer-header-image fa" text="&#xf2bd;"></Label>
-			<Label class="sidedrawer-header-brand" text="User Name"></Label>
+		<StackLayout row="0" class="sidedrawer-header" (tap)="profileTap()">
+			<Image class="sidedrawer-header-image" [src]="profilePicsrc"></Image>
+			<Label class="sidedrawer-header-brand" [text]="name"></Label>
 			<Label class="footnote" text="username@mail.com"></Label>
 		</StackLayout>
 
@@ -23,6 +23,11 @@
 				<GridLayout columns="auto, *" class="sidedrawer-list-item">
 					<Label col="0" text="&#xf013;" class="fa"></Label>
 					<Label col="1" text="Settings" class="p-r-10"></Label>
+				</GridLayout>
+
+				<GridLayout columns="auto, *" class="sidedrawer-list-item" (tap)="logoutTap()">
+					<Label col="0" text="&#xf013;" class="fa"></Label>
+					<Label col="1" text="Log out" class="p-r-10"></Label>
 				</GridLayout>
 			</StackLayout>
 		</ScrollView>

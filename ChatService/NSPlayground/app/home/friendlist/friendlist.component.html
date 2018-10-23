@@ -1,9 +1,9 @@
 <ScrollView class="page">
-	<ListView class="list-group" [items]="friendListService.getFriends()" (itemTap)="onItemTap($event)">
+	<ListView #friendList class="list-group" [items]="firebaseService.friendArray" (itemTap)="onItemTap($event)">
 		<ng-template let-item="item">
 			<GridLayout class="list-group-item" rows="*" columns="auto, *">
-				<Image row="0" col="0" [src]="item.profilePicsrc" class="thumb img-circle"></Image>
-				<Label row="0" col="1" [text]="item.name"></Label>
+				<Image row="0" col="0" [src]="getFriendProfilePicsrc(item)" class="thumb img-circle"></Image>
+				<Label row="0" col="1" [text]="getFriendName(item)"></Label>
 			</GridLayout>
 		</ng-template>
 	</ListView>
@@ -20,8 +20,8 @@
 		<StackLayout class="modal">
 
 			<GridLayout marginBottom="40" horizontalAlignment="center" rows="auto,auto" columns="auto" (tap)="onChatTap()">
-				<Image row="0" col="0" width="128" height="128" [src]="friendListService.getSelectedFriend().profilePicsrc"></Image>
-				<Label row="1" col="0" fontSize="20" [text]="friendListService.getSelectedFriend().name"></Label>
+				<Image row="0" col="0" width="128" height="128" [src]="getProfilePicSrcBySelectedFriendID()"></Image>
+				<Label row="1" col="0" fontSize="20" [text]="getNameBySelectedFriendID()"></Label>
 			</GridLayout>
 
 			<GridLayout marginBottom="40" horizontalAlignment="center" rows="auto,auto" columns="auto, auto">

@@ -1,10 +1,10 @@
 <ScrollView class="page">
-	<ListView class="list-group" text="Chat Room" [items]="friendChatService.getRooms()" (itemTap)="onItemTap($event)">
+	<ListView #roomList class="list-group" text="Chat Room" [items]="firebaseService.roomArray" (itemTap)="onItemTap($event)">
 		<ng-template let-item="item">
 			<GridLayout class="list-group-item" rows="auto, auto, auto" columns="auto, auto">
-				<Image row="0" col="0" rowSpan="3" [src]="item.icon" class="thumb img-circle"></Image>
-				<Label class="list-title" row="0" col="1" [text]="item.title"></Label>
-				<Label class="list-items" row="1" col="1" rowSpan="2" [text]="item.bottomMessage"></Label>
+				<Image row="0" col="0" rowSpan="3" [src]="getRoomIconsrc(item)" class="thumb img-circle"></Image>
+				<Label class="list-title" row="0" col="1" [text]="getRoomTitle(item)"></Label>
+				<Label class="list-items" row="1" col="1" rowSpan="2" [text]="getRoomLastMessage(item)"></Label>
 			</GridLayout>
 		</ng-template>
 	</ListView>

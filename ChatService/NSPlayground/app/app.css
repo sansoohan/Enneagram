@@ -32,22 +32,22 @@
     color: #022734;
 }
 .sidedrawer.sidedrawer-left {
-    background-color: #3A53FF;
+    background-color: blue;
 }
 .sidedrawer.sidedrawer-left .sidedrawer-header-image {
     color: #F8F8F8;
     height: 60;
-    width: 60;
     font-size: 60;
     padding: 0;
     margin-bottom: 5;
     margin-top: 20;
+    background-size: 60px;
 }
 .sidedrawer.sidedrawer-left .footnote {
     color: rgba(255,255,255,0.5);
 }
 .sidedrawer .sidedrawer-header {
-    background-color: #3A53FF;
+    background-color: blue;
 }
 .sidedrawer .sidedrawer-header .sidedrawer-header-brand {
     color: #fff;
@@ -75,3 +75,4 @@
 .btn {
     font-size: 18;
 }
+

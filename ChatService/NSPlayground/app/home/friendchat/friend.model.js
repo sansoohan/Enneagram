@@ -1,9 +1,0 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var Friend = /** @class */ (function () {
-    function Friend() {
-    }
-    return Friend;
-}());
-exports.Friend = Friend;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZnJpZW5kLm1vZGVsLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiZnJpZW5kLm1vZGVsLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQ0E7SUFBQTtJQVVBLENBQUM7SUFBRCxhQUFDO0FBQUQsQ0FBQyxBQVZELElBVUM7QUFWWSx3QkFBTSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IE1hcmtlciwgUG9zaXRpb24gfSBmcm9tICduYXRpdmVzY3JpcHQtZ29vZ2xlLW1hcHMtc2RrJztcclxuZXhwb3J0IGNsYXNzIEZyaWVuZHtcclxuICAgIHB1YmxpYyBlbWFpbDogc3RyaW5nO1xyXG4gICAgcHVibGljIG5hbWU6IHN0cmluZztcclxuICAgIHB1YmxpYyBwcm9maWxlUGljc3JjOiBzdHJpbmc7XHJcbiAgICBwdWJsaWMgYmFja2dyb3VuZFBpY3NyYzogc3RyaW5nO1xyXG4gICAgcHVibGljIGdlbmRlcjogc3RyaW5nO1xyXG4gICAgcHVibGljIGVubmVhZ3JhbU51bWJlcjogbnVtYmVyO1xyXG4gICAgcHVibGljIGVubmVhZ3JhbVN0YXRlOiBzdHJpbmc7XHJcbiAgICBwdWJsaWMgcG9zaXRpb246IFBvc2l0aW9uO1xyXG4gICAgcHVibGljIG1hcmtlcjogTWFya2VyO1xyXG59Il19

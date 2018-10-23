@@ -2,18 +2,18 @@
 	<NavigationButton visibility="collapsed"></NavigationButton>
 	<GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
 		<ActionButton (tap)="onTap($event)" isArrow="true"></ActionButton>
-		<Label col="1" [text]="friendChatService.getSelectedRoom().title" class="action-bar-label"></Label>
-		<Image col="2" #search src="~/icons/search.png" tintColor="#ffffff" (loaded)="animateOut(search)" class="action-bar-icon"></Image>
+		<Label col="1" [text]="friendChatService.selectedRoomTitle" class="action-bar-label"></Label>
 	</GridLayout>
 </ActionBar>
+
 <ScrollView class="page">
 	<StackLayout class="chat-layer">
-		<CardView *ngFor="let item of friendChatService.getSelectedRoom().messages" class="card" ios:shadowRadius="3">
+		<CardView *ngFor="let item of friendChatService.messageArray" class="card" ios:shadowRadius="3">
 			<StackLayout class="card-layout">
 				<GridLayout rows="auto, auto, auto" columns="auto, auto">
-					<Image row="0" col="0" rowSpan="3" [src]="item.friend.profilePicsrc" class="thumb img-circle"></Image>
-					<Label class="list-title" row="0" col="1" [text]="item.friend.name"></Label>
-					<Label class="list-items" row="1" col="1" rowSpan="2" [text]="item.contents"></Label>
+					<Image row="0" col="0" rowSpan="3" [src]="friendChatService.users[item['user']]['profile']['profilePicsrc']" class="thumb img-circle"></Image>
+					<Label class="list-title" row="0" col="1" [text]="friendChatService.users[item['user']]['profile']['name']"></Label>
+					<Label class="list-items" row="1" col="1" rowSpan="2" [text]="getMessage(item)"></Label>
 				</GridLayout>
 			</StackLayout>
 		</CardView>
@@ -21,6 +21,6 @@
 </ScrollView>
 
 <GridLayout class="chat-form" rows="auto" columns="*, auto">
-	<TextField row="0" col="0" [(ngModel)]="str" class="input input-border chat-input"></TextField>
-	<Button row="0" col="1" text="Save" (tap)="saveString()" class="btn btn-outline chat-button"></Button>
+	<TextView row="0" col="0" [(ngModel)]="str" class="input input-border chat-input"></TextView>
+	<Button row="0" col="1" text="Save" (tap)="pushMessage()" class="btn btn-outline chat-button"></Button>
 </GridLayout>
