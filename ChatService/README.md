@@ -128,7 +128,16 @@ Developement Steps.
 ```
 
 5. Link and test simple-data function to database.<br>
+<p>Database Architect</p>
+<img src="result/database/database03.png"><br>
+<p>User Database</p>
+<img src="result/database/database01.png"><br>
+<p>User Storage</p>
+<img src="result/database/database04.png"><br>
+<p>Chat Database</p>
+<img src="result/database/database02.png"><br>
 6. Link and test multi-interation function to database.<br>
+
 7. Design OOP model and database.<br>
 8. Build an IOS/android App.<br>
 9. Alpha test and bug report.<br>
