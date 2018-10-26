@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ActivatedRoute } from "@angular/router";
-import { ActionButtonComponent } from "./ideamatching/action-button/action-button.component";
+import { ActionButtonComponent } from "./searchresult/action-button/action-button.component";
 import { SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
 import { View } from "tns-core-modules/ui/core/view";
 import { alert, confirm, prompt, login, action, inputType } from "tns-core-modules/ui/dialogs";

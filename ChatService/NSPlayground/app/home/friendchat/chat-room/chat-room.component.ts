@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { GestureEventData } from "tns-core-modules/ui/gestures";
 import { registerElement } from 'nativescript-angular/element-registry';
 import { CardView } from 'nativescript-cardview';
 import { FirebaseService } from "../../../services/firebase.service";
+import { ScrollView } from "ui/scroll-view";
 registerElement('CardView', () => CardView);
 import * as appSettings from "application-settings";
 import firebase = require("nativescript-plugin-firebase");
@@ -16,13 +17,14 @@ import firebase = require("nativescript-plugin-firebase");
 })
 export class ChatRoomComponent implements OnInit {
 	str: string = "";
-
-
+	@ViewChild("scrollView") scrollView: ScrollView;
 	constructor(private routerExtensions: RouterExtensions,
 		private firebaseService: FirebaseService,
 	){	}
 
     ngOnInit(): void {
+		var offset = this.scrollView.scrollableHeight;
+		this.scrollView.scrollToVerticalOffset(offset, false);
     }
 
 	onTap(args: GestureEventData) {
@@ -43,6 +45,8 @@ export class ChatRoomComponent implements OnInit {
 		}
 		this.firebaseService.pushMessageOnRoom(room_id, user, this.str);
 		this.removeString();
+		var offset = this.scrollView.scrollableHeight;
+		this.scrollView.scrollToVerticalOffset(offset, false);
 	}
     removeString(): void {        
         this.str = "";

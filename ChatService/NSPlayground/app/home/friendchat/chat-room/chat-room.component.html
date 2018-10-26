@@ -6,7 +6,7 @@
 	</GridLayout>
 </ActionBar>
 
-<ScrollView class="page">
+<ScrollView #scroll class="page">
 	<StackLayout class="chat-layer">
 		<CardView *ngFor="let item of firebaseService.selectedRoomMessageArray" class="card" ios:shadowRadius="3">
 			<StackLayout class="card-layout">

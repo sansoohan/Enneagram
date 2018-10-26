@@ -8,7 +8,7 @@ import * as imagePicker from "nativescript-imagepicker";
 import * as dialogs from "ui/dialogs";
 import { android, ios } from "tns-core-modules/application";
 import { knownFolders, path } from "file-system";
-
+import { RadioOption } from "../enneagram/radio-option";
 
 @Component({
   moduleId: module.id,
@@ -28,13 +28,22 @@ export class ProfileComponent implements OnInit {
 	private currentBackgroundImageSource: ImageSource;
 	private currentBackgroundImageFilePath: string;
 
+
 	private removedImageUrl: string;
-	constructor(private routerExtensions: RouterExtensions,
+	genderOptionButtons?: Array<RadioOption>;
+	gender: string = "";
+
+	constructor(private routerExtensions: RouterExtensions,		
 	private _ngZone: NgZone
 	) { 
 		this.isOnline = true;
 	}
-	ngOnInit() { }
+	ngOnInit() { 
+		this.genderOptionButtons = [
+			new RadioOption("Gender", "male"),
+			new RadioOption("Gender", "female"),
+		];
+	}
 
 	onTap(args: GestureEventData) {
 		this.routerExtensions.back();
@@ -122,5 +131,25 @@ export class ProfileComponent implements OnInit {
 			}
 			// resolve(null);
 		});
+	}
+
+	changeCheckedRadio(radioOption: RadioOption): void {
+		radioOption.selected = !radioOption.selected;
+
+		if (!radioOption.selected) {
+			return;
+		}
+
+
+		switch (radioOption.group) {
+			case "Gender":
+				this.gender = radioOption.text;
+				this.genderOptionButtons.forEach(option => {
+					if (option.text !== radioOption.text) {
+						option.selected = false;
+					}
+				});
+				break;
+		}
 	}
 }

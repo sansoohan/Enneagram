@@ -3,7 +3,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { GestureEventData } from "tns-core-modules/ui/gestures";
 import { RadioOption } from "./radio-option";
 import { alert, confirm, prompt, login, action, inputType } from "tns-core-modules/ui/dialogs";
-import { ActionButtonComponent } from "../ideamatching/action-button/action-button.component";
+import { ActionButtonComponent } from "../searchresult/action-button/action-button.component";
 import { FirebaseService } from "../../services/firebase.service";
 @Component({
 	selector: "Enneagram",

@@ -3,7 +3,7 @@ import { ListView } from "tns-core-modules/ui/list-view";
 import { ChildButton1Component } from "../../buttons/child-button1/child-button1.component";
 import { ChildButton2Component } from "../../buttons/child-button2/child-button2.component";
 import { ChildButton3Component } from "../../buttons/child-button3/child-button3.component";
-import { ActionButtonComponent } from "../ideamatching/action-button/action-button.component";
+import { ActionButtonComponent } from "../searchresult/action-button/action-button.component";
 import { RouterExtensions } from "nativescript-angular/router";
 import { FirebaseService } from "../../services/firebase.service";
 import { ngDevModeResetPerfCounters } from "@angular/core/src/render3/ng_dev_mode";
@@ -80,6 +80,7 @@ export class FriendchatComponent implements OnInit {
 			this.firebaseService.selectedRoomTitle = this.firebaseService.getRooms()[selectedRoomID]['title'];
 			var messages = this.firebaseService.getRooms()[selectedRoomID]['messages']
 			this.firebaseService.selectedRoomMessageArray = this.firebaseService.jsonToArray(messages);
+			this.firebaseService.sortMessageArrayWithTimeStamp(this.firebaseService.selectedRoomMessageArray);
 			this.firebaseService.selectedRoomUsers = this.firebaseService.getRooms()[selectedRoomID]['room_users'];
 			console.log(this.firebaseService.selectedRoomUsers);
 		}

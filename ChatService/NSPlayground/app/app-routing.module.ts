@@ -9,7 +9,8 @@ import { FriendmatchingComponent } from "./home/friendmatching/friendmatching.co
 import { FriendchatComponent } from "./home/friendchat/friendchat.component";
 import { ChatRoomComponent } from "./home/friendchat/chat-room/chat-room.component";
 import { IdeamatchingComponent } from "./home/ideamatching/ideamatching.component";
-import { DetailsComponent } from "./home/ideamatching/details/details.component";
+import { SearchResultComponent } from "./home/searchresult/searchresult.component";
+import { DetailsComponent } from "./home/searchresult/details/details.component";
 import { EnneagramComponent } from "./home/enneagram/enneagram.component";
 import { MapExampleComponent } from "./home/friendmatching/map-example/map-example.component";
 import { BlogComponent } from "./home/blog/blog.component";
@@ -21,11 +22,10 @@ const routes: Routes = [
     {
         path: 'home', component: HomeComponent, children: [
             { path: 'friendlist', component: FriendlistComponent, outlet: 'friendlistoutlet' },
-            // { path: 'friendlist', component: BlogComponent, outlet: 'friendlistoutlet' },
             { path: 'friendchat', component: FriendchatComponent, outlet: 'friendchatoutlet' },
             { path: 'friendmatching', component: FriendmatchingComponent, outlet: 'friendmatchingoutlet' },
-            // { path: 'ideamatching', component: IdeamatchingComponent, outlet: 'ideamatchingoutlet' },
-            { path: 'ideamatching', component: MapExampleComponent, outlet: 'ideamatchingoutlet' },
+            { path: 'ideamatching', component: IdeamatchingComponent, outlet: 'ideamatchingoutlet' },
+            // { path: 'ideamatching', component: MapExampleComponent, outlet: 'ideamatchingoutlet' },
         ]
     },
     { path: "login", component: LoginComponent },
@@ -36,9 +36,11 @@ const routes: Routes = [
     { path: 'map', component: MapExampleComponent },
     { path: 'blog', component: BlogComponent},
     { path: 'ideamatching', component: IdeamatchingComponent },
+    { path: 'searchresult', component: SearchResultComponent },
     { path: 'profile', component: ProfileComponent},
     { path: 'setting', component: SettingComponent}
 ];
+
 
 @NgModule({
     imports: [NativeScriptRouterModule.forRoot(routes)],

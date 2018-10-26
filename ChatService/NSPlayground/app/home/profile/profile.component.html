@@ -25,6 +25,18 @@
 				<Label class="site-item-header" text="Nick Name"></Label>
 				<TextView textWrap="true" class="site-input-field" autocorrect="false" hint="Enter NOTES"></TextView>
 
+				<Label class="site-item-header" text="Gender"></Label>
+				<GridLayout class="p-10" *ngFor="let option of genderOptionButtons">
+					<StackLayout orientation="horizontal" verticalAlignment="center">
+						<CheckBox #elem [checked]="option.selected" (checkedChange)="elem.checked !== option.selected && changeCheckedRadio(option)"
+						 class="checkbox" boxType="circle"></CheckBox>
+						<StackLayout verticalAlignment="center">
+							<Label [text]="option.text" textWrap="true" (tap)="changeCheckedRadio(option)"></Label>
+						</StackLayout>
+					</StackLayout>
+				</GridLayout>
+				<StackLayout android:opacity="0" class="line"></StackLayout>
+
 				<Label class="site-item-header" text="Profile Image"></Label>
 				<TextView textWrap="true" [text]="currentProfileImageFilePath" class="site-input-field" autocorrect="false" (tap)="onAddImageTap('profile')"></TextView>
 				<StackLayout android:opacity="0" class="line"></StackLayout>

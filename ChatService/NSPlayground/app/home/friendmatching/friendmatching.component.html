@@ -1,14 +1,21 @@
-<ListView class="list-group" [items]="countries" (itemTap)="onItemTap($event)">
-	<ng-template let-country="item">
-		<FlexboxLayout flexDirection="row" class="list-group-item">
-			<Image [src]="country.imageSrc" class="thumb img-circle"></Image>
-			<Label [text]="country.name" class="list-group-item-heading" verticalAlignment="center" style="width: 60%"></Label>
-		</FlexboxLayout>
-	</ng-template>
-</ListView>
-<AbsoluteLayout>
-	<FloatButton text="+" (tap)="onTap($event)"></FloatButton>
-	<ChildButton1 #childButton1></ChildButton1>
-	<ChildButton2 #childButton2></ChildButton2>
-	<ChildButton3 #childButton3></ChildButton3>
-</AbsoluteLayout>
+<StackLayout>
+	<GridLayout class="list-title">
+		<Label text="Find Your Friend" class="title-name"></Label>
+	</GridLayout>
+	<GridLayout class="list-item">
+		<Image src="" class="food-background"></Image>
+		<Label text="Join" class="item-join"></Label>
+		<Label text="Make" class="item-make"></Label>
+	</GridLayout>
+	<GridLayout class="list-item">
+		<Image src="" class="game-background"></Image>
+		<Label text="Join" class="item-join"></Label>
+		<Label text="Make" class="item-make"></Label>
+	</GridLayout>
+	<GridLayout class="list-item">
+		<Image src="" class="people-background"></Image>
+		<Label text="Join" class="item-join"></Label>
+		<Label text="Make" class="item-make"></Label>
+	</GridLayout>
+	
+</StackLayout>

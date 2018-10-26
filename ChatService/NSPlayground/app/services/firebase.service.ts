@@ -26,50 +26,11 @@ export class FirebaseService {
 
     constructor(
         private routerExtensions: RouterExtensions,
-        
     ){
 
-        // file upload
-        // var filePath = fs.knownFolders.currentApp().path+"/images/library.png";
-        // var remotePath = '/images/library.png';
-        // this.uploadFile(filePath, remotePath);
-
-
-        // data upload 
-        // var arrayDatabasePath = "/Test/ArrayDatabase";
-        // var pushData = {test: "test"};
-        // this.pushInArrayDatabase(arrayDatabasePath, pushData);
-
-        // var valueDatabasePath = "/Test/ValueDatabase";
-        // var structure = {name:null, email:null};
-        // this.makeStructureOfValueDatabase(valueDatabasePath,structure);
-        
-        // var updateData = {name:'sansoo', country:'korea', age:29};
-        // this.writeValueOfValueDatabase(valueDatabasePath,updateData);
-
-        // var deleteData = {age: null};
-        // this.writeValueOfValueDatabase(valueDatabasePath,deleteData);
-
-        // show data
-        // var output;
-        // console.log("readValueOfValueDatabase test");
-        // this.readValueOfValueDatabase(valueDatabasePath, output);
-        // console.log(output);
-
-        // console.log("readValueOfValueDatabase test");
-        // this.readValueOfValueDatabase(arrayDatabasePath, output);
-        // console.log(output);
-
-        // // ordering array query
-        // console.log("queryOnDatabase test");
-        // this.queryOnDatabase(arrayDatabasePath);
-        // this.queryTest();
-        // this.generateRoom("5FgrewJa2Mh9C598k70HQ40b1qu1");
-        
     }
 
-
-    
+    //----------------------------Profile Section------------------------------------------
 
     uploadFile(filePath:string, remotePath:string){
         firebase.getCurrentUser().then(user => {
@@ -97,21 +58,17 @@ export class FirebaseService {
         });
     }
 
-
-
     //----------------------------Chat Section------------------------------------------
 
     // If someone push message(include you), function(result) will be activated.
     // It change the messages array.
     syncRoom(room_id:string){
         firebase.addValueEventListener(result => {
+            var room = room_id;
             console.log("Event type: " + result.type);
             console.log("Key: " + result.key);
             console.log("Value: " + JSON.stringify(result.value));
-            this.updateRoom(result.key, result.value);
-            if(result.key == this.selectedRoomID){
-                this.selectedRoomMessageArray = this.jsonToArray(result.value);
-            }
+            this.updateRoom(room, result.value);
         }, "/rooms/"+room_id+"/messages").then(
             function(listenerWrapper) {
               var path = listenerWrapper.path;
@@ -120,9 +77,30 @@ export class FirebaseService {
             }
         );
     }
-    updateRoom(room_id:string, room:any){
-        this.rooms[room_id] = room;
+    updateRoom(room_id:string, messages:any){
+        this.rooms[room_id]['messages'] = messages;
+        if(room_id == this.selectedRoomID){
+            this.selectedRoomMessageArray = this.jsonToArray(messages);
+            this.sortMessageArrayWithTimeStamp(this.selectedRoomMessageArray);
+            console.log(this.selectedRoomMessageArray.length);
+        }
         // console.log(this.rooms);
+    }
+    sortMessageArrayWithTimeStamp(messageArray){
+        if(messageArray==null){
+            return null;
+        }
+        messageArray.sort(function (a, b) {
+            var message_a;
+            var message_b;
+            for(var key in a){
+                message_a = a[key];
+            }
+            for(var key in b){
+                message_b = b[key];
+            }
+            return message_a['timestamp']['time'] - message_b['timestamp']['time'];
+        });
     }
     // If there is no message :
     // This will ba activated when user send a message to friend after invite friend.
@@ -138,8 +116,15 @@ export class FirebaseService {
     // User has a room but friend doesn't have room yet.
     generateRoom(user:any){
         for(var uid in user){
+            var open_room = {room_users:""};
+            open_room['room_users'][uid] = user[uid];
+            open_room['isOpen'] = true;
+            open_room['openTime'] = new Date();
+            open_room['closeTime'] = "";
+            open_room['title'] = "";
+            open_room['iconsrc'] = "";
             firebase.push('/rooms/', "").then(result => {
-                firebase.setValue('/rooms/'+result.key+"/room_users/"+uid, user[uid]).then(result2 => {
+                firebase.setValue('/rooms/'+result.key, open_room).then(result2 => {
                     this.pushRoomIDOnUser(user, result.key);
                 });
                 this.setGeneratedRoomID(result.key);
@@ -169,11 +154,52 @@ export class FirebaseService {
         });
     }
 
+    //----------------------------Blog Section------------------------------------------
 
+    generatePost(user:any, post_id:string, post:any){
+        var open_post = {};
+        if(post==null){
+            open_post['isOpen'] = true;
+            open_post['name'] = "";
+            open_post['type'] = "";
+            open_post['description'] = "";
+            open_post['image'] = "";
+            open_post['location'] = "";
+            open_post['likes'] = "";
+            open_post['comments'] = "";
+            open_post['openTime'] = new Date();
+            open_post['closeTime'] = "";
+        }
+        else{
+            open_post = post;
+        }
 
-    //----------------------------Chat Section------------------------------------------
+        for(var uid in user){
+            if(post_id==null){            
+                firebase.push('/blogs/'+uid+'/posts', "").then(result => {
+                    firebase.setValue('/blogs/'+uid+"/posts/"+result.key, open_post).then(result2 => {
+                        this.pushPostIDOnUser(user, result.key);
+                    });
+                    console.log("created key: " + result.key);// Room ID
+                });
+            }
+            else{
+                open_post = post[post_id];
+                firebase.setValue('/blogs/'+uid+"/posts/"+post_id, open_post).then(result2 => {                    
+                });
+            }
+        }
+    }
+    
+    pushPostIDOnUser(user:any, room_id:string){
+        for(var uid in user){
+            firebase.setValue('/users/'+uid+'/user_blogs/'+room_id, true).then(result => {
+                // this.pushUserIDOnRoom(uid);
+            });
+        }
+    }
 
-
+    //----------------------------Auth Section------------------------------------------
 
     // make array type database and push data in array type database
     pushInArrayDatabase(databaseOfArrayPath:string, pushData:any){
@@ -313,6 +339,9 @@ export class FirebaseService {
         )
     }
 
+
+    //----------------------------Init Section------------------------------------------
+
     // get currendUser
     login(user) {
         firebase.login({
@@ -399,11 +428,13 @@ export class FirebaseService {
                     // this.pushFriendOnRoom(this.thisUser,"-LPLVNVF2yM1MzyG-D71");
                     // this.pushMessageOnRoom("-LPLVNVF2yM1MzyG-D71", this.thisUser, "hi");
                     this.setFriendArray();
+                    // this.generatePost(this.thisUser);
                 }
             })
             .catch(error => console.log("Error: " + error));;
         }
     }
+
     addFriend(friend){
         for(var key in friend){
             this.friends[key] = friend[key];
