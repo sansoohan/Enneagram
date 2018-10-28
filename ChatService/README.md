@@ -20,7 +20,8 @@ Developement Steps.
 <h2>Framework : Angular6</h2>
 <h2>Framework : Nativescript4</h2>
 <h2>Database : Firebase</h2>
-<h2><a href="https://github.com/sansoohan/Enneagram/blob/master/ChatService/NSPlayground/package.json">Package Module Dependencies</a></h2>
+<h2><a href="https://github.com/sansoohan/Enneagram/blob/master/ChatService/NSPlayground/package.json">NodeJS Module Dependencies</a></h2>
+<h2><a href="https://github.com/sansoohan/Enneagram/blob/master/ChatService/NSPlayground/app/App_Resources/Android/app.gradle">Android Dependencies</a></h2>
 
 
 <h1>2. Make a login app with database [done]</h1>
