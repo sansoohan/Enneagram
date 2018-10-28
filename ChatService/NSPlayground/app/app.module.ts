@@ -12,6 +12,7 @@ import { FirebaseService } from "./services/firebase.service";
 import { AnimationsService } from "./home/searchresult/animations-service";
 import { LandmarksService } from "./home/searchresult/landmarks-service";
 import { FriendListService } from "./home/friendchat/friend-list.service";
+import { BlogService } from "./home/blog/blog-service";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -26,7 +27,8 @@ import { HomeComponent } from "./home/home.component";
     import { ChatRoomComponent } from "./home/friendchat/chat-room/chat-room.component";
     import { IdeamatchingComponent } from "./home/ideamatching/ideamatching.component";
     import { SearchResultComponent } from "./home/searchresult/searchresult.component";
-        import { DetailsComponent } from "./home/searchresult/details/details.component";
+        import { DetailsComponent } from "./home/searchresult/details/details.component"; 
+    import { SearchOptionComponent } from "./home/searchoption/searchoption.component";
 
 import { EnneagramComponent } from "./home/enneagram/enneagram.component";
 import { BlogComponent } from "./home/blog/blog.component";
@@ -80,6 +82,7 @@ if(platform.isIOS) {
         IdeamatchingComponent,
         SearchResultComponent,
         DetailsComponent,
+        SearchOptionComponent,
         EnneagramComponent,
         BlogComponent,
         ProfileComponent,
@@ -97,6 +100,7 @@ if(platform.isIOS) {
         AnimationsService,
         LandmarksService,
         FriendListService,
+        BlogService,
     ],
     schemas: [
         NO_ERRORS_SCHEMA

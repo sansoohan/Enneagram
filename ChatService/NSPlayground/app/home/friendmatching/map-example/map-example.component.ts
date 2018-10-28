@@ -1,8 +1,9 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnInit, ElementRef, ViewChild, Input} from '@angular/core';
 import {registerElement} from "nativescript-angular/element-registry";
 import { MapView, Marker, Position } from 'nativescript-google-maps-sdk';
 import { FriendListService } from '../../friendchat/friend-list.service';
 import { FirebaseService } from "../../../services/firebase.service";
+import { BlogService } from "../../blog/blog-service";
 import * as geolocation from "nativescript-geolocation";
 import { Accuracy } from "ui/enums";
 registerElement('MapView', () => MapView);
@@ -11,7 +12,7 @@ registerElement('MapView', () => MapView);
     selector: 'MapExample',
     template: `
     <GridLayout>
-    <MapView #mapView [latitude]="latitude" [longitude]="longitude"
+    <MapView #mapView [mapType]="mapType" [latitude]="latitude" [longitude]="longitude"
              [zoom]="zoom" [minZoom]="minZoom" [maxZoom]="maxZoom" [bearing]="bearing"
              [tilt]="tilt" i-padding="50,50,50,50" [padding]="padding" (mapReady)="onMapReady($event)"
              (markerSelect)="onMarkerEvent($event)" (markerBeginDragging)="onMarkerEvent($event)"
@@ -22,7 +23,9 @@ registerElement('MapView', () => MapView);
     </GridLayout>
     `
 })
-export class MapExampleComponent {
+export class MapExampleComponent implements OnInit {
+    @Input() mapType:string;
+    @ViewChild("mapView") mapView: MapView;
     public latitude =  37.323972;
     public longitude = 127.125109;
     public speed = 0;
@@ -33,7 +36,7 @@ export class MapExampleComponent {
     bearing = 0;
     tilt = 0;
     padding = [40, 40, 40, 40];
-    mapView: MapView;
+    
 
     distancesResult;
     filteredByDistance = [];
@@ -42,10 +45,25 @@ export class MapExampleComponent {
     lastCamera: String;
     markers = [];
 
+
     constructor(private friendListService: FriendListService,
-        private firebaseService: FirebaseService) {
+        private firebaseService: FirebaseService,
+        private blogService: BlogService,
+    ) {
         // this.getDistance();
-        setInterval(this.updateThisUserLocation.bind(this),5000);
+        // setInterval(this.updateThisUserLocation.bind(this),5000);
+        this.distanceTest();
+    }
+	ngOnInit(): void {
+	}
+    distanceTest(){
+        var origin = new geolocation.Location();
+        origin.latitude = 37.323972;
+        origin.longitude = 127.125109;
+        var destination = new geolocation.Location();
+        destination.latitude = 36.323700;
+        destination.longitude = 127.125109;
+        console.log(geolocation.distance(origin, destination));
     }
 
     updateThisUserLocation(){
@@ -53,15 +71,6 @@ export class MapExampleComponent {
         .then(res => {
             this.latitude = res.latitude;
             this.longitude = res.longitude;
-            this.speed = res.speed;
-            // get the address (REQUIRES YOUR OWN GOOGLE MAP API KEY!)
-            fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + res.latitude + "," + res.longitude + "&key=AIzaSyDs-iKjb9fpImfEmGsEzF2ro60m0gNfxJY")
-            .then((response) => response.json()).then((r) => {
-                // console.log(r);
-                if (r.results[0]) {
-                    this.addr = r.results[0].formatted_address;
-                }
-            });
         });
     }
 
@@ -204,6 +213,17 @@ export class MapExampleComponent {
     onMapReady(event) {
         console.log('Map Ready');
         this.mapView = event.object;
+
+        if(this.mapType==="blog"){
+            console.log("blogMap");
+            this.updateThisUserLocation();
+            this.blogService.postLocation = new Marker();
+            this.blogService.postLocation.position = Position.positionFromLatLng(this.latitude,this.longitude);
+            this.blogService.postLocation.title = "Me";
+            this.blogService.postLocation.snippet = "";
+            this.blogService.postLocation.userData = null;
+            this.mapView.addMarker(this.blogService.postLocation);
+        }
         // this.mapView.addMarker(this.friendListService.thisUser.index.marker);
 
         console.log("Adding all markers...");
@@ -214,6 +234,9 @@ export class MapExampleComponent {
     }
 
     onCoordinateTapped(args) {
+        if(this.mapType==="blog"){
+            this.blogService.postLocation.position = args.position;
+        }
         console.log("Coordinate Tapped, Lat: " + args.position.latitude + ", Lon: " + args.position.longitude, args);
     }
 

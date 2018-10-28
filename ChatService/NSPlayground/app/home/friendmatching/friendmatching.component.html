@@ -4,18 +4,18 @@
 	</GridLayout>
 	<GridLayout class="list-item">
 		<Image src="" class="food-background"></Image>
-		<Label text="Join" class="item-join"></Label>
-		<Label text="Make" class="item-make"></Label>
+		<Label text="Join" class="item-join" (tap)="onFoodJoinTap()"></Label>
+		<Label text="Make" class="item-make" (tap)="onFoodMakeTap()"></Label>
 	</GridLayout>
 	<GridLayout class="list-item">
 		<Image src="" class="game-background"></Image>
-		<Label text="Join" class="item-join"></Label>
-		<Label text="Make" class="item-make"></Label>
+		<Label text="Join" class="item-join" (tap)="onGameJoinTap()"></Label>
+		<Label text="Make" class="item-make" (tap)="onGameMakeTap()"></Label>
 	</GridLayout>
 	<GridLayout class="list-item">
-		<Image src="" class="people-background"></Image>
-		<Label text="Join" class="item-join"></Label>
-		<Label text="Make" class="item-make"></Label>
+		<Image src="" class="chat-background"></Image>
+		<Label text="Join" class="item-join" (tap)="onChatJoinTap()"></Label>
+		<Label text="Make" class="item-make" (tap)="onChatMakeTap()"></Label>
 	</GridLayout>
 	
 </StackLayout>

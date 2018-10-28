@@ -4,17 +4,17 @@
     </GridLayout>
     <GridLayout class="list-item">
         <Image src="" class="test-background"></Image>
-        <Label text="Good" class="item-join"></Label>
-        <Label text="Not good" class="item-make"></Label>
+        <Label text="Test your mind state" class="item-test" (tap)="onStateCheckTap()"></Label>
     </GridLayout>
     <GridLayout class="list-item">
         <Image src="" class="mentor-background"></Image>
-        <Label text="Idea" class="item-join"></Label>
-        <Label text="Follow me" class="item-make"></Label>
+        <Label text="Idea" class="item-join" (tap)="onIdeaTap()"></Label>
+        <Label text="Follow me" class="item-make" (tap)="onFollowMeTap()"> </Label>
     </GridLayout>
     <GridLayout class="list-item">
         <Image src="" class="mentee-background"></Image>
-        <Label text="Advice" class="item-join"></Label>
-        <Label text="Help me" class="item-make"></Label>
+        <Label text="Advice" class="item-join" (tap)="onAdviceTap()"></Label>
+        <Label text="Help me" class="item-make" (tap)="onHelpMeTap()"></Label>
     </GridLayout>
+
 </StackLayout>

@@ -6,21 +6,24 @@
     <Label col="2" text="Upload" class="action-bar-label" (tap)="onUploadTap()"></Label>
 	</GridLayout>
 </ActionBar>
-<GridLayout columns="* * *" rows="auto auto auto">
-	<TextField col="0" colSpan="3" row="0" [(ngModel)]="textFieldValue" hint="Title"></TextField>
-	<Image *ngIf="!selectedImagePath" height="70" col="0" row="1" src="~/home/blog/images/image.png" (tap)="selectImage()"></Image>
-	<Image *ngIf="selectedImagePath" height="70" col="0" row="1" [src]="selectedImagePath" (tap)="selectImage()"></Image>
-  <Image *ngIf="!selectedLocation" height="70" col="1" row="1" src="~/home/blog/images/location_notselected.png" (tap)="selectLocation()"></Image>
-  <Image *ngIf="selectedLocation" height="70" col="0" row="1" src="~/home/blog/images/location_selected.png" (tap)="selectLocation()"></Image>
-	<ListPicker height="70" col="2" row="1"
-	 [items]="blogTypes" [(ngModel)]="selectedListPickerIndex"></ListPicker>
-</GridLayout>
-<TextView marginTop="250" height="1000" class="input">
-	<FormattedString>
-		<Span text="This is a text view that uses attributed text. You can use text attributes such as "></Span>
-		<Span text="bold, " fontWeight="Bold"></Span>
-		<Span text="italic " fontStyle="Italic"></Span>
-		<Span text="and " ></Span>
-		<Span text="underline." textDecoration="Underline"></Span>
-	</FormattedString>
-</TextView>
+<ScrollView #scrollview (scroll)="onMapScroll($event)">
+	<GridLayout marginTop="5%" rows="auto auto auto auto auto auto auto" columns="auto *">
+		<Label class="message_row" row="0" col="0" text="Type"></Label>
+		<Label class="message_row" row="0" col="1" marginRight="10%" [text]="blogService.postType"></Label>
+		<Label class="message_row" row="1" col="0" text="Title"></Label>
+		<TextField class="message_row" row="1" col="1" marginright="10%" [text]="textFieldValue" hint="Title"></TextField>
+		<Label class="message_row" row="2" col="0" text="Location"></Label>
+		<Label class="message_row" row="2" col="1" marginright="10%" [text]="location_collapsed" (tap)="onLacationToggleTap()"></Label>
+		<StackLayout row="3" col="0" colspan="2" [height]="location_height">
+			<MapExample mapType="blog"></MapExample>
+		</StackLayout>
+		<Label class="message_row" row="4" col="0" text="Image"></Label>
+		<Label class="message_row" row="4" col="1" marginright="10%" [text]="image_collapsed" (tap)="onImageToggleTap()"></Label>
+		<Image row="5" col="0" colspan="2" *ngIf="!firebaseService.currentBlogImageFilePath" src="~/home/blog/images/image.png" [height]="image_height" (tap)="selectImage('blog')"></Image>
+		<Image row="5" col="0" colspan="2" *ngIf="firebaseService.currentBlogImageFilePath" [src]="firebaseService.currentBlogImageFilePath" [height]="image_height" (tap)="selectImage('blog')"></Image>
+		<StackLayout class="pic_row" row="6" col="0" colspan="2" height="1000">
+			<TextView class="input input-rounded" hint="Enter your message" text="" editable="true"></TextView>
+		</StackLayout>
+	</GridLayout>
+</ScrollView>
+

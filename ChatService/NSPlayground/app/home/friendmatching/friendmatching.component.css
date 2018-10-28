@@ -13,14 +13,16 @@
 }
 .food-background{
 	background-image: ~/home/friendmatching/images/food.jpg;
+	background-size: 100% 100%;
 	border-radius: 20%;
 }
 .game-background{
 	background-image: ~/home/friendmatching/images/game.jpg;
+	background-size: 100% 100%;
 	border-radius: 20%;
 }
-.people-background{
-	background-image: ~/home/friendmatching/images/people.jpg;
+.chat-background{
+	background-image: ~/home/friendmatching/images/chat.jpg;
 	border-radius: 20%;
 }
 

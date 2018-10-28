@@ -16,6 +16,7 @@ import { MapExampleComponent } from "./home/friendmatching/map-example/map-examp
 import { BlogComponent } from "./home/blog/blog.component";
 import { ProfileComponent } from "./home/profile/profile.component";
 import { SettingComponent } from "./home/setting/setting.component";
+import { SearchOptionComponent } from "./home/searchoption/searchoption.component";
 const routes: Routes = [
     { path: "", redirectTo: "login", pathMatch: "full" },
     { path: "home", redirectTo: "/home/(friendlistoutlet:friendlist//friendchatoutlet:friendchat//friendmatchingoutlet:friendmatching//ideamatchingoutlet:ideamatching)", pathMatch: "full" },
@@ -37,6 +38,7 @@ const routes: Routes = [
     { path: 'blog', component: BlogComponent},
     { path: 'ideamatching', component: IdeamatchingComponent },
     { path: 'searchresult', component: SearchResultComponent },
+    { path: 'searchoption', component: SearchOptionComponent },
     { path: 'profile', component: ProfileComponent},
     { path: 'setting', component: SettingComponent}
 ];

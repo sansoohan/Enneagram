@@ -3,6 +3,11 @@ import {Injectable, NgZone} from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import * as ApplicationSettings from "application-settings";
 
+import { android, ios } from "tns-core-modules/application";
+import { ImageSource } from "image-source";
+import { ImageAsset } from "tns-core-modules/image-asset";
+import * as imagePicker from "nativescript-imagepicker";
+
 import { APPLICATION_MODULE_PROVIDERS } from "@angular/core/src/application_module";
 import { update } from "nativescript-plugin-firebase";
 var fs = require("tns-core-modules/file-system");
@@ -10,7 +15,7 @@ var mergeJSON = require("merge-json") ;
 @Injectable()
 export class FirebaseService {
     authuser: firebase.User;
-    thisUser: any = {};
+    public thisUser: any = {};
     private friends = {};
     private rooms = {};
     private generatedRoomID: string;
@@ -23,6 +28,13 @@ export class FirebaseService {
     public selectedRoomUsers: any;
     public selectedRoomMessageArray: Array<any>;
 
+    public currentProfileImageSource: ImageSource;
+	public currentProfileImageFilePath: string;
+	public currentBackgroundImageSource: ImageSource;
+    public currentBackgroundImageFilePath: string;
+    public currentBlogImageSource: ImageSource;
+	public currentBlogImageFilePath: string;
+
 
     constructor(
         private routerExtensions: RouterExtensions,
@@ -32,6 +44,87 @@ export class FirebaseService {
 
     //----------------------------Profile Section------------------------------------------
 
+    pickImage(imageType:string): void {
+		const context = imagePicker.create({
+			mode: "single"
+		});
+
+		context
+		.authorize()
+		.then(() => context.present())
+		.then((selection) => selection.forEach(
+			(selectedAsset: ImageAsset) => {
+				this.getImageFilePath(selectedAsset, imageType).then((filePath: string) => {
+                    if(imageType === "blog"){
+						this.currentBlogImageFilePath = filePath;
+					}
+                    if(imageType === "profile"){
+						this.currentProfileImageFilePath = filePath;
+                    }
+					else if(imageType === "background"){
+						this.currentBackgroundImageFilePath = filePath;
+					}
+				});
+
+				(new ImageSource()).fromAsset(selectedAsset).then((imageSource) => {
+                    if(imageType === "blog"){
+						this.currentBlogImageSource = imageSource;
+					}
+					if(imageType === "profile"){
+						this.currentProfileImageSource = imageSource;
+					}
+					else if(imageType === "background"){
+						this.currentBackgroundImageSource = imageSource;
+					}
+				});
+			})
+		).catch((errorMessage: any) => console.log(errorMessage));
+	}
+
+	getImageFilePath(imageAsset, imageType:string): Promise<string> {
+		return new Promise((resolve) => {
+			// if (ios) { // create file from image asset and return its path
+			// 	const tempFolderPath = knownFolders.temp().getFolder("nsimagepicker").path;
+			// 	const tempFilePath = path.join(tempFolderPath, `${Date.now()}.jpg`);
+			// 	const options = PHImageRequestOptions.new();
+
+			// 	options.synchronous = true;
+			// 	options.version = PHImageRequestOptionsVersion.Current;
+			// 	options.deliveryMode = PHImageRequestOptionsDeliveryMode.HighQualityFormat;
+			// 	options.networkAccessAllowed = false;
+
+			// 	PHImageManager.defaultManager().requestImageDataForAssetOptionsResultHandler(imageAsset.ios, options, (nsData: NSData, dataUTI: string, orientation: UIImageOrientation, info: NSDictionary<any, any>) => {
+			// 		if (info.valueForKey(PHImageResultIsInCloudKey)) {
+			// 			// Image is in iCloud
+			// 			if (nsData) {
+			// 				// Image is downloaded
+			// 			} else {
+			// 				// Image is NOT downloaded
+			// 			}
+			// 		}
+
+			// 		nsData.writeToFileAtomically(tempFilePath, true);
+			// 		this.currentImageFilePath = tempFilePath;
+			// 		resolve(tempFilePath);
+			// 	});
+			// }
+
+            if (android) { // return imageAsset.android, since it's the path of the file
+                if(imageType === "blog"){
+                    this.currentBlogImageFilePath = imageAsset.android;
+                }
+				if(imageType === "profile"){
+					this.currentProfileImageFilePath = imageAsset.android;
+				}
+				else if(imageType === "background"){
+					this.currentBackgroundImageFilePath = imageAsset.android;
+				}
+				resolve(imageAsset.android);
+			}
+			// resolve(null);
+		});
+    }
+    
     uploadFile(filePath:string, remotePath:string){
         firebase.getCurrentUser().then(user => {
             // now upload the file with either of the options below:
@@ -426,7 +519,7 @@ export class FirebaseService {
                     // var friend = {};
                     // friend['H6U4ZRvLW6SL8RmIX18TYmg1hhV2'] = this.getFriends()['H6U4ZRvLW6SL8RmIX18TYmg1hhV2'];
                     // this.pushFriendOnRoom(this.thisUser,"-LPLVNVF2yM1MzyG-D71");
-                    // this.pushMessageOnRoom("-LPLVNVF2yM1MzyG-D71", this.thisUser, "hi");
+                    this.pushMessageOnRoom("-LPLVNVF2yM1MzyG-D71", this.thisUser, "hi");
                     this.setFriendArray();
                     // this.generatePost(this.thisUser);
                 }

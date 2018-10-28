@@ -7,7 +7,6 @@ import { ActionButtonComponent } from "../searchresult/action-button/action-butt
 import { RouterExtensions } from "nativescript-angular/router";
 import { FirebaseService } from "../../services/firebase.service";
 import { ngDevModeResetPerfCounters } from "@angular/core/src/render3/ng_dev_mode";
-import { last } from "@angular/router/src/utils/collection";
 
 
 @Component({
@@ -37,8 +36,6 @@ export class FriendchatComponent implements OnInit {
 
 	ngOnInit(): void {
 	}
-
-
 
 	getRoomIconsrc(item):string{
 		var ret:string = "";
@@ -73,6 +70,7 @@ export class FriendchatComponent implements OnInit {
 		return ret;
 	}
 
+	
 	onItemTap(args) {
 		console.log(this.roomList.items[args.index]);
 		for(var selectedRoomID in this.roomList.items[args.index]){
