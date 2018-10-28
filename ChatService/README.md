@@ -16,6 +16,13 @@ You shouldn't let them know that they are getting surveyed.
 Developement Steps.
 --------------
 <h1>1. Select The dev platform [done]</h1>
+<h2>Platform : NodeJS</h2>
+<h2>Framework : Angular6</h2>
+<h2>Framework : Nativescript4</h2>
+<h2>Database : Firebase</h2>
+<h2><a href="https://github.com/sansoohan/Enneagram/blob/master/ChatService/NSPlayground/package.json">Package Module Dependencies</a></h2>
+
+
 <h1>2. Make a login app with database [done]</h1>
 <img src="result/home/login.png" height="300px">
 <h1>3. Design simple function and make a simple UI [done]</h1>
