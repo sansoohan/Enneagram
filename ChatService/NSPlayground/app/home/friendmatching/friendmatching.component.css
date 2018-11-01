@@ -1,5 +1,83 @@
-.home-panel{
+.main-layout {
+    margin-top: 0;
+    margin-bottom: -2;
+}
+
+.animating-image-container {
+    vertical-align: top;
+}
+
+.list-item {
+	padding: 5% 5% 0 5%;
+	height: 30%;
+}
+.food-background{
+	background-image: ~/home/friendmatching/images/food.jpg;
+	background-size: 100% 100%;
+	border-radius: 20%;
+}
+.game-background{
+	background-image: ~/home/friendmatching/images/game.jpg;
+	background-size: 100% 100%;
+	border-radius: 20%;
+}
+.chat-background{
+	background-image: ~/home/friendmatching/images/chat.jpg;
+	border-radius: 20%;
+}
+
+.list-title {
+	padding: 5% 5% 0 5%;
+	height: 10%;
+}
+.title-name {
+	color: black;
 	vertical-align: center;
-	font-size: 20;
-	margin: 15;
+	horizontal-align: center;
+	text-align: center;
+	font-size: 30%;
+	height: 100%;
+	width: 80%;
+	border-radius: 10%;
+}
+
+.item-join {
+    background-color: rgba(0,0,0,0.4);
+	color: white;
+	vertical-align: center;
+	horizontal-align: left;
+	text-align: center;
+    padding-top: 50%;
+	font-size: 20%;
+	height: 100%;
+	width: 30%;
+	border-radius: 20% 0 0 20%;
+}
+
+
+.item-make {
+    background-color: rgba(0,0,0,0.4);
+	color: white;
+	vertical-align: center;
+	horizontal-align: right;
+	text-align: center;
+    padding-top: 50%;
+	font-size: 20%;
+	height: 100%;
+	width: 30%;
+	border-radius: 0 20% 20% 0;
+}
+
+
+.action-bar-label {
+    font-size: 22;
+    horizontal-align: center;
+    vertical-align: center;
+    color: white;
+}
+
+.action-bar-icon {
+    width: 20;
+    vertical-align: center;
+    margin: 12;
 }

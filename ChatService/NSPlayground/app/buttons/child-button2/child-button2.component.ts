@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { View } from "tns-core-modules/ui/core/view";
 
 @Component({
@@ -9,6 +9,7 @@ import { View } from "tns-core-modules/ui/core/view";
 })
 export class ChildButton2Component implements OnInit {
 	args: any;
+	@Input() text: string;
 	private drawer: boolean;
 	constructor() {
 	}

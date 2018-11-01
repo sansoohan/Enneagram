@@ -1,0 +1,33 @@
+.main-layout {
+    margin-top: 0;
+    margin-bottom: -2;
+}
+
+.animating-image-container {
+    vertical-align: top;
+}
+
+.list-item {
+    margin-bottom: 2;
+}
+
+.item-title {
+    background-color: rgba(0,0,0,0.4);
+    color: white;
+    vertical-align: bottom;
+    padding: 16;
+    font-size: 20;
+}
+
+.action-bar-label {
+    font-size: 22;
+    horizontal-align: center;
+    vertical-align: center;
+    color: white;
+}
+
+.action-bar-icon {
+    width: 20;
+    vertical-align: center;
+    margin: 12;
+}

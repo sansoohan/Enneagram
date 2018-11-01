@@ -5,12 +5,31 @@
 //	compile 'com.android.support:recyclerview-v7:+'
 //}
 
+project.ext {
+  googlePlayServicesVersion = "15.0.+"
+}
+
 android {  
   defaultConfig {  
     generatedDensities = []
-    applicationId = "__PACKAGE__"  
+    applicationId = "org.nativescript.blankng"
+    multiDexEnabled = true
   }  
   aaptOptions {  
     additionalParameters "--no-version-vectors"  
-  }  
+  }
+  dexOptions {
+    javaMaxHeapSize "4g"
+  }
 } 
+
+dependencies {
+  implementation 'com.google.firebase:firebase-core:16.0.4'
+  implementation 'com.google.firebase:firebase-storage:16.0.3'
+  implementation 'com.google.firebase:firebase-auth:16.0.4'
+  implementation 'com.google.android.gms:play-services-auth:16.0.1'
+  implementation 'com.google.firebase:firebase-database:16.0.3'
+  implementation 'com.google.firebase:firebase-messaging:17.3.3'
+}
+
+apply plugin: 'com.google.gms.google-services'

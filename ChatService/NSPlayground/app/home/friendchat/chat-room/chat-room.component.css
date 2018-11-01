@@ -1,50 +1,36 @@
-.landmark-name {
-	vertical-align: center;
-	font-size: 22;
-	color: black;
-	margin: 16 0;
+.chat-layer{
+    margin-bottom: 10%;
 }
 
-.landmark-content {
-	padding: 0 16;
-	background-color: #ffffff;
+.chat-form{
+	border-radius:15;
+    background-color: #30bcff;
+    height: 80;
+	margin-top: 80%;
+    text-align: center;
+    margin-left: 10;
+    margin-right: 10;
+}
+.chat-input{
+    vertical-align: center;
+    text-align: left;
+    border-radius:10;
+    background-color: white;
+    height: 70;
+    margin: 5;
 }
 
-.landmark-stat-icon {
-	height: 24;
+.chat-button{
+    background-color: white;
+    font-size: 15;
+    border-radius:10;
+    margin: 5;
+    width: 50;
+    height: 70;
 }
 
-.landmark-stat-label {
-	margin-left: 6;
-	margin-right: 14;
-	font-size: 12;
-	color: #909090;
-	vertical-align: center;
-}
-
-.landmark-description {
-	vertical-align: center;
-	font-size: 15;
-	color: black;
-	margin: 16 0;
-}
-
-.landmark-footer {
-	vertical-align: center;
-	font-size: 10;
-	color: #909090;
-	margin: 4 0 16 0;
-}
-
-.docked-label-container {
-	background-color: #000000;
-}
-
-.docked-label-text {
-	margin: 0 16;
-	font-size: 18;
-	color: #909090;
-	vertical-align: center;
+.btn {
+    font-size: 18;
 }
 
 .action-bar-label {
@@ -58,4 +44,28 @@
     height: 20;
     vertical-align: center;
     margin: 12;
+}
+
+
+.card-layout {
+    outline-style:solid;
+    border: 5px solid black;
+    background-color:#ddd;
+    border-radius: 25px;
+    padding: 5;
+    margin: 10 10 0 10;
+}
+.card-layout .h1 {
+	margin-bottom: 15;
+}
+.list-image{
+    height: 60;
+    border-radius: 30;
+}
+.list-title{
+    color: black;
+    font-size: 20;
+}
+.list-items{
+    font-size: 15;
 }

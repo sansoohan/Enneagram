@@ -2,18 +2,25 @@
 	<NavigationButton visibility="collapsed"></NavigationButton>
 	<GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
 		<ActionButton (tap)="onTap($event)" isArrow="true"></ActionButton>
-		<Label col="1" [text]="friendChatService.getSelectedRoom().title" class="action-bar-label"></Label>
-		<Image col="2" #search src="~/icons/search.png" tintColor="#ffffff" (loaded)="animateOut(search)" class="action-bar-icon"></Image>
+		<Label col="1" [text]="firebaseService.selectedRoomTitle" class="action-bar-label"></Label>
 	</GridLayout>
 </ActionBar>
-<ScrollView class="page">
-	<ListView class="list-group" [items]="friendChatService.getSelectedRoom().messages" (itemTap)="onItemTap($event)">
-		<ng-template let-item="item">
-			<GridLayout class="list-group-item" rows="auto, auto, auto" columns="auto, auto">
-				<Image row="0" col="0" rowSpan="3" [src]="item.friend.profilePicsrc" class="thumb img-circle"></Image>
-				<Label class="list-title" row="0" col="1" [text]="item.friend.name"></Label>
-				<Label class="list-items" row="1" col="1" rowSpan="2" [text]="item.contents"></Label>
-			</GridLayout>
-		</ng-template>
-	</ListView>
+
+<ScrollView #scroll class="page">
+	<StackLayout class="chat-layer">
+		<CardView *ngFor="let item of firebaseService.selectedRoomMessageArray" class="card" ios:shadowRadius="3">
+			<StackLayout class="card-layout">
+				<GridLayout rows="auto, auto, auto" columns="auto, auto">
+					<Image height="60" row="0" col="0" rowSpan="3" [src]="getProfilePicsrc(item)" class="thumb img-circle"></Image>
+					<Label class="list-title" row="0" col="1" text=""></Label>
+					<Label class="list-items" row="1" col="1" rowSpan="2" [text]="getMessage(item)"></Label>
+				</GridLayout>
+			</StackLayout>
+		</CardView>
+	</StackLayout>
 </ScrollView>
+
+<GridLayout class="chat-form" rows="auto" columns="*, auto">
+	<TextView row="0" col="0" [(ngModel)]="str" class="input input-border chat-input"></TextView>
+	<Button row="0" col="1" text="Save" (tap)="pushMessage()" class="btn btn-outline chat-button"></Button>
+</GridLayout>

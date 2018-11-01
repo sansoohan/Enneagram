@@ -1,0 +1,13 @@
+<GridLayout height="100%">
+	<ListView #list [items]="landmarks" (itemTap)="onNavigationItemTap($event)">
+		<ng-template let-item="item">
+			<GridLayout class="list-item">
+				<Image [src]="item.image"></Image>
+				<Label [text]="item.name" class="item-title"></Label>
+			</GridLayout>
+		</ng-template>
+	</ListView>
+	<AbsoluteLayout #animatingImageContainer opacity="0" class="animating-image-container">
+		<Image #animatingImage width="100%"></Image>
+	</AbsoluteLayout>
+</GridLayout>

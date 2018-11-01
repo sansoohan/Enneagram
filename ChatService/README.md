@@ -15,37 +15,93 @@ You shouldn't let them know that they are getting surveyed.
 
 Developement Steps.
 --------------
-1. Select The dev platform [done]<br>
-2. Make a login app with database [done]<br>
-<img src="result/login.png" height="300px">
-3. Design simple function and make a simple UI [done]<br>
+<h1>1. Select The dev platform [done]</h1>
+<h2>Platform : NodeJS</h2>
+<h2>Framework : Angular6</h2>
+<h2>Framework : Nativescript4</h2>
+<h2>Database : Firebase</h2>
+<h2><a href="https://github.com/sansoohan/Enneagram/blob/master/ChatService/NSPlayground/package.json">NodeJS Module Dependencies</a></h2>
+<h2><a href="https://github.com/sansoohan/Enneagram/blob/master/ChatService/NSPlayground/app/App_Resources/Android/app.gradle">Android Dependencies</a></h2>
+
+
+<h1>2. Make a login app with database [done]</h1>
+<img src="result/home/login.png" height="300px">
+<h1>3. Design simple function and make a simple UI [done]</h1>
 <p>Home UI</p>
 <p>
-<img src="result/friendlist.jpg" height="300px">
-<img src="result/friendchat.jpg" height="300px">
-<img src="result/friendmatching.jpg" height="300px">
-<img src="result/ideamatching.jpg" height="300px">
+<img src="result/home/friendlist.jpg" height="300px">
+<img src="result/home/friendchat.jpg" height="300px">
+<img src="result/home/friendmatching.jpg" height="300px">
+<img src="result/home/ideamatching.jpg" height="300px">
 </p>
 
-4. Design complex function and make a complex UI<br>
-<p>Unlock Friend ChatUI</p>
+<h1>4. Design complex function and make a complex UI</h1>
+<h2>Unlock Friend ChatUI</h2>
 <p>
-<img src="locked.jpg" height="300px">
-<img src="asktest.jpg" height="300px">
-<img src="testsheet.jpg" height="300px">
-<img src="checkenneagram.jpg" height="300px">
-<img src="saveondatabase.jpg" height="300px">
-<img src="unlocked.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock01.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock02.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock03.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock04.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock05.jpg" height="300px">
+<img src="result/enneagramunlock/enneagramunlock06.jpg" height="300px">
 </p>
 
-5. Link and test simple-data function to database.<br>
-6. Link and test multi-interation function to database.<br>
-7. Design OOP model and database.<br>
-8. Build an IOS/android App.<br>
-9. Alpha test and bug report.<br>
-10. Redesign with fancy UI.<br>
-11. Refactoring.<br>
-12. Beta test and bug report.<br>
+<h2>Friend Filtering with GPS and Enneagram</h2>
+<p>
+<img src="result/gpstest/gpstest00.png" height="300px">
+<img src="result/gpstest/gpstest01.png" height="300px">
+<img src="result/gpstest/gpstest02.png" height="300px">
+</p>
+
+<h2>Friend Matching Service UI</h2>
+<p>
+<img src="result/friendmatching/friendmatching01.png" height="300px">
+</p>
+
+<h2>Idea Matching Service UI</h2>
+<p>
+<img src="result/ideamatching/ideamatching01.jpg" height="300px">
+<img src="result/ideamatching/ideamatching02.jpg" height="300px">
+</p>
+
+<h2>User Profile</h2>
+<p>
+<img src="result/profile/profile01.jpg" height="300px">
+<img src="result/profile/profile02.jpg" height="300px">
+</p>
+
+<h2>Blog Editor UI</h2>
+<p>
+<img src="result/blogeditor/blogeditor01.png" height="300px">
+<img src="result/blogeditor/blogeditor02.png" height="300px">
+<img src="result/blogeditor/blogeditor03.png" height="300px">
+<img src="result/blogeditor/blogeditor04.png" height="300px">
+<img src="result/blogeditor/blogeditor05.png" height="300px">
+<img src="result/blogeditor/blogeditor06.png" height="300px">
+<img src="result/blogeditor/blogeditor07.png" height="300px">
+</p>
+
+<h1>5. Link and test simple-data function to database.[done]</h1>
+<h1>6. Link and test multi-interation function to database.[done]</h1>
+<a href="https://github.com/sansoohan/Enneagram/blob/master/ChatService/NSPlayground/app/services/firebase.service.ts">Enneagram\ChatService\NSPlayground\app\services\firebase.service.ts</a>
+
+<h1>7. Design OOP model and database.</h1>
+<p>Database Architect</p>
+<img src="result/database/database03.png" width="800"><br>
+<p>User Database</p>
+<img src="result/database/database02.png" width="800"><br>
+<p>User Storage</p>
+<img src="result/database/database04.png" width="800"><br>
+<p>Chat Database</p>
+<img src="result/database/database01.png" width="800"><br>
+<p>Blog Database</p>
+<img src="result/database/database05.png" width="800"><br>
+
+<h1>8. Build an IOS/android App.</h1>
+<h1>9. Alpha test and bug report.</h1>
+<h1>10. Redesign with fancy UI.</h1>
+<h1>11. Refactoring.</h1>
+<h1>12. Beta test and bug report.</h1>
 
 myApp(Back-End Development)
 -----

@@ -1,32 +1,23 @@
 import { Injectable } from "@angular/core";
-import { User } from "./user.model";
-import { Friend } from "./friend.model";
-import { FriendList, USER } from "./mock-rooms";
+// import { FriendList, USER } from "./mock-rooms";
 
 @Injectable()
 export class FriendListService {
-    thisUser: User;
-    friends: Friend[];
-    selectedFriend: Friend = new Friend();
+    public selectedFriendID: string;
 
     constructor() {
-        this.friends = FriendList;
-        this.thisUser = USER;
-        this.selectedFriend.email = "";
-        this.selectedFriend.name = "";
-        this.selectedFriend.profilePicsrc = "";
-        this.selectedFriend.backgroundPicsrc = "";
-        this.selectedFriend.enneagramNumber = 0;
+        // this.selectedFriend.profile.email = "";
+        // this.selectedFriend.profile.name = "";
+        // this.selectedFriend.profile.profilePicsrc = "";
+        // this.selectedFriend.profile.backgroundPicsrc = "";
+        // this.selectedFriend.enneagram.number = 0;
+        // this.selectedFriend.enneagram.state = "";
     }
-    
-    public getFriends(): Friend[] {
-        return this.friends;
+
+    setSelectedFriendID(selectedFriendID: string): void {
+        this.selectedFriendID = selectedFriendID;
     }
-    
-    setSelectedFriend(selectedFriend: Friend): void {
-        this.selectedFriend = selectedFriend;
-    }
-    getSelectedFriend(): Friend {
-        return this.selectedFriend;
+    getSelectedFriendID(): string {
+        return this.selectedFriendID;
     }
 }
