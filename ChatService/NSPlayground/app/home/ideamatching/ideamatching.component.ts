@@ -61,7 +61,7 @@ export class IdeamatchingComponent implements OnInit {
     activity().bind(this);
     // confirm({
 		// 	title: "Choose Your Activity",
-		// 	message: lastCheckMessage,
+		// 	message: lastCheckMessage,-
     //   cancelButtonText: "No",
 		// 	okButtonText: "Yes",
 		// }).then((result) => {

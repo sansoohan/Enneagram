@@ -28,11 +28,8 @@ export class FirebaseService {
     public selectedRoomUsers: any;
     public selectedRoomMessageArray: Array<any>;
 
-    public currentProfileImageSource: ImageSource;
 	public currentProfileImageFilePath: string;
-	public currentBackgroundImageSource: ImageSource;
     public currentBackgroundImageFilePath: string;
-    public currentBlogImageSource: ImageSource;
 	public currentBlogImageFilePath: string;
 
 
@@ -66,17 +63,6 @@ export class FirebaseService {
 					}
 				});
 
-				(new ImageSource()).fromAsset(selectedAsset).then((imageSource) => {
-                    if(imageType === "blog"){
-						this.currentBlogImageSource = imageSource;
-					}
-					if(imageType === "profile"){
-						this.currentProfileImageSource = imageSource;
-					}
-					else if(imageType === "background"){
-						this.currentBackgroundImageSource = imageSource;
-					}
-				});
 			})
 		).catch((errorMessage: any) => console.log(errorMessage));
 	}

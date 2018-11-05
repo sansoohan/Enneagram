@@ -1,0 +1,12 @@
+
+
+
+@startuml
+class BasicCrawler extends WebCrawler
+
+class BasicCrawlController
+BasicCrawler -o BasicCrawlController: n .. 1
+HiveQuery -* BasicCrawler 
+Query -* HiveQuery
+
+@enduml

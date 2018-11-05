@@ -46,16 +46,16 @@ export class FriendlistComponent implements OnInit {
 	}
 
 	getProfilePicSrcBySelectedFriendID(){
-		var selelctedFriendID = this.friendListService.getSelectedFriendID();
-		if(selelctedFriendID!= null){
-			return this.firebaseService.getFriends()[selelctedFriendID]['profile']['profilePicsrc'];		
+		var selectedFriendID = this.friendListService.selectedFriendID;
+		if(selectedFriendID!= null){
+			return this.firebaseService.getFriends()[selectedFriendID]['profile']['profilePicsrc'];		
 		}
 		else return null;
 	}
 	getNameBySelectedFriendID(){
-		var selelctedFriendID = this.friendListService.getSelectedFriendID();
-		if(selelctedFriendID!=null){
-			return this.firebaseService.getFriends()[selelctedFriendID]['profile']['name'];
+		var selectedFriendID = this.friendListService.selectedFriendID;
+		if(selectedFriendID!=null){
+			return this.firebaseService.getFriends()[selectedFriendID]['profile']['name'];
 		}
 		else return null;
 	}

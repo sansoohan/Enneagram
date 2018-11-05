@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
 
 	constructor(private routerExtensions: RouterExtensions,
 		private firebaseService: FirebaseService,
-		private _ngZone: NgZone
+		
 	) { 
 		this.isOnline = true;
 	}

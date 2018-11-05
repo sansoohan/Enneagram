@@ -64,8 +64,7 @@ export class BlogComponent implements OnInit {
     }else{
       this.location_collapsed = "[close]";
       this.location_height = 300;
-    }
-    
+    }    
   }
   onImageToggleTap(){
     if(this.image_collapsed == "[close]"){

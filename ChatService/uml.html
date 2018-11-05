@@ -1,54 +1,53 @@
 
 
 @startuml
+left to right direction
 
-interface IdeamatchingService
-interface UserHomeService
-interface FriendChatService
+[BlogComponent] -- blogService.postType:string
+[BlogComponent] -- firebaseService.currentBlogImageFilePath:string
 
-package "/home" {
-	[HomeComponent]
-
-	[HomeComponent] --> outlet
-	outlet -- [FriendlistComponent]
-	outlet -- [FriendchatComponent]
-	outlet -- [FriendmatchingComponent]
-	outlet -- [IdeamatchingComponent]
-}
+[BlogComponent] ..> firebaseService.currentBlogImageFilePath:selectImage(imageType:string)
+[BlogComponent] ..> firebaseService.currentProfileImageFilePath:selectImage(imageType:string)
+[BlogComponent] ..> firebaseService.currentBackgroundImageFilePath:selectImage(imageType:string)
 
 
-package "/detail"{
-	[DetailsComponent] -up- IdeamatchingService
-}
 
-package "/enneagram"{
-	[EnneagramComponent] -up-> UserHomeService
-}
 
-package "/chat"{
-	[ChatRoomComponent] -up- FriendChatService
-}
+[EnneagramComponent] -- firebaseService.thisUser:<any>
 
-[FriendchatComponent] -down-> FriendChatService
+[EnneagramComponent] ..> firebaseService.thisUser:saveUserEnneagramOnDatebase()
+        
 
-[IdeamatchingComponent] -down-> IdeamatchingService
 
-[FriendlistComponent] -down-> FriendListService
-[ModalComponent] -up- FriendListService
-[ModalComponent] -up-> FriendChatService
+[FriendChatComponent] -- firebaseService.roomArray:Array<any>
 
-[FloatButtonComponent]
-[ChildButton1Component]
-[ChildButton2Component]
-[ChildButton3Component]
+        
+        
+[ChatRoomComponent] -- firebaseService.selectedRoomTitle:string
+[ChatRoomComponent] -- firebaseService.selectedRoomMessageArray:Array<any>
+[ChatRoomComponent] -- this.firebaseService.selectedRoomUsers:Array<any>
+[ChatRoomComponent] -- firebaseService.selectedRoomID:string
+[ChatRoomComponent] -- this.firebaseService.thisUser:<Any>
 
-[ActionButtonComponent]
 
+[FriendListComponent] -- friendListService.selectedFriendID:string:onItemTap(args)
+[FriendListComponent] -- firebaseService.friendArray:Array<any>
+[FriendListComponent] -- firebaseService.generatedRoomID:string
+
+[FriendListComponent] ..> friendListService.selectedFriendID:getProfilePicSrcBySelectedFriendID(),getNameBySelectedFriendID()
+[FriendListComponent] ..> firebaseService.selectedRoomID
+[FriendListComponent] ..> firebaseService.generatedRoomID:generateRoom(user:any)
+
+
+[ProfileComponent] -- firebaseService.thisUser:<any>
+
+
+[LoginComponent] ..> firebaseService.thisUser:any:firebaseService.setThisUser(result:any)
+[LoginComponent] ..> firebaseService.friendArray:Array<any>:firebaseService.setFriendArray()
+[LoginComponent] ..> firebaseService.roomArray:Array<any>:setRooms(room_ids:string[])
+
+[MapExampleComponent] -- firebaseService.thisUser:<any>
+    
+    
 
 @enduml
-
-
-
-
-
-\n
