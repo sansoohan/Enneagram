@@ -4,7 +4,7 @@ Recommend And Advertising with Enneagram
 Goal
 ------------------------
 <p>
-This is web site for promotion for enneagram platform.<br>
+This is the web site for enneagram platform promotion.<br>
 User come and try random chat here.<br>
 This system should be the bridge to the mobile application Friend Library.
 </p>
