@@ -3,7 +3,7 @@ import { platformNativeScriptDynamic } from "nativescript-angular/platform";
 import {enableProdMode} from '@angular/core';
 
 import { AppModule } from "./app.module";
-const firebase = require("nativescript-plugin-firebase");
+import * as firebase from "nativescript-plugin-firebase";
 enableProdMode();
 platformNativeScriptDynamic().bootstrapModule(AppModule);
 firebase.init({
@@ -14,7 +14,7 @@ firebase.init({
         alert(message.title);
     },
     //persist should be set to false as otherwise numbers aren't returned during livesync
-    persist: false,
+    persist: true,
     //storageBucket: 'gs://yowwlr.appspot.com',
 }).then(
     function (instance) {

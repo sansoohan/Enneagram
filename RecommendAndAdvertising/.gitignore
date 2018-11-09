@@ -1,2 +1,4 @@
+/AdExample/hooks
 /AdExample/node_modules
-*firebaseinit.js
+/AdExample/platforms
+/AdExample/package-lock.json

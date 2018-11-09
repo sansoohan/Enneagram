@@ -1,7 +1,5 @@
-/myApp/node_modules
-/myApp/platforms
+/NSPlayground/hooks
 /NSPlayground/node_modules
 /NSPlayground/platforms
+/NSPlayground/package-lock.json
 *google-services.json
-*nativescript_google_maps_api.xml
-*AndroidManifest.xml

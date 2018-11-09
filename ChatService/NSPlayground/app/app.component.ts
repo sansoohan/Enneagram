@@ -7,6 +7,7 @@ import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nat
 import { ActionButtonComponent } from "./home/searchresult/action-button/action-button.component";
 import { FirebaseService } from "./services/firebase.service";
 import firebase = require("nativescript-plugin-firebase");
+
 @Component({
     selector: "ns-app",
     templateUrl: "app.component.html"
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
         private firebaseService: FirebaseService
     ) {
         // Use the component constructor to inject services.
+
     }
 
     ngOnInit(): void {
