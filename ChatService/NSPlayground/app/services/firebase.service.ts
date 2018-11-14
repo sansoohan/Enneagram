@@ -4,17 +4,14 @@ import firebaseWeb = require("nativescript-plugin-firebase/app");
 
 import {Injectable, NgZone} from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
-import * as ApplicationSettings from "application-settings";
+
 
 import { android, ios } from "tns-core-modules/application";
 import { ImageSource } from "image-source";
 import { ImageAsset } from "tns-core-modules/image-asset";
+import * as ApplicationSettings from "application-settings";
 import * as imagePicker from "nativescript-imagepicker";
-
-import { APPLICATION_MODULE_PROVIDERS } from "@angular/core/src/application_module";
-import { update } from "nativescript-plugin-firebase";
 var fs = require("tns-core-modules/file-system");
-var mergeJSON = require("merge-json") ;
 
 @Injectable()
 export class FirebaseService {
@@ -36,7 +33,14 @@ export class FirebaseService {
     public currentBackgroundImageFilePath: string;
 	public currentBlogImageFilePath: string;
 
+    public currentProfileImageFileURL: string;
+    public currentBackgroundImageFileURL: string;
+	public currentBlogImageFileURL: string;
+
     test_data: Array<any>;
+
+    public postSearchResultArray: Array<any> = [];
+    public selectedPostID: string;
     constructor(
         private routerExtensions: RouterExtensions,
     ){
@@ -51,7 +55,8 @@ export class FirebaseService {
             image : "",
             isOpen : true,
             likes : "",
-            location : "",
+            latitude: 37.325240604800946,
+            longitude: 127.12098587304354,
             name : "",
             openTime : {
               date : 25,
@@ -65,7 +70,7 @@ export class FirebaseService {
               year : 118
             },
             roles : {"5FgrewJa2Mh9C598k70HQ40b1qu1" : "owner"},
-            type : ""
+            type : "chat"
           },
           {
             behavior : "",
@@ -75,10 +80,11 @@ export class FirebaseService {
             thought : "",
             closeTime : "",
             description : "Marvel at more than 2,000 natural rock arches at this park just outside of Moab. Some of the formations can be spotted from the road, but the best require a scenic hike. Don’t miss the famous Delicate Arch (3 miles round-trip) or the 7-mile (round-trip) Devils Garden Loop.\n\nThe Park Avenue Trail is the most popular hike in the park because of its ease and scenery at just 2 miles round trip. Or try the more challenging hike to Delicate Arches at 3.2 miles round trip.\n\nWhether you are camping or staying in a hotel, don’t forget to spend some time looking up at the sky after night falls. You’ll find some of the darkest skies in and around Utah’s national parks.",
-            image : "~/home/ideamatching/images/arches-delicate-arch-sky_adobe_680.jpg",
+            image : "https://firebasestorage.googleapis.com/v0/b/chat-demo-5d3a7.appspot.com/o/users%2FH6U4ZRvLW6SL8RmIX18TYmg1hhV2%2Farches-delicate-arch-sky_adobe_680.jpg?alt=media&token=6cb48ab5-96f5-43b2-9ea1-6749cdbed38f",
             isOpen : true,
             likes : 245,
-            location : "Utah",
+            latitude: 37.323080469252254,
+            longitude: 127.12255798280238,
             name : "Arches National Park",
             openTime : {
               date : 24,
@@ -92,7 +98,7 @@ export class FirebaseService {
               year : 118
             },
             roles : {"H6U4ZRvLW6SL8RmIX18TYmg1hhV2" : "owner"},
-            type : ""
+            type : "chat"
           },
           {
             behavior : "",
@@ -102,10 +108,11 @@ export class FirebaseService {
             thought : "",
             closeTime : "",
             description : "Nicknamed the \"Crown of the Continent,\" Glacier National Park sits in the northwest corner of Montana. Glacier National Park is just a scenic day’s drive north from Yellowstone.\n\nHit the trail to explore places like Fishercap Lake (pictured), which is a great place to spot a moose. From Many Glacier Campground, go to the Swiftcurrent Motor Inn parking lot. The trailhead is on the west end. You'll find the lake less than a mile down the trail. Continue 1.5 miles to Redrock Lake and take a spur to Redrock Falls.\n\nA National Historic Landmark, Going-to-the-Sun Road is one of the most scenic roads in North America, not to mention one of the most complex to build. The final section, over Logan Pass, was completed in 1932 after 11 years of work. Considered an engineering feat, the construction of the road forever changed the way visitors would experience Glacier National Park. Future visitors would be able to drive over sections of the park that previously had taken days of horseback riding to see.\n\nIn their ability to wow visitors, Yellowstone and Glacier share a common bond. But as with any great destination, there are some adventures that are found nowhere else. Glacier preserves over 1,000,000 acres of forests, alpine meadows and lakes. Its diverse habitats are home to over 70 species of mammals and over 260 species of birds. The spectacular glaciated landscape is a hiker’s paradise, containing 700 miles of maintained trails that lead deep into one of the largest intact ecosystems in the lower 48 states.",
-            image : "~/home/ideamatching/images/glacier-avalache-lake-kids_adobe_680.jpg",
+            image : "https://firebasestorage.googleapis.com/v0/b/chat-demo-5d3a7.appspot.com/o/users%2FHcBjRLszVnS5tPscDWg0ZDOoxxP2HcBjRLszVnS5tPscDWg0ZDOoxxP2HcBjRLszVnS5tPscDWg0ZDOoxxP2HcBjRLszVnS5tPscDWg0ZDOoxxP2HcBjRLszVnS5tPscDWg0ZDOoxxP2HcBjRLszVnS5tPscDWg0ZDOoxxP2HcBjRLszVnS5tPscDWg0ZDOoxxP2HcBjRLszVnS5tPscDWg0ZDOoxxP2HcBjRLszVnS5tPscDWg0ZDOoxxP2HcBjRLszVnS5tPscDWg0ZDOoxxP2HcBjRLszVnS5tPscDWg0ZDOoxxP2%2Fglacier-avalache-lake-kids_adobe_680.jpg?alt=media&token=50870c5e-b1e6-4d51-be9a-d9cd2d627242",
             isOpen : true,
             likes : 152,
-            location : "Montana",
+            latitude: 37.32160230566423,
+            longitude: 127.12806019932033,
             name : "Glacier National Park",
             openTime : {
               date : 24,
@@ -119,7 +126,7 @@ export class FirebaseService {
               year : 118
             },
             roles : {"HcBjRLszVnS5tPscDWg0ZDOoxxP2" : "owner"},
-            type : ""
+            type : "chat"
           },
           {
             behavior : "",
@@ -129,10 +136,11 @@ export class FirebaseService {
             thought : "",
             closeTime : "",
             description : "Just 15 miles south of Moab, hike your way through 337, 598 acres of dramatic red-rock landscape in Canyonlands NP, and do it all without having to compete for room on the trail - Canyonlands is both Utah’s largest and least visited park.\n\nThe river-carved park boasts 360-degree views of rust-colored arches, buttes, and cliffs - but because of the high-desert rock environment, its climate is subject to extreme temperature fluctuations. Skip packing the parka, and go in the spring or fall for the most moderate, and most forgiving, weather.\n\nSo expansive it’s divided into four districts, Canyonlands delivers a quintessential desert experience: deep canyons, prehistoric rock art, rivers, and sweeping overlooks.\n\nAmong the exceptional, striated rock formations, there are landmarks you shouldn’t miss, like the unusual 1500-foot Upheaval Dome - thought to be a meteorite crater - or the Druid Arch, often referred to as Utah’s own Stonehenge. Keep watch for the wildlife, too. Bighorn sheep take residence in the canyons and buttes, along with mule deer, kangaroo rats, and coyote. Look up for red- tailed hawks, and at night, for one of the darkest skies in the Lower 48. On a moonless night, get more than your fill of stars - or get out the binoculars to try for the rings of Saturn.",
-            image : "~/home/ideamatching/images/canyonlands-mesa-arch-sunrise_dollar_680.jpg",
+            image : "https://firebasestorage.googleapis.com/v0/b/chat-demo-5d3a7.appspot.com/o/users%2FI33CAKsu5uUkq4Xqt2xUVJgcGHM2%2Fcanyonlands-mesa-arch-sunrise_dollar_680.jpg?alt=media&token=9175f69d-a5b2-4828-8b98-d05d1d1e0f61",
             isOpen : true,
             likes : 385,
-            location : "Utah",
+            latitude: 37.32128395277468,
+            longitude: 127.12614510208367,
             name : "Canyonlands National Park",
             openTime : {
               date : 24,
@@ -146,7 +154,7 @@ export class FirebaseService {
               year : 118
             },
             roles : {"I33CAKsu5uUkq4Xqt2xUVJgcGHM2" : "owner"},
-            type : ""
+            type : "chat"
           },
           {
             behavior : "",
@@ -156,10 +164,11 @@ export class FirebaseService {
             thought : "",
             closeTime : "",
             description : "Divided by a 277-mile long canyon, and the mile-deep Colorado River, the two halves of Grand Canyon National Park, the North and South Rim, offer two parks in one, with diverse landscape and ecology on either.\n\nGrand Canyon National Park, and the greater Grand Canyon region, is a hiker's dream. Most of Grand Canyon National Park is undeveloped backcountry. There are literally hundreds of miles to hike, backpack and explore. Despite the Grand Canyon's popularity and numbers of visitors each year, visitors only need to hike a small distance to enjoy some solitude.\n\nExplore the depths of the Grand Canyon National Park on popular trails like the Bright Angel and South Kaibab trail on a mule. A Grand Canyon mule ride is an adventure and easy on your legs.\n\nOne of the most exciting ways to experience the Grand Canyon is to float through it by way of raft on the Colorado River. Most people book their trip with a commercial outfitter and you can even combine the rafting trip with a helicopter ride. Experienced whitewater rafter? Enter the lottery to do your own trip.",
-            image : "~/home/ideamatching/images/gc-yavapai-point-sunset_dp_680.jpg",
+            image : "https://firebasestorage.googleapis.com/v0/b/chat-demo-5d3a7.appspot.com/o/users%2FNfYE2dF2wlfSBWwWvEk0KsiTs1t1%2Fgc-yavapai-point-sunset_dp_680.jpg?alt=media&token=5180e2f4-99a6-4e1e-b744-faebaf9204e9",
             isOpen : true,
             likes : 514,
-            location : "Arizona",
+            latitude: 37.32128395277468,
+            longitude: 127.12614510208367,
             name : "Grand Canyon National Park",
             openTime : {
               date : 24,
@@ -173,7 +182,7 @@ export class FirebaseService {
               year : 118
             },
             roles : {"NfYE2dF2wlfSBWwWvEk0KsiTs1t1" : "owner"},
-            type : ""
+            type : "chat"
           },
           {
             behavior : "",
@@ -183,10 +192,11 @@ export class FirebaseService {
             thought : "",
             closeTime : "",
             description : "Maximize your experience at Bryce Canyon National Park by driving to Sunrise, Sunset, Inspiration and Bryce viewpoints. These are all spectacular overlooks of the park’s red hoodoos shooting up against evergreen forests in the background. Depending on the time of day, and the angle and light of the sun, the hoodoos and mysterious rock formations often take on unusual patterns and shapes, and some think, imaginary faces.\n\nFor more inspiration, lace up your hiking boots or other sturdy shoes and explore a trail. There is something for everyone at Bryce Canyon. Our favorite easy hikes include Bristlecone Loop Trail and Queens Garden Trail. Hat Shop is our favorite moderate hike. For more physically fit hikers looking for a strenuous adventure, do the 5.5-mile vertically challenging Peek-A-Boo Loop or the 7.9 Fairyland Loop rated “difficult” by the park service. ",
-            image : "~/home/ideamatching/images/bryce-amphitheater-inspiration-point_dp_680.jpg",
+            image : "https://firebasestorage.googleapis.com/v0/b/chat-demo-5d3a7.appspot.com/o/users%2FRz20yC7LESOCDUoa4sp69v5copT2%2Fbryce-amphitheater-inspiration-point_dp_680.jpg?alt=media&token=06d154b7-80d8-46c9-9fdf-e3e70ec43951",
             isOpen : true,
             likes : 245,
-            location : "Utah",
+            latitude: 37.32086321296732,
+            longitude: 127.12435875087976,
             name : "Bryce Canyon National Park",
             openTime : {
               date : 24,
@@ -200,7 +210,7 @@ export class FirebaseService {
               year : 118
             },
             roles : {"Rz20yC7LESOCDUoa4sp69v5copT2" : "owner"},
-            type : ""
+            type : "chat"
           },
           {
             behavior : "",
@@ -210,10 +220,11 @@ export class FirebaseService {
             thought : "",
             closeTime : "",
             description : "Grand Teton National Park preserves a spectacular landscape rich with majestic mountains, pristine lakes, and extraordinary wildlife. The abrupt vertical rise of the jagged Teton Mountains contrasts with the horizontal sage-covered valley and glacial lakes at its base.\n\nIt took more than 30 years for Grand Teton National Park to transform from an idea to one of the country's most stunning parks. When Congress created the park in 1929, it only included the Teton Range and six glacial lakes. John D. Rockefeller, Jr., played a key role in acquiring an additional 35,000 acres for the park under the name \"Snake River Land Co.\" Amid controversy the \"new\" Grand Teton National Park was established Sept. 14, 1950, by President Harry Truman.\n\nGrand Teton National Park and its world-class scenery attracts nearly 4 million visitors per year. With Jenny Lake and Jackson Lake at 6,320 feet and the summit of the Grand Teton at 13,770 feet, the park's elevation ranges create one of the nation's most awe-inspiring landscapes. In addition to gazing at the incredible views, there is much to do in this park from hiking and rock climbing to boating and fishing. And when you need a break from outdoor adventure, there are few better places to simply relax and watch the park's incredible wildlife.",
-            image : "~/home/ideamatching/images/gteton-schwabachers-landing_dollar_680.jpg",
+            image : "https://firebasestorage.googleapis.com/v0/b/chat-demo-5d3a7.appspot.com/o/users%2FasqU21QzltYOgnT5MDcgWotRJwH2%2Fgteton-schwabachers-landing_dollar_680.jpg?alt=media&token=d3abfbd0-b725-4b0c-97e5-f616bdb70305",
             isOpen : true,
             likes : 169,
-            location : "Wyoming",
+            latitude: 37.32137487279108,
+            longitude: 127.12210066616537,
             name : "Grand Teton National Park",
             openTime : {
               date : 24,
@@ -227,7 +238,7 @@ export class FirebaseService {
               year : 118
             },
             roles : {"asqU21QzltYOgnT5MDcgWotRJwH2" : "owner"},
-            type : ""
+            type : "chat"
           },
           {
             behavior : "",
@@ -237,10 +248,11 @@ export class FirebaseService {
             thought : "",
             closeTime : "",
             description : "Explore South Dakota’s Black Hills region, a natural wonder in its own right. Located about six hours from Yellowstone, the Black Hills are home to seven national sites — Badlands National Park, Jewel Cave National Monument, the Lewis & Clark National Historic Trail, Minuteman Missile National Historic Site, Missouri National Recreational River, Mount Rushmore National Memorial, and Wind Cave National Park.\n\nIn this natural playground, you can enjoy an abundance of recreational opportunities, gorgeous scenic drives — which include the beautiful Spearfish Canyon — and wildlife-watching. This region is also packed with cultural and historical sites.\n\nWhile you won’t see saber-toothed cats or rhinoceroses roaming the Badlands like they once did, you may see their remains in this stunning national park with some of the world’s richest fossil deposits.\n\nLocated in Imlay Township in South Dakota, Badlands National Park has a Fossil Preparation Lab where you can watch paleontologists at work, literally uncovering the ancient history of the area. At the Ben Reifel Visitor Center, kids can use a touchscreen to assemble a virtual skeleton and touch fossilized animal replicas. You also can watch the film Land of Stone and Light in the center’s 95-seat air-conditioned theater.",
-            image : "~/home/ideamatching/images/badlands_wikipd_680x392.jpg",
+            image : "https://firebasestorage.googleapis.com/v0/b/chat-demo-5d3a7.appspot.com/o/users%2FayQt5VfwwOhzZ7UEtPMXrHtimce2%2Fbadlands_wikipd_680x392.jpg?alt=media&token=5d672c25-7bd1-4221-a9dd-714ec8909914",
             isOpen : true,
             likes : 227,
-            location : "South Dakota",
+            latitude: 37.32010144928781,
+            longitude: 127.12252914905548,
             name : "Badlands National Park",
             openTime : {
               date : 24,
@@ -254,22 +266,133 @@ export class FirebaseService {
               year : 118
             },
             roles : {"ayQt5VfwwOhzZ7UEtPMXrHtimce2" : "owner"},
-            type : ""
+            type : "chat"
           }]
     }
 
+    getSelectedPost(){
+        var selected_index;
+        for(var i=0;i<this.postSearchResultArray.length;i++){
+            for(var post_id in this.postSearchResultArray[i]){
+                if(post_id === this.selectedPostID){
+                    return this.postSearchResultArray[i];
+                }
+            }
+        }
+    }
+
     //------------------------ firebase cloude storage test ------------------
-    add_post(data){
-        firebaseWeb.firestore().collection("posts")
-        .add(data).then(documentRef => {
-          console.log(`San Francisco added with auto-generated ID: ${documentRef.id}`);
+
+    // need to know how to get http img src
+    // upload picture first and make post_data
+    add_post(post_data){
+        firebaseWeb.firestore()
+        .collection("posts")
+        .add(post_data).then(documentRef => {
+            console.log(`auto-generated post ID: ${documentRef.id}`);
         });
     }
-    add_comment(post_id, data){
-        var posts = firebaseWeb.firestore().collection("posts").doc(post_id);
-        posts
-        .update({
-            comments : firebase.firestore.FieldValue.arrayUnion(data),
+    update_image_src(){
+        firebaseWeb.firestore()
+        .collection("posts")
+    }
+    update_post(post_id, post_data){
+        firebaseWeb.firestore()
+        .collection("posts").doc(post_id)
+        .update(post_data).then(() => {
+            console.log("post updated");
+        });
+    }
+
+    search_post(
+        type:string,
+        enneagram_num:number,
+        origin_latitude:number,
+        origin_longitude:number,
+        distance_meter
+    ){
+        const ONE_DEGREE_EARTH_PER_METER = 111000;
+
+        var max_latitude_degree = origin_latitude + distance_meter/(2*ONE_DEGREE_EARTH_PER_METER);
+        var min_latitude_degree = origin_latitude - distance_meter/(2*ONE_DEGREE_EARTH_PER_METER);
+        if(max_latitude_degree >= 90){
+            max_latitude_degree = 90;
+        }
+        if(min_latitude_degree <= -90){
+            min_latitude_degree = -90;
+        }
+        
+        var max_longitude_degree = origin_longitude + distance_meter/(2*ONE_DEGREE_EARTH_PER_METER*Math.sin(origin_latitude * (180 / Math.PI)));
+        var min_longitude_degree = origin_longitude - distance_meter/(2*ONE_DEGREE_EARTH_PER_METER*Math.sin(origin_latitude * (180 / Math.PI)));
+        if(max_longitude_degree - min_longitude_degree >= 360){
+            max_longitude_degree = 180;
+            min_longitude_degree = -180;
+        }
+        else{
+            if(max_longitude_degree >= 180){
+                max_longitude_degree = max_longitude_degree - 360;
+            }
+            if(min_longitude_degree <= -180){
+                min_longitude_degree = min_longitude_degree - 360;
+            }    
+        }
+
+        if(min_longitude_degree > max_longitude_degree){
+            var temp = min_longitude_degree;
+            min_longitude_degree = max_longitude_degree;
+            max_longitude_degree = temp;
+        }
+        // console.log("min_lat",min_latitude_degree);
+        // console.log("ori_lat",origin_latitude);        
+        // console.log("max_lat",max_latitude_degree);
+        // console.log("min_lon",min_longitude_degree);
+        // console.log("ori_lon",origin_longitude);
+        // console.log("max_lon",max_longitude_degree);
+        firebaseWeb.firestore()
+        .collection("posts")
+        .where("number", "==", enneagram_num)
+        .where("type", "==", type)
+        .where("longitude", "<=", max_longitude_degree)
+        .where("longitude", ">=", min_longitude_degree)
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                if(doc.data().latitude <= max_latitude_degree && doc.data().latitude >= min_latitude_degree){
+                    // console.log(`searched doc : ${doc.id} => ${JSON.stringify(doc.data())}`);
+                    var searchResult = {};
+                    searchResult[doc.id] = JSON.parse(JSON.stringify(doc.data()));
+                    this.postSearchResultArray.push(searchResult);
+                }
+            });
+        });
+    }
+
+    search_queries(
+        type:string,
+        enneagram_nums:number[],
+        origin_latitude:number,
+        origin_longitude:number,
+        distance_meter:number,
+    ){
+        this.postSearchResultArray = [];
+        for(var i=0;i<enneagram_nums.length;i++){
+            this.search_post(type,enneagram_nums[i],origin_latitude,origin_longitude,distance_meter);
+        }
+    }
+    add_comment(post_id, comment_data){
+        var posts = firebaseWeb.firestore()
+        .collection("posts").doc(post_id)
+        .collection("comments")
+        .add(comment_data).then(documentRef => {
+            console.log(`auto-generated comment ID: ${documentRef.id}`);
+        });
+    }
+    update_comment(post_id, comment_id, comment_data){
+        firebaseWeb.firestore()
+        .collection("posts").doc(post_id)
+        .collection("comments").doc(comment_id)
+        .update(comment_data).then(() => {
+            console.log("comment updated");
         });
     }
     // new user
@@ -370,13 +493,14 @@ export class FirebaseService {
         );
     }
 
-    //----------------------------Profile Section------------------------------------------
+    //---------------------------- picture upload ------------------------------------------
 
+
+    // 1. when user select picture, the picture uploaded into storage.
     pickImage(imageType:string): void {
 		const context = imagePicker.create({
 			mode: "single"
 		});
-
 		context
 		.authorize()
 		.then(() => context.present())
@@ -391,12 +515,14 @@ export class FirebaseService {
                     }
 					else if(imageType === "background"){
 						this.currentBackgroundImageFilePath = filePath;
-					}
+                    }
+                    this.uploadFile(imageType,filePath);
 				});
 
 			})
 		).catch((errorMessage: any) => console.log(errorMessage));
-	}
+    }
+    
 
 	getImageFilePath(imageAsset, imageType:string): Promise<string> {
 		return new Promise((resolve) => {
@@ -435,39 +561,79 @@ export class FirebaseService {
 				}
 				else if(imageType === "background"){
 					this.currentBackgroundImageFilePath = imageAsset.android;
-				}
+                }
 				resolve(imageAsset.android);
 			}
-			// resolve(null);
+            // resolve(null);
 		});
     }
     
-    uploadFile(filePath:string, remotePath:string){
-        firebase.getCurrentUser().then(user => {
-            // now upload the file with either of the options below:
-            firebase.storage.uploadFile({
-                // the full path of the file in your Firebase storage (folders will be created)
-                remoteFullPath: '/users/' + user.uid + remotePath,
-                // option 1: a file-system module File object
-                localFile: fs.File.fromPath(filePath),
-                // option 2: a full file path (ignored if 'localFile' is set)
-                localFullPath: filePath,
-                // get notified of file upload progress
-                onProgress: function(status) {
-                    console.log("Uploaded fraction: " + status.fractionCompleted);
-                    console.log("Percentage complete: " + status.percentageCompleted);
-                }
-            }).then(
-                function (uploadedFile) {
-                    console.log("File uploaded: " + JSON.stringify(uploadedFile));
-                },
-                function (error) {
-                    console.log("File upload error: " + error);
-                }
-            );
-        });
+    uploadFile(fileType:string, filePath:string){
+        var fileClass;
+        var filePathSplited = filePath.split('/');
+        var fileName = filePathSplited[filePathSplited.length-1];
+        if(fileType === "blog"){
+            fileClass = "/blog/";
+        }
+        else if(fileType === "profile" || fileType === "background"){
+            fileClass = "/profile/";
+        }
+        firebase.storage.uploadFile({
+            // the full path of the file in your Firebase storage (folders will be created)
+            remoteFullPath: 'users/' + this.authuser.uid + fileClass + fileName,
+            // option 1: a file-system module File object
+            localFile: fs.File.fromPath(filePath),
+            // option 2: a full file path (ignored if 'localFile' is set)
+            localFullPath: filePath,
+            // get notified of file upload progress
+            onProgress: function(status) {
+                console.log("Uploaded fraction: " + status.fractionCompleted);
+                console.log("Percentage complete: " + status.percentageCompleted);
+            }
+        }).then(
+            uploadedFile => {
+                console.log("File uploaded: " + JSON.stringify(uploadedFile));
+                this.getFileURL(fileType, this.authuser.uid, uploadedFile.name);
+            },
+            function (error) {
+                console.log("File upload error: " + error);
+            }
+        );
     }
 
+    // 2. get the picture URL for uploading the blog.
+    getFileURL(imageType, uid, fileName){
+        var fileURL;
+        if(imageType ==="blog"){
+            fileURL = "/blog/" + fileName;
+        }
+        else if(imageType ==="profile" || imageType ==="background"){
+            fileURL = "/profile/" + fileName;
+        }
+        firebase.storage.getDownloadUrl({
+            // optional, can also be passed during init() as 'storageBucket' param so we can cache it
+            // bucket: 'gs://chat-demo-5d3a7.appspot.com',
+            // the full path of an existing file in your Firebase storage
+            remoteFullPath: 'users/' + uid + fileURL,
+        }).then(
+            url => {
+                console.log("Remote URL: " + url);
+                if(imageType ==="blog"){
+                    this.currentBlogImageFileURL = url;
+                }
+                else if(imageType ==="profile"){
+                    this.currentProfileImageFileURL = url;
+                }
+                else if(imageType ==="background"){
+                    this.currentBackgroundImageFileURL = url;
+                }
+            },
+            function (error) {
+                console.log("Error: " + error);
+            }
+        );
+    }
+    
     //----------------------------Chat Section------------------------------------------
 
     // If someone push message(include you), function(result) will be activated.
@@ -897,10 +1063,13 @@ export class FirebaseService {
     }
     public setRoomArray(){
         this.roomArray = this.jsonToArray(this.getRooms());
-        this.add_comment('lopkDLG6T7jpTuY5oO6x','hello');
+        // this.add_comment('j3XeVIroAJwLqSD5re6C',{hello:'hello'});
         // for(var i=0;i<this.test_data.length;i++){
         //     this.add_post(this.test_data[i]);
-        // }        
+        // }
+        // this.search_post("chat",3,37.323972, 127.125109 ,100000);
+        // this.search_queries("chat",[1,2,3,4,5,6,7,8,9],37.323972, 127.125109 ,100000);
+        // this.getFileURL('asqU21QzltYOgnT5MDcgWotRJwH2','gteton-schwabachers-landing_dollar_680.jpg');
 	}
 
     public jsonToArray(json){

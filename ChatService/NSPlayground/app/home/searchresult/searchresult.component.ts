@@ -1,7 +1,6 @@
 import { Component, ViewChild, ElementRef } from "@angular/core";
 import { PlatformLocation } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Landmark } from "./landmark.model";
 import { RouterExtensions } from "nativescript-angular/router";
 import { View } from "tns-core-modules/ui/core/view";
 import { Page } from "tns-core-modules/ui/page";
@@ -11,7 +10,7 @@ import { Color } from "color";
 import { android, ios } from "application";
 import { device } from "platform";
 import { AnimationsService } from "./animations-service";
-import { LandmarksService } from "./landmarks-service";
+import { FirebaseService } from "../../services/firebase.service";
 import { ActionButtonComponent } from "./action-button/action-button.component";
 
 @Component({
@@ -21,7 +20,7 @@ import { ActionButtonComponent } from "./action-button/action-button.component";
 	styleUrls: ['./searchresult.component.css']
 })
 export class SearchResultComponent {
-	private _landmarks: Landmark[];
+	private _landmarks: Array<any>;
 	private _selectedView: View;
 	private _adjustedOffset: number = 0;
 
@@ -32,13 +31,14 @@ export class SearchResultComponent {
 	@ViewChild("animatingImageContainer") _imageContainerRef: ElementRef;
 
 	constructor(private animationsService: AnimationsService,
-		private landmarksService: LandmarksService,
 		private routerExtensions: RouterExtensions,
+		private firebaseService: FirebaseService,
 		private page: Page,
-		private location: PlatformLocation) {
+		private location: PlatformLocation
+	) {
 
 		this.page['scrollableContent'] = true;
-		this._landmarks = this.landmarksService.getLandmarks();
+		this._landmarks = this.firebaseService.postSearchResultArray;
 
 		if (android) {
 			this._updateStatusBarColor("#2B3238");
@@ -55,12 +55,30 @@ export class SearchResultComponent {
 		}
 	}
 
+	getPostImage(item): string{
+		var ret:string = "";
+		for(var postID in item) {
+			ret = item[postID]['image'];
+		}
+		return ret;
+	}
+	getPostName(item): string{
+		var ret:string = "";
+		for(var postID in item) {
+			ret = item[postID]['name'];
+		}
+		return ret;
+	}
+
 	get landmarks() {
 		return this._landmarks;
 	}
 
 	public onNavigationItemTap(args: any) {
-		this.landmarksService.setSelectedId(args.index);
+		for(var post_id in this.firebaseService.postSearchResultArray[args.index]){
+			this.firebaseService.selectedPostID = post_id;
+			console.log(this.firebaseService.selectedPostID);
+		}
 		this._selectedView = args.view;
 		this.animationsService.animationOffset = this.measureOffset(args.view, args.object);
 		this.routerExtensions.navigate(['/details'], { animated: false });
@@ -81,7 +99,7 @@ export class SearchResultComponent {
 		this._listRef.nativeElement.opacity = 0;
 		this._selectedView.opacity = 0;
 
-		this._imageRef.nativeElement.src = this.landmarksService.getSelected().image;
+		this._imageRef.nativeElement.src = this.firebaseService.getSelectedPost()[this.firebaseService.selectedPostID]['image'];
 		this._imageContainerRef.nativeElement.translateY = this._adjustedOffset;
 		this._imageContainerRef.nativeElement.opacity = 1;
 

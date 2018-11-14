@@ -5,8 +5,7 @@ import { AnimationCurve } from "tns-core-modules/ui/enums";
 import { GestureEventData } from "tns-core-modules/ui/gestures";
 import { ScrollEventData } from "tns-core-modules/ui/scroll-view";
 import { screen } from "tns-core-modules/platform";
-import { Landmark } from "../landmark.model";
-import { LandmarksService } from "../landmarks-service";
+import { FirebaseService } from "../../../services/firebase.service";
 import { AnimationsService } from "../animations-service";
 
 @Component({
@@ -16,7 +15,7 @@ import { AnimationsService } from "../animations-service";
 	styleUrls: ['./details.component.css']
 })
 export class DetailsComponent {
-	@Input() landmark: Landmark;
+	@Input() landmark: any;
 	@Input() offset: number;
 	@Input() imageOpacity: number = 1;
 	@Input() dockedLabelOpacity: number = 0;
@@ -27,13 +26,15 @@ export class DetailsComponent {
 	static IMAGE_MIN_HEIGHT = 48;
 
 	constructor(private animationsService: AnimationsService,
-		private landmarksService: LandmarksService,
-		private routerExtensions: RouterExtensions) {
-
+		private routerExtensions: RouterExtensions,
+		private firebaseService: FirebaseService,
+	) {
 		this.offset = this.animationsService.animationOffset;
-		this.landmark = this.landmarksService.getSelected();
+		this.landmark = this.firebaseService.getSelectedPost()[this.firebaseService.selectedPostID];
 	}
 
+
+	
 	get minHeight() {
 		return screen.mainScreen.heightDIPs + 2 * DetailsComponent.IMAGE_MIN_HEIGHT;
 	}

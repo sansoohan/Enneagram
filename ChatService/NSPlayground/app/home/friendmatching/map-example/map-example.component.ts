@@ -4,6 +4,7 @@ import { MapView, Marker, Position } from 'nativescript-google-maps-sdk';
 import { FriendListService } from '../../friendchat/friend-list.service';
 import { FirebaseService } from "../../../services/firebase.service";
 import { BlogService } from "../../blog/blog-service";
+import { SearchService } from "../../searchoption/search-service";
 import * as geolocation from "nativescript-geolocation";
 import { Accuracy } from "ui/enums";
 registerElement('MapView', () => MapView);
@@ -49,6 +50,7 @@ export class MapExampleComponent implements OnInit {
     constructor(private friendListService: FriendListService,
         private firebaseService: FirebaseService,
         private blogService: BlogService,
+        private searchService: SearchService,
     ) {
         // this.getDistance();
         // setInterval(this.updateThisUserLocation.bind(this),5000);
@@ -224,6 +226,21 @@ export class MapExampleComponent implements OnInit {
             this.blogService.postLocation.userData = null;
             this.mapView.addMarker(this.blogService.postLocation);
         }
+
+        if(this.mapType==="search"){
+            console.log("searchMap");
+            this.updateThisUserLocation();
+            this.searchService.postLocation = new Marker();
+            this.searchService.postLocation.position = Position.positionFromLatLng(this.latitude,this.longitude);
+            this.searchService.postLocation.title = "Me";
+            this.searchService.postLocation.snippet = "";
+            this.searchService.postLocation.userData = null;
+            this.mapView.addMarker(this.searchService.postLocation);
+        }
+
+        if(this.mapType==="result"){
+            
+        }
         // this.mapView.addMarker(this.friendListService.thisUser.index.marker);
 
         console.log("Adding all markers...");
@@ -236,6 +253,9 @@ export class MapExampleComponent implements OnInit {
     onCoordinateTapped(args) {
         if(this.mapType==="blog"){
             this.blogService.postLocation.position = args.position;
+        }
+        if(this.mapType==="search"){
+            this.searchService.postLocation.position = args.position;
         }
         console.log("Coordinate Tapped, Lat: " + args.position.latitude + ", Lon: " + args.position.longitude, args);
     }
