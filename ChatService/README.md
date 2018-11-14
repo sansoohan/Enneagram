@@ -92,7 +92,7 @@ Developement Steps.
 <h1>6. Link and test multi-interation function to database.[done]</h1>
 <a href="https://github.com/sansoohan/Enneagram/blob/master/ChatService/NSPlayground/app/services/firebase.service.ts">Enneagram\ChatService\NSPlayground\app\services\firebase.service.ts</a>
 
-<h1>7. Design OOP model and database.</h1>
+<h1>7. Design OOP model and database. [done]</h1>
 <p>Chat Database Architect</p>
 <img src="result/database/database03.png" width="800"><br>
 <p>Blog Database Architect</p>
