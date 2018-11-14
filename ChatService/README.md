@@ -35,7 +35,7 @@ Developement Steps.
 <img src="result/home/ideamatching.jpg" height="300px">
 </p>
 
-<h1>4. Design complex function and make a complex UI</h1>
+<h1>4. Design complex function and make a complex UI [done]</h1>
 <h2>Unlock Friend ChatUI</h2>
 <p>
 <img src="result/enneagramunlock/enneagramunlock01.jpg" height="300px">
@@ -79,6 +79,13 @@ Developement Steps.
 <img src="result/blogeditor/blogeditor05.png" height="300px">
 <img src="result/blogeditor/blogeditor06.png" height="300px">
 <img src="result/blogeditor/blogeditor07.png" height="300px">
+</p>
+
+<h2>Search Post UI</h2>
+<p>
+<img src="result/friendsearching/friendsearching01.png" height="300px">
+<img src="result/friendsearching/friendsearching02.png" height="300px">
+<img src="result/friendsearching/friendsearching03.png" height="300px">
 </p>
 
 <h1>5. Link and test simple-data function to database.[done]</h1>
