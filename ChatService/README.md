@@ -93,8 +93,11 @@ Developement Steps.
 <a href="https://github.com/sansoohan/Enneagram/blob/master/ChatService/NSPlayground/app/services/firebase.service.ts">Enneagram\ChatService\NSPlayground\app\services\firebase.service.ts</a>
 
 <h1>7. Design OOP model and database.</h1>
-<p>Database Architect</p>
+<p>Chat Database Architect</p>
 <img src="result/database/database03.png" width="800"><br>
+<p>Blog Database Architect</p>
+<img src="result/database/database07.png" width="800"><br>
+<img src="result/database/database08.png" width="800"><br>
 <p>User Database</p>
 <img src="result/database/database02.png" width="800"><br>
 <p>User Storage</p>
@@ -102,7 +105,7 @@ Developement Steps.
 <p>Chat Database</p>
 <img src="result/database/database01.png" width="800"><br>
 <p>Blog Database</p>
-<img src="result/database/database05.png" width="800"><br>
+<img src="result/database/database06.png" width="800"><br>
 
 <h1>8. Build an IOS/android App.</h1>
 <h1>9. Alpha test and bug report.</h1>
