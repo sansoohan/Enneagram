@@ -42,7 +42,7 @@ export class FriendchatComponent implements OnInit {
 		// console.log(item);
 		if(item!=null){
 			for(var roomID in item) {
-				ret = item[roomID]['iconsrc'];
+				ret = item[roomID]['room_users'][this.firebaseService.authuser.uid]['roomIcon'];
 			}
 		}
 		return ret;
@@ -50,7 +50,7 @@ export class FriendchatComponent implements OnInit {
 	getRoomTitle(item):string{
 		var ret:string = "";
 		for(var roomID in item) {
-			ret = item[roomID]['title'];
+			ret = item[roomID]['room_users'][this.firebaseService.authuser.uid]['title'];
 		}
 		return ret;
 	}
@@ -79,12 +79,10 @@ export class FriendchatComponent implements OnInit {
 			var messages = this.firebaseService.getRooms()[selectedRoomID]['messages']
 			this.firebaseService.selectedRoomMessageArray = this.firebaseService.jsonToArray(messages);
 			this.firebaseService.sortMessageArrayWithTimeStamp(this.firebaseService.selectedRoomMessageArray);
-			this.firebaseService.selectedRoomUsers = this.firebaseService.getRooms()[selectedRoomID]['room_users'];
-			console.log(this.firebaseService.selectedRoomUsers);
 		}
 		this.routerExtensions.navigate(['/chatroom'], { animated: false });
 	}
-	public onTap(args): void {
+	public onTap(): void {
 		if (this.drawer) {
 			this.drawer = false;
 			this.childButton1.drawerOpen(this.drawer);

@@ -12,7 +12,7 @@ import { device } from "platform";
 import { AnimationsService } from "./animations-service";
 import { FirebaseService } from "../../services/firebase.service";
 import { ActionButtonComponent } from "./action-button/action-button.component";
-
+import { GestureEventData } from "tns-core-modules/ui/gestures";
 @Component({
 	selector: "SearchResult",
 	moduleId: module.id,
@@ -53,6 +53,10 @@ export class SearchResultComponent {
 		if (ios) {
 			topmost().ios.controller.navigationBar.barStyle = 1;
 		}
+	}
+
+	onTap(args: GestureEventData) {
+		this.routerExtensions.back();
 	}
 
 	getPostImage(item): string{

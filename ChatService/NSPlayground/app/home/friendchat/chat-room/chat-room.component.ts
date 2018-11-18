@@ -35,7 +35,8 @@ export class ChatRoomComponent implements OnInit {
 		return item[Object.keys(item)[0]]['message'];
 	}
 	getProfilePicsrc(item){
-		return this.firebaseService.selectedRoomUsers[item[Object.keys(item)[0]]['user']]['profile']['profilePicsrc'];
+		var user_id = item[Object.keys(item)[0]]['user'];
+		return this.firebaseService.getRooms()[this.firebaseService.selectedRoomID]['room_users'][user_id]['messageIcon'];
 	}
 	pushMessage(): void {
 		var room_id = this.firebaseService.selectedRoomID;
@@ -50,6 +51,5 @@ export class ChatRoomComponent implements OnInit {
 	}
     removeString(): void {        
         this.str = "";
-        console.log("You removed the string from app settings!");
 	}
 }

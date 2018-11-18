@@ -2,6 +2,11 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ActivatedRoute } from "@angular/router";
 import { ActionButtonComponent } from "./searchresult/action-button/action-button.component";
+import { FriendlistComponent } from "./friendlist/friendlist.component";
+import { FriendchatComponent } from "./friendchat/friendchat.component";
+import { FriendmatchingComponent } from "./friendmatching/friendmatching.component";
+import { IdeamatchingComponent } from "./ideamatching/ideamatching.component";
+
 import { SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
 import { View } from "tns-core-modules/ui/core/view";
 import { alert, confirm, prompt, login, action, inputType } from "tns-core-modules/ui/dialogs";
@@ -12,7 +17,6 @@ var fs = require("tns-core-modules/file-system");
 import * as app from "application";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 
-import { FriendListService } from "./friendchat/friend-list.service";
 import { FirebaseService} from "../services/firebase.service";
 @Component({
     selector: "Home",
@@ -21,6 +25,10 @@ import { FirebaseService} from "../services/firebase.service";
 })
 export class HomeComponent implements OnInit {
     @ViewChild("actionButton") _buttonRef: ActionButtonComponent;
+    @ViewChild("friendlistComponent") friendlistComponent: FriendlistComponent;
+    @ViewChild("friendchatComponent") friendchatComponent: FriendchatComponent;
+    @ViewChild("friendmatchingComponent") friendmatchingComponent: FriendmatchingComponent;
+    @ViewChild("ideamatchingComponent") ideamatchingComponent: IdeamatchingComponent;
     public tabSelectedIndex: number;
     public tabSelectedIndexResult: string;
     thisUser: any;
@@ -29,7 +37,7 @@ export class HomeComponent implements OnInit {
     friendchatIcon: string;
     friendmatchingIcon: string;
     ideamatchingIcon: string;
-    constructor(private friendListService: FriendListService,
+    constructor(
         private routerExtensions: RouterExtensions,
         private activeRoute: ActivatedRoute,
         private firebaseServices: FirebaseService,
@@ -53,7 +61,17 @@ export class HomeComponent implements OnInit {
                     this.enneagramConfirm();
                 }
             } else if (newIndex === 3) {
-
+                if (this.firebaseServices.thisUser.enneagram.number === 0) {
+                    this.enneagramConfirm();
+                }
+            }
+        }
+        if(args.oldIndex == 0){
+            this.friendlistComponent.closeModal();
+            this.friendlistComponent.closeModal();
+            if(this.friendlistComponent.drawer){
+                this.friendlistComponent.onTap();
+                this.friendlistComponent.floatButton.button.className ="float-btn down";
             }
         }
     }

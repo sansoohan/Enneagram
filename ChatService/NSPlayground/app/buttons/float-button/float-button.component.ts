@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output, OnInit } from "@angular/core";
-
+import { Component, EventEmitter, Input, Output, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { StackLayout } from "ui/layouts/stack-layout";
 @Component({
 	selector: "FloatButton",
 	moduleId: module.id,
@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from "@angular/core";
 export class FloatButtonComponent implements OnInit {
 	@Input() text: string;
 	@Output() tap: EventEmitter<any> = new EventEmitter<any>();
-
+	public button: StackLayout;
 	constructor() {
 	}
 

@@ -10,9 +10,7 @@
 </ScrollView>
 <AbsoluteLayout>
 	<FloatButton text="+" (tap)="onTap($event)"></FloatButton>
-	<ChildButton1 #childButton1></ChildButton1>
-	<ChildButton2 #childButton2></ChildButton2>
-	<ChildButton3 #childButton3></ChildButton3>
+	<ChildButton1 #childButton1 text="ID" (tap)="onChildButton1Tap()"></ChildButton1>
 </AbsoluteLayout>
 <GridLayout>
 	<StackLayout style.zIndex="999" modal size="lg" alignment="middle" dismissable="true" duration="100" (open)="onOpenModal()"

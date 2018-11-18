@@ -10,7 +10,6 @@ import { FormsModule } from '@angular/forms';
 
 import { FirebaseService } from "./services/firebase.service";
 import { AnimationsService } from "./home/searchresult/animations-service";
-import { FriendListService } from "./home/friendchat/friend-list.service";
 import { BlogService } from "./home/blog/blog-service";
 import { SearchService } from "./home/searchoption/search-service";
 
@@ -98,7 +97,6 @@ if(platform.isIOS) {
     providers: [
         FirebaseService,
         AnimationsService,
-        FriendListService,
         BlogService,
         SearchService,
     ],

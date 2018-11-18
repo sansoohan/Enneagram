@@ -9,18 +9,18 @@
 
 <TabView class="tab-view" (selectedIndexChanged)="onSelectedIndexChanged($event)">
 	<GridLayout class="tabs" *tabItem="{iconSource: friendlistIcon}">
-		<router-outlet name="friendlistoutlet"></router-outlet>
+		<Friendlist #friendlistComponent></Friendlist>
 	</GridLayout>
 
 	<GridLayout class="tabs" *tabItem="{iconSource: friendchatIcon}">
-		<router-outlet name="friendchatoutlet"></router-outlet>
+		<Friendchat #friendchatComponent></Friendchat>
 	</GridLayout>
 
 	<GridLayout class="tabs" *tabItem="{iconSource: friendmatchingIcon}" (onload)="friendmathingTap()">
-		<router-outlet name="friendmatchingoutlet"></router-outlet>
+		<Friendmatching #friendmatchingComponent></Friendmatching>
 	</GridLayout>
 
 	<GridLayout class="tabs" *tabItem="{iconSource: ideamatchingIcon}" (tap)="ideamathingTap()">
-		<router-outlet name="ideamatchingoutlet"></router-outlet>
+		<Ideamatching #ideamatchingComponent></Ideamatching>
 	</GridLayout>
 </TabView>

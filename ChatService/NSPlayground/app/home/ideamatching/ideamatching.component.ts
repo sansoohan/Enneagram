@@ -6,7 +6,7 @@ import { ActionButtonComponent } from "../searchresult/action-button/action-butt
 import { alert, confirm, prompt, login, action, inputType } from "tns-core-modules/ui/dialogs";
 @Component({
   moduleId: module.id,
-  selector: 'IdeaMatching',
+  selector: 'Ideamatching',
   templateUrl: './ideamatching.component.html',
   styleUrls: ['./ideamatching.component.css']
 })

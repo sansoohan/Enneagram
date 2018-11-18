@@ -17,16 +17,16 @@ var fs = require("tns-core-modules/file-system");
 export class FirebaseService {
     authuser: firebase.User;
     public thisUser: any = {};
-    private friends = {};
-    private rooms = {};
+    public friends = {};
+    public rooms = {};
     private generatedRoomID: string;
+    public selectedFriendID: string;
 
     public friendArray: Array<any>;
     public roomArray: Array<any>;
 
     public selectedRoomID: string;
     public selectedRoomTitle: string;
-    public selectedRoomUsers: any;
     public selectedRoomMessageArray: Array<any>;
 
 	public currentProfileImageFilePath: string;
@@ -304,12 +304,13 @@ export class FirebaseService {
         });
     }
 
+    //----------------------------Blog Section------------------------------------------
     search_post(
         type:string,
         enneagram_num:number,
         origin_latitude:number,
         origin_longitude:number,
-        distance_meter
+        distance_meter:number
     ){
         const ONE_DEGREE_EARTH_PER_METER = 111000;
 
@@ -366,7 +367,6 @@ export class FirebaseService {
             });
         });
     }
-
     search_queries(
         type:string,
         enneagram_nums:number[],
@@ -379,6 +379,23 @@ export class FirebaseService {
             this.search_post(type,enneagram_nums[i],origin_latitude,origin_longitude,distance_meter);
         }
     }
+
+    get_user_posts(user_id:string){
+        this.postSearchResultArray = [];
+        firebaseWeb.firestore()
+        .collection("posts")
+        .where("roles."+user_id, "==", "owner")
+        .get()
+        .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                var searchResult = {};
+                searchResult[doc.id] = JSON.parse(JSON.stringify(doc.data()));
+                this.postSearchResultArray.push(searchResult);
+                console.log(this.postSearchResultArray);
+            });
+        });
+    }
+
     add_comment(post_id, comment_data){
         var posts = firebaseWeb.firestore()
         .collection("posts").doc(post_id)
@@ -492,7 +509,7 @@ export class FirebaseService {
             .get()
         );
     }
-
+    
     //---------------------------- picture upload ------------------------------------------
 
 
@@ -575,8 +592,11 @@ export class FirebaseService {
         if(fileType === "blog"){
             fileClass = "/blog/";
         }
-        else if(fileType === "profile" || fileType === "background"){
+        else if(fileType === "profile"){
             fileClass = "/profile/";
+        }
+        else if(fileType === "background"){
+            fileClass = "/background/";
         }
         firebase.storage.uploadFile({
             // the full path of the file in your Firebase storage (folders will be created)
@@ -607,7 +627,10 @@ export class FirebaseService {
         if(imageType ==="blog"){
             fileURL = "/blog/" + fileName;
         }
-        else if(imageType ==="profile" || imageType ==="background"){
+        else if(imageType ==="profile"){
+            fileURL = "/profile/" + fileName;
+        }
+        else if(imageType ==="background"){
             fileURL = "/profile/" + fileName;
         }
         firebase.storage.getDownloadUrl({
@@ -636,15 +659,38 @@ export class FirebaseService {
     
     //----------------------------Chat Section------------------------------------------
 
+
     // If someone push message(include you), function(result) will be activated.
     // It change the messages array.
     syncRoom(room_id:string){
         firebase.addValueEventListener(result => {
-            var room = room_id;
             console.log("Event type: " + result.type);
             console.log("Key: " + result.key);
             console.log("Value: " + JSON.stringify(result.value));
-            this.updateRoom(room, result.value);
+            this.updateRoom(result.key, result.value);
+        }, "/rooms/" + room_id).then(
+            function(listenerWrapper) {
+              var path = listenerWrapper.path;
+              var listeners = listenerWrapper.listeners; // an Array of listeners added
+              // you can store the wrapper somewhere to later call 'removeEventListeners'
+            }
+        );
+    }
+    updateRoom(updated_room_id, room_friend_id:any){
+        firebase.getValue('/rooms/' + updated_room_id).then(result =>{
+            // console.log(JSON.stringify(result));
+            this.rooms[result['key']] = JSON.parse(JSON.stringify(result.value));
+            this.setRoomArray();
+            // console.log(this.rooms[result['keys']]);
+        }).catch(error => console.log("Error: " + error));
+    }
+
+    syncRoomMessages(room_id:string){
+        firebase.addValueEventListener(result => {
+            console.log("Event type: " + result.type);
+            console.log("Key: " + result.key);
+            console.log("Value: " + JSON.stringify(result.value));
+            this.updateRoomMessages(room_id, result.value);
         }, "/rooms/"+room_id+"/messages").then(
             function(listenerWrapper) {
               var path = listenerWrapper.path;
@@ -653,12 +699,14 @@ export class FirebaseService {
             }
         );
     }
-    updateRoom(room_id:string, messages:any){
-        this.rooms[room_id]['messages'] = messages;
+    updateRoomMessages(room_id:string, messages:any){
+        console.log(messages);
+        this.rooms[room_id] = {};
+        this.rooms[room_id]['messages'] = JSON.parse(JSON.stringify(messages));
         if(room_id == this.selectedRoomID){
             this.selectedRoomMessageArray = this.jsonToArray(messages);
             this.sortMessageArrayWithTimeStamp(this.selectedRoomMessageArray);
-            console.log(this.selectedRoomMessageArray.length);
+            // console.log(this.selectedRoomMessageArray.length);
         }
         // console.log(this.rooms);
     }
@@ -683,39 +731,99 @@ export class FirebaseService {
     pushFriendOnRoom(user:any, room_id:string){
         for(var uid in user){
             firebase.setValue('/rooms/'+room_id+"/room_users/"+uid, user[uid]).then(result2 => {
-                this.pushRoomIDOnUser(user, room_id);
+                // this.pushRoomIDOnUser(user, room_id);
             });
         }
     }
 
-    // This will ba activated when user create room with new friend.
-    // User has a room but friend doesn't have room yet.
-    generateRoom(user:any){
-        for(var uid in user){
-            var open_room = {room_users:""};
-            open_room['room_users'][uid] = user[uid];
-            open_room['isOpen'] = true;
-            open_room['openTime'] = new Date();
-            open_room['closeTime'] = "";
-            open_room['title'] = "";
-            open_room['iconsrc'] = "";
-            firebase.push('/rooms/', "").then(result => {
-                firebase.setValue('/rooms/'+result.key, open_room).then(result2 => {
-                    this.pushRoomIDOnUser(user, result.key);
+
+    setSelectedFriendID(selectedFriendID: string): void {
+        this.selectedFriendID = selectedFriendID;
+    }
+    getSelectedFriendID(): string {
+        return this.selectedFriendID;
+    }
+
+    // 1. generate room id
+    generateRoomWithSelectedFriends(user:any, friend:any){
+        var friend_id;
+        for(var id in friend){
+            friend_id = id;
+        }
+        var user_id;
+        for(var id in user){
+            user_id = id;
+        }
+        // check room exist before generate.
+        firebase.query(
+            result => {
+                // if friend chat room is not exist, create new room.
+                if(result.value == null){
+                    console.log("exist room with friend_id: " + friend_id);
+                    var open_room = {room_users:{}};
+                    open_room['isOpen'] = true;
+                    open_room['openTime'] = new Date();
+                    open_room['closeTime'] = "";
+                    for(var uid in user){
+                        firebase.push('/rooms/', open_room).then(result2 => {
+                            this.pushRoomIDOnUser(user, friend, result2.key);
+                            this.pushRoomIDOnUser(friend, user, result2.key);
+                            this.setGeneratedRoomID(result2.key);
+                            console.log("created key: " + result2.key);// Room ID
+                        });
+                    }
+                }
+                // if friend chat room is exist, don't make new one.
+                else{
+                    console.log("exist room: " + JSON.stringify(result.value));// Room ID
+                }
+            },
+            '/users/' + user_id + '/user_rooms',
+            {
+                singleEvent: true,
+                orderBy: {
+                    type: firebase.QueryOrderByType.VALUE,
+                    // value: 'test' // mandatory when type is 'child'
+                },
+                range: {
+                   type: firebase.QueryRangeType.EQUAL_TO,
+                   value: friend_id
+                },
+                limit: {
+                    type: firebase.QueryLimitType.LAST,
+                    value: 2
+                }
+            }
+        )
+        .then(result => {
+
+        })
+        .catch(error => console.log("Error: " + error));
+    }
+    // 2. set authentication for rooms on user database
+    pushRoomIDOnUser(user:any, friend:any, room_id:string){
+        var user_room = {};
+        user_room['inRoom'] = true;
+        user_room['joinTime'] = Date.now();
+        user_room['leaveTime'] = "";
+        for(var friend_id in friend){
+            for(var uid in user){
+                user_room['roomIcon'] = friend[friend_id]["profile"]["profilePicsrc"];
+                user_room['title'] = friend[friend_id]["profile"]["name"];
+                user_room['messageIcon'] = user[uid]["profile"]["profilePicsrc"];
+                // set room access athentication on user database
+                firebase.setValue('/users/'+uid+'/user_rooms/'+room_id, friend_id).then(result => {
+                    // user can write on chat room
+                    firebase.setValue('/rooms/'+room_id+'/room_users/'+uid, user_room).then(result2 => {
+                        console.log(result);
+                        this.syncRoomMessages(room_id);
+                        this.syncRoom(room_id);
+                    });
                 });
-                this.setGeneratedRoomID(result.key);
-                console.log("created key: " + result.key);// Room ID
-            });
+            }
         }
     }
-    pushRoomIDOnUser(user:any, room_id:string){
-        for(var uid in user){
-            firebase.setValue('/users/'+uid+'/user_rooms/'+room_id, {inRoom:true, join:new Date()}).then(result => {
-                // this.pushUserIDOnRoom(uid);
-            });
-        }
-    }
-    
+
 
     // If there are some messages :
     pushMessageOnRoom(room_id:string, user:any, message:string){
@@ -730,50 +838,8 @@ export class FirebaseService {
         });
     }
 
-    //----------------------------Blog Section------------------------------------------
-
-    generatePost(user:any, post_id:string, post:any){
-        var open_post = {};
-        if(post==null){
-            open_post['isOpen'] = true;
-            open_post['name'] = "";
-            open_post['type'] = "";
-            open_post['description'] = "";
-            open_post['image'] = "";
-            open_post['location'] = "";
-            open_post['likes'] = "";
-            open_post['comments'] = "";
-            open_post['openTime'] = new Date();
-            open_post['closeTime'] = "";
-        }
-        else{
-            open_post = post;
-        }
-
-        for(var uid in user){
-            if(post_id==null){            
-                firebase.push('/blogs/'+uid+'/posts', "").then(result => {
-                    firebase.setValue('/blogs/'+uid+"/posts/"+result.key, open_post).then(result2 => {
-                        this.pushPostIDOnUser(user, result.key);
-                    });
-                    console.log("created key: " + result.key);// Room ID
-                });
-            }
-            else{
-                open_post = post[post_id];
-                firebase.setValue('/blogs/'+uid+"/posts/"+post_id, open_post).then(result2 => {                    
-                });
-            }
-        }
-    }
     
-    pushPostIDOnUser(user:any, room_id:string){
-        for(var uid in user){
-            firebase.setValue('/users/'+uid+'/user_blogs/'+room_id, true).then(result => {
-                // this.pushUserIDOnRoom(uid);
-            });
-        }
-    }
+
 
     //----------------------------Auth Section------------------------------------------
 
@@ -1001,7 +1067,7 @@ export class FirebaseService {
                     // var friend = {};
                     // friend['H6U4ZRvLW6SL8RmIX18TYmg1hhV2'] = this.getFriends()['H6U4ZRvLW6SL8RmIX18TYmg1hhV2'];
                     // this.pushFriendOnRoom(this.thisUser,"-LPLVNVF2yM1MzyG-D71");
-                    this.pushMessageOnRoom("-LPLVNVF2yM1MzyG-D71", this.thisUser, "hi");
+                    // this.pushMessageOnRoom("-LPLVNVF2yM1MzyG-D71", this.thisUser, "hi");
                     this.setFriendArray();
                     // this.generatePost(this.thisUser);
                 }
@@ -1055,9 +1121,11 @@ export class FirebaseService {
             .catch(error => console.log("Error: " + error));;
         }
     }
+
     addRoom(room){
         for(var key in room){
             this.rooms[key] = room[key];
+            this.syncRoomMessages(key);
             this.syncRoom(key);
         }
     }
@@ -1070,6 +1138,7 @@ export class FirebaseService {
         // this.search_post("chat",3,37.323972, 127.125109 ,100000);
         // this.search_queries("chat",[1,2,3,4,5,6,7,8,9],37.323972, 127.125109 ,100000);
         // this.getFileURL('asqU21QzltYOgnT5MDcgWotRJwH2','gteton-schwabachers-landing_dollar_680.jpg');
+        // this.get_user_posts("I33CAKsu5uUkq4Xqt2xUVJgcGHM2");
 	}
 
     public jsonToArray(json){
@@ -1089,6 +1158,7 @@ export class FirebaseService {
     
     public setGeneratedRoomID(generatedRoomID:string){
         this.generatedRoomID = generatedRoomID;
+        this.selectedRoomID = generatedRoomID;
     }
     public getGeneratedRoomID(): string{
         return this.generatedRoomID;

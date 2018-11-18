@@ -29,26 +29,34 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         this._sideDrawerTransition = new SlideInOnTopTransition();
+    }
 
+    closeDrawer(): void{
+        const sideDrawer = <RadSideDrawer>app.getRootView();
+        sideDrawer.closeDrawer();
+    }
+
+    onHomeTap(): void{
+        this.closeDrawer();
+		this.firebaseService.get_user_posts(this.firebaseService.authuser.uid);
+		this.routerExtensions.navigate(['/searchresult'], { animated: false });
+		this._buttonRef.makeArrow();
     }
 
     profileTap(): void{
-        const sideDrawer = <RadSideDrawer>app.getRootView();
-        sideDrawer.closeDrawer();
+        this.closeDrawer();
         this.routerExtensions.navigate(['/profile'], { animated: false });
         this._buttonRef.makeArrow();
     }
 
     enneagramTap(): void {
-        const sideDrawer = <RadSideDrawer>app.getRootView();
-        sideDrawer.closeDrawer();
+        this.closeDrawer();
         this.routerExtensions.navigate(['/enneagram'], { animated: false });
         this._buttonRef.makeArrow();
     }
 
     logoutTap(): void{
-        const sideDrawer = <RadSideDrawer>app.getRootView();
-        sideDrawer.closeDrawer();
+        this.closeDrawer();
         this.firebaseService.logout();
         ApplicationSettings.setBoolean("authenticated", false);
         this.routerExtensions.navigate(["/login"], { clearHistory: true });

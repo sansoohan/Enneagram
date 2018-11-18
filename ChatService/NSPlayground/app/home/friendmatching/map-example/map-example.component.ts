@@ -1,7 +1,6 @@
 import {Component, OnInit, ElementRef, ViewChild, Input} from '@angular/core';
 import {registerElement} from "nativescript-angular/element-registry";
 import { MapView, Marker, Position } from 'nativescript-google-maps-sdk';
-import { FriendListService } from '../../friendchat/friend-list.service';
 import { FirebaseService } from "../../../services/firebase.service";
 import { BlogService } from "../../blog/blog-service";
 import { SearchService } from "../../searchoption/search-service";
@@ -47,7 +46,7 @@ export class MapExampleComponent implements OnInit {
     markers = [];
 
 
-    constructor(private friendListService: FriendListService,
+    constructor(
         private firebaseService: FirebaseService,
         private blogService: BlogService,
         private searchService: SearchService,

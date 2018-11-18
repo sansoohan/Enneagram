@@ -2,42 +2,46 @@
 
 @startuml
 left to right direction
+scale 2/3
 
 [BlogComponent] -- blogService.postType:string
+[BlogComponent] -- blogService.postLocation:Marker
 [BlogComponent] -- firebaseService.currentBlogImageFilePath:string
+[BlogComponent] -- firebaseService.currentBlogImageFileURL:string
+[BlogComponent] -- firebaseService.thisUser:any
+
 
 [BlogComponent] ..> firebaseService.currentBlogImageFilePath:selectImage(imageType:string)
-[BlogComponent] ..> firebaseService.currentProfileImageFilePath:selectImage(imageType:string)
-[BlogComponent] ..> firebaseService.currentBackgroundImageFilePath:selectImage(imageType:string)
-
-
-
+[BlogComponent] ..> firebaseService.currentBlogImageFileURL:selectImage(imageType:string)
 
 [EnneagramComponent] -- firebaseService.thisUser:<any>
 
 [EnneagramComponent] ..> firebaseService.thisUser:saveUserEnneagramOnDatebase()
-        
+  
 
 
 [FriendChatComponent] -- firebaseService.roomArray:Array<any>
+[FriendChatComponent] ..> firebaseService.selectedRoomID:onItemTap(args)
+[FriendChatComponent] ..> firebaseService.selectedRoomTitle:onItemTap(args)
+[FriendChatComponent] ..> firebaseService.selectedRoomMessageArray:onItemTap(args)
 
-        
         
 [ChatRoomComponent] -- firebaseService.selectedRoomTitle:string
 [ChatRoomComponent] -- firebaseService.selectedRoomMessageArray:Array<any>
-[ChatRoomComponent] -- this.firebaseService.selectedRoomUsers:Array<any>
 [ChatRoomComponent] -- firebaseService.selectedRoomID:string
-[ChatRoomComponent] -- this.firebaseService.thisUser:<Any>
+[ChatRoomComponent] -- firebaseService.thisUser:<Any>
 
 
 [FriendListComponent] -- friendListService.selectedFriendID:string:onItemTap(args)
 [FriendListComponent] -- firebaseService.friendArray:Array<any>
 [FriendListComponent] -- firebaseService.generatedRoomID:string
+[FriendListComponent] -- firebaseService.selectedFriendID:onChatTap()
 
+[FriendListComponent] ..> firebaseService.selectedFriendID:onItemTap(args)
 [FriendListComponent] ..> friendListService.selectedFriendID:getProfilePicSrcBySelectedFriendID(),getNameBySelectedFriendID()
 [FriendListComponent] ..> firebaseService.selectedRoomID
 [FriendListComponent] ..> firebaseService.generatedRoomID:generateRoom(user:any)
-
+[FriendListComponent] ..> firebaseService.selectedRoomTitle:onChatTap()
 
 [ProfileComponent] -- firebaseService.thisUser:<any>
 
@@ -46,8 +50,27 @@ left to right direction
 [LoginComponent] ..> firebaseService.friendArray:Array<any>:firebaseService.setFriendArray()
 [LoginComponent] ..> firebaseService.roomArray:Array<any>:setRooms(room_ids:string[])
 
+
+
 [MapExampleComponent] -- firebaseService.thisUser:<any>
-    
-    
+[MapExampleComponent] ..> blogService.postLocation:onMapReady(event)
+[MapExampleComponent] ..> searchService.postLocation:onMapReady(event)
+
+
+[FriendmatchingComponent] ..> blogService.postType
+
+
+[SearchOptionComponent] -- searchService.postType:onGoTap()
+[SearchOptionComponent] -- searchService.postLocation:onGoTap()
+
+[SearchOptionComponent] ..> searchService.postType:string
+
+
+
+[SearchResultComponent] -- firebaseService.postSearchResultArray
+[SearchResultComponent] -- firebaseService.selectedPostID:_prepareForBackNavigation()
+
+[SearchResultComponent] ..> firebaseService.postSearchResultArray:Array<any>
+[SearchResultComponent] ..> firebaseService.selectedPostID:onNavigationItemTap(args:any)
 
 @enduml
