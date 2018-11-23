@@ -14,13 +14,19 @@ import { RadioOption } from "../enneagram/radio-option";
 
 @Component({
   moduleId: module.id,
-  selector: 'Profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  selector: 'ProfileInput',
+  templateUrl: './profile-input.component.html',
+  styleUrls: ['./profile-input.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileInputComponent implements OnInit {
+	email: string = "";
+	name: string =""
+	gender: string = "";
+	country: string = "";
+	interest: string = "";
+	introducing: string = "";
+	language: string = "";
 
-	isOnline: boolean;
   	statusChangeSubscr: Subscription;
   
 	private isUpdating: boolean = false;
@@ -28,30 +34,29 @@ export class ProfileComponent implements OnInit {
 
 	private removedImageUrl: string;
 	genderOptionButtons?: Array<RadioOption>;
-	gender: string = "";
+	
 
 	constructor(private routerExtensions: RouterExtensions,
 		private firebaseService: FirebaseService,
 		
 	) { 
-		this.isOnline = true;
+
 	}
 	ngOnInit() { 
 		this.genderOptionButtons = [
 			new RadioOption("Gender", "male"),
 			new RadioOption("Gender", "female"),
 		];
+		this.email = this.firebaseService.thisUser[this.firebaseService.authuser.uid]['profile']['email'];
+		this.name = this.firebaseService.thisUser[this.firebaseService.authuser.uid]['profile']['name'];
 	}
 
 	onTap(args: GestureEventData) {
 		this.routerExtensions.back();
 	}
-	counter(i: number) {
-		return new Array(i);
-	}
 
   	onAddImageTap(imageType:string): void {
-		if (this.isOnline) {
+		if (this.firebaseService.authuser) {
 			this.firebaseService.pickImage(imageType);
 		} else {
 			dialogs.alert("Cannot upload images in offline mode");
@@ -76,5 +81,20 @@ export class ProfileComponent implements OnInit {
 				});
 				break;
 		}
+	}
+
+	onSaveTap(){
+		var userProfileToUpdate = {
+			backgroundPicsrc: this.firebaseService.currentBackgroundImageFileURL,
+			country: this.country,
+			email: this.email,
+			gender: this.gender,
+			interest: this.interest,
+			introducing: this.introducing,
+			language: this.language,
+			name: this.name,
+			profilePicsrc: this.firebaseService.currentProfileImageFileURL
+		}
+		this.firebaseService.setThisUserProfile(userProfileToUpdate);
 	}
 }

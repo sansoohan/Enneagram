@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { Component, EventEmitter, Output, OnInit, ViewChild, Input } from "@angular/core";
 import { View } from "tns-core-modules/ui/core/view";
 
 @Component({
@@ -10,6 +10,8 @@ import { View } from "tns-core-modules/ui/core/view";
 export class ChildButton2Component implements OnInit {
 	args: any;
 	@Input() text: string;
+	@Output() tap: EventEmitter<any> = new EventEmitter<any>();
+	public floatButtonOn: boolean = false;
 	private drawer: boolean;
 	constructor() {
 	}
@@ -21,10 +23,15 @@ export class ChildButton2Component implements OnInit {
 	}
 	public drawerOpen(drawer: boolean) {
 		if (drawer) {
-			this.args.object.className = 'child2-btn drawer-down';
+			this.args.object.className = 'child-btn drawer-down';
 		}
 		else {
-			this.args.object.className = 'child2-btn drawer-up';
+			this.args.object.className = 'child-btn drawer-up';
+		}
+	}
+	onTap(args) {
+		if(this.floatButtonOn){
+			this.tap.emit(args);
 		}
 	}
 }

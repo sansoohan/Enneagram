@@ -31,4 +31,8 @@ export class LoginComponent implements OnInit {
     public login(auth:Auth) {
         this.firebaseService.login(auth);
     }
+
+    public handleInput(args){
+        
+    }
 }

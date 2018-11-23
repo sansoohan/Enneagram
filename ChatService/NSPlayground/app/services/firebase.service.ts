@@ -15,8 +15,13 @@ var fs = require("tns-core-modules/file-system");
 
 @Injectable()
 export class FirebaseService {
-    authuser: firebase.User;
+    public authuser: firebase.User;    
     public thisUser: any = {};
+    public thisUserProfilePicsrc = "";
+    public thisUserBackgroundPicsrc ="";
+    public thisUserName = "";    
+    public thisUSerEmail = "";
+
     public friends = {};
     public rooms = {};
     private generatedRoomID: string;
@@ -27,7 +32,9 @@ export class FirebaseService {
 
     public selectedRoomID: string;
     public selectedRoomTitle: string;
+
     public selectedRoomMessageArray: Array<any>;
+    public messageUpdatedToggle: boolean = false;
 
 	public currentProfileImageFilePath: string;
     public currentBackgroundImageFilePath: string;
@@ -270,37 +277,29 @@ export class FirebaseService {
           }]
     }
 
-    getSelectedPost(){
-        var selected_index;
-        for(var i=0;i<this.postSearchResultArray.length;i++){
-            for(var post_id in this.postSearchResultArray[i]){
-                if(post_id === this.selectedPostID){
-                    return this.postSearchResultArray[i];
-                }
-            }
-        }
-    }
-
     //------------------------ firebase cloude storage test ------------------
 
     // need to know how to get http img src
     // upload picture first and make post_data
-    add_post(post_data){
-        firebaseWeb.firestore()
-        .collection("posts")
-        .add(post_data).then(documentRef => {
-            console.log(`auto-generated post ID: ${documentRef.id}`);
-        });
-    }
-    update_image_src(){
-        firebaseWeb.firestore()
-        .collection("posts")
-    }
-    update_post(post_id, post_data){
-        firebaseWeb.firestore()
-        .collection("posts").doc(post_id)
-        .update(post_data).then(() => {
-            console.log("post updated");
+
+    // update_image_src(){
+    //     firebaseWeb.firestore()
+    //     .collection("posts")
+    // }
+    // update_post(post_id, post_data){
+    //     firebaseWeb.firestore()
+    //     .collection("posts").doc(post_id)
+    //     .update(post_data).then(() => {
+    //         console.log("post updated");
+    //     });
+    // }
+
+
+    //----------------------------Profile Section------------------------------------------
+
+    setThisUserProfile(data){
+        firebase.setValue('/users/' + this.authuser.uid + '/profile', data).then(result => {
+            console.log(JSON.stringify(result));
         });
     }
 
@@ -391,11 +390,18 @@ export class FirebaseService {
                 var searchResult = {};
                 searchResult[doc.id] = JSON.parse(JSON.stringify(doc.data()));
                 this.postSearchResultArray.push(searchResult);
-                console.log(this.postSearchResultArray);
+                // console.log(this.postSearchResultArray);
             });
         });
     }
 
+    add_post(post_data){
+        firebaseWeb.firestore()
+        .collection("posts")
+        .add(post_data).then(documentRef => {
+            console.log(`auto-generated post ID: ${documentRef.id}`);
+        });
+    }
     add_comment(post_id, comment_data){
         var posts = firebaseWeb.firestore()
         .collection("posts").doc(post_id)
@@ -412,75 +418,78 @@ export class FirebaseService {
             console.log("comment updated");
         });
     }
-    // new user
-    set_data(){
-        firebaseWeb.firestore().collection("cities")
-        .doc(this.authuser.uid)
-        .set({
-            author: this.authuser.uid,
-            name: "San Francisco",
-            state: "CA",
-            country: "USA",
-            capital: false,
-            population: 860000
-        });
-    }
 
-    update_data(){
-        const firebaseWeb = require("nativescript-plugin-firebase/app");
-        firebaseWeb.firestore()
-        .collection("cities")
-        .doc("SF")
-        .update({
-            population: 860001,
-            updateTimestamp: firebaseWeb.firestore().FieldValue().serverTimestamp(),
-            location: firebaseWeb.firestore().GeoPoint(4.34, 5.67)
-        }).then(() => {
-            console.log("SF population updated");
-        });
-    }
+    // ---------------------- test queries ------------------------------------
 
-    get_documents_from_collection(){
-        const citiesCollection = firebaseWeb.firestore().collection("cities");
+    // // new user
+    // set_data(){
+    //     firebaseWeb.firestore().collection("cities")
+    //     .doc(this.authuser.uid)
+    //     .set({
+    //         author: this.authuser.uid,
+    //         name: "San Francisco",
+    //         state: "CA",
+    //         country: "USA",
+    //         capital: false,
+    //         population: 860000
+    //     });
+    // }
 
-        citiesCollection.get().then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
-          });
-        });
-    }
+    // update_data(){
+    //     const firebaseWeb = require("nativescript-plugin-firebase/app");
+    //     firebaseWeb.firestore()
+    //     .collection("cities")
+    //     .doc("SF")
+    //     .update({
+    //         population: 860001,
+    //         updateTimestamp: firebaseWeb.firestore().FieldValue().serverTimestamp(),
+    //         location: firebaseWeb.firestore().GeoPoint(4.34, 5.67)
+    //     }).then(() => {
+    //         console.log("SF population updated");
+    //     });
+    // }
 
-    get_date_from_document(){
-        const sanFranciscoDocument = firebaseWeb.firestore().collection("cities").doc("SF");
+    // get_documents_from_collection(){
+    //     const citiesCollection = firebaseWeb.firestore().collection("cities");
 
-        sanFranciscoDocument.get().then(doc => {
-          if (doc.exists) {
-            console.log(`Document data: ${JSON.stringify(doc.data())}`);
-          } else {
-            console.log("No such document!");
-          }
-        });
-    }
+    //     citiesCollection.get().then(querySnapshot => {
+    //       querySnapshot.forEach(doc => {
+    //         console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
+    //       });
+    //     });
+    // }
 
-    where_query(){        
-        // "Gimme all cities in California with a population below 550000"
-        firebaseWeb.firestore()
-        .collection("cities")
-        .where("state", "==", "CA").where("population", "<", 2500000)
-        .get()
-        .then(querySnapshot => {
-            querySnapshot.forEach(doc => {
-            console.log(`Relatively small Californian city: ${doc.id} => ${JSON.stringify(doc.data())}`);
-            });
-        });
-    }
-    delete_document_from_collection(){
-        const sanFranciscoDocument = firebaseWeb.firestore().collection("cities").doc("SF");
+    // get_date_from_document(){
+    //     const sanFranciscoDocument = firebaseWeb.firestore().collection("cities").doc("SF");
+
+    //     sanFranciscoDocument.get().then(doc => {
+    //       if (doc.exists) {
+    //         console.log(`Document data: ${JSON.stringify(doc.data())}`);
+    //       } else {
+    //         console.log("No such document!");
+    //       }
+    //     });
+    // }
+
+    // where_query(){        
+    //     // "Gimme all cities in California with a population below 550000"
+    //     firebaseWeb.firestore()
+    //     .collection("cities")
+    //     .where("state", "==", "CA").where("population", "<", 2500000)
+    //     .get()
+    //     .then(querySnapshot => {
+    //         querySnapshot.forEach(doc => {
+    //         console.log(`Relatively small Californian city: ${doc.id} => ${JSON.stringify(doc.data())}`);
+    //         });
+    //     });
+    // }
+    // delete_document_from_collection(){
+    //     const sanFranciscoDocument = firebaseWeb.firestore().collection("cities").doc("SF");
         
-        sanFranciscoDocument.delete().then(() => {
-          console.log("SF was erased from the face of the earth!");
-        });
-    }
+    //     sanFranciscoDocument.delete().then(() => {
+    //       console.log("SF was erased from the face of the earth!");
+    //     });
+    // }
     
     // delete_data_from_document(){
     //     firebaseWeb.firestore().collection("cities").doc("LA")
@@ -489,26 +498,26 @@ export class FirebaseService {
     //         });
     // }
 
-    arrayUnion(){
-        const firebaseWeb = require("nativescript-plugin-firebase/app");
-        firebaseWeb.firestore()
-        .collection("posts")
-        .doc("lopkDLG6T7jpTuY5oO6x")
-        .update({
-            behavior: firebaseWeb.firestore.FieldValue().arrayUnion([{"red": "blue"}])
-        });
-    }
+    // arrayUnion(){
+    //     const firebaseWeb = require("nativescript-plugin-firebase/app");
+    //     firebaseWeb.firestore()
+    //     .collection("posts")
+    //     .doc("lopkDLG6T7jpTuY5oO6x")
+    //     .update({
+    //         behavior: firebaseWeb.firestore.FieldValue().arrayUnion([{"red": "blue"}])
+    //     });
+    // }
 
 
-    getThisUserData(){
-        console.log(this.authuser.uid);
-        console.log(
-            firebaseWeb.firestore()
-            .collection("cities")
-            .where("author", "==", this.authuser.uid)
-            .get()
-        );
-    }
+    // getThisUserData(){
+    //     console.log(this.authuser.uid);
+    //     console.log(
+    //         firebaseWeb.firestore()
+    //         .collection("cities")
+    //         .where("author", "==", this.authuser.uid)
+    //         .get()
+    //     );
+    // }
     
     //---------------------------- picture upload ------------------------------------------
 
@@ -607,8 +616,8 @@ export class FirebaseService {
             localFullPath: filePath,
             // get notified of file upload progress
             onProgress: function(status) {
-                console.log("Uploaded fraction: " + status.fractionCompleted);
-                console.log("Percentage complete: " + status.percentageCompleted);
+                // console.log("Uploaded fraction: " + status.fractionCompleted);
+                // console.log("Percentage complete: " + status.percentageCompleted);
             }
         }).then(
             uploadedFile => {
@@ -640,7 +649,7 @@ export class FirebaseService {
             remoteFullPath: 'users/' + uid + fileURL,
         }).then(
             url => {
-                console.log("Remote URL: " + url);
+                // console.log("Remote URL: " + url);
                 if(imageType ==="blog"){
                     this.currentBlogImageFileURL = url;
                 }
@@ -659,16 +668,13 @@ export class FirebaseService {
     
     //----------------------------Chat Section------------------------------------------
 
-
-    // If someone push message(include you), function(result) will be activated.
-    // It change the messages array.
-    syncRoom(room_id:string){
-        firebase.addValueEventListener(result => {
-            console.log("Event type: " + result.type);
-            console.log("Key: " + result.key);
-            console.log("Value: " + JSON.stringify(result.value));
+    syncThisUserRoomList(){
+        firebase.addChildEventListener(result => {
+            // console.log("Event type: " + result.type);
+            // console.log("Key: " + result.key);
+            // console.log("Value: " + JSON.stringify(result.value));
             this.updateRoom(result.key, result.value);
-        }, "/rooms/" + room_id).then(
+        }, "/users/" + this.authuser.uid + "/user_rooms").then(
             function(listenerWrapper) {
               var path = listenerWrapper.path;
               var listeners = listenerWrapper.listeners; // an Array of listeners added
@@ -679,18 +685,20 @@ export class FirebaseService {
     updateRoom(updated_room_id, room_friend_id:any){
         firebase.getValue('/rooms/' + updated_room_id).then(result =>{
             // console.log(JSON.stringify(result));
-            this.rooms[result['key']] = JSON.parse(JSON.stringify(result.value));
+            this.rooms[result['key']] = JSON.parse(JSON.stringify(result['value']));
             this.setRoomArray();
-            // console.log(this.rooms[result['keys']]);
+            // console.log(this.rooms[result['key']]);
         }).catch(error => console.log("Error: " + error));
     }
 
+    // If someone push message(include you), function(result) will be activated.
+    // It change the messages array.
     syncRoomMessages(room_id:string){
-        firebase.addValueEventListener(result => {
-            console.log("Event type: " + result.type);
-            console.log("Key: " + result.key);
-            console.log("Value: " + JSON.stringify(result.value));
-            this.updateRoomMessages(room_id, result.value);
+        firebase.addChildEventListener(result => {
+            // console.log("Event type: " + result.type);
+            // console.log("Key: " + result.key);
+            // console.log("Value: " + JSON.stringify(result.value));
+            this.updateRoomMessages(room_id, result.key ,result.value);
         }, "/rooms/"+room_id+"/messages").then(
             function(listenerWrapper) {
               var path = listenerWrapper.path;
@@ -699,13 +707,17 @@ export class FirebaseService {
             }
         );
     }
-    updateRoomMessages(room_id:string, messages:any){
-        console.log(messages);
-        this.rooms[room_id] = {};
-        this.rooms[room_id]['messages'] = JSON.parse(JSON.stringify(messages));
+    updateRoomMessages(room_id:string, message_id:any, message:any){
+        if(!this.rooms[room_id]['messages']){
+            this.rooms[room_id]['messages'] = {};
+        }
+        this.rooms[room_id]['messages'][message_id] = JSON.parse(JSON.stringify(message));
+        var message_to_add = {};
+        message_to_add[message_id] = this.rooms[room_id]['messages'][message_id]
         if(room_id == this.selectedRoomID){
-            this.selectedRoomMessageArray = this.jsonToArray(messages);
+            this.selectedRoomMessageArray.push(message_to_add);
             this.sortMessageArrayWithTimeStamp(this.selectedRoomMessageArray);
+            this.messageUpdatedToggle = true;
             // console.log(this.selectedRoomMessageArray.length);
         }
         // console.log(this.rooms);
@@ -721,9 +733,12 @@ export class FirebaseService {
                 message_a = a[key];
             }
             for(var key in b){
+                Date
                 message_b = b[key];
             }
-            return message_a['timestamp']['time'] - message_b['timestamp']['time'];
+            var time_b = message_b['timestamp']['time'];
+            var time_a = message_a['timestamp']['time'];
+            return time_a - time_b;
         });
     }
     // If there is no message :
@@ -759,7 +774,7 @@ export class FirebaseService {
             result => {
                 // if friend chat room is not exist, create new room.
                 if(result.value == null){
-                    console.log("exist room with friend_id: " + friend_id);
+                    console.log("no room with friend_id: " + friend_id);
                     var open_room = {room_users:{}};
                     open_room['isOpen'] = true;
                     open_room['openTime'] = new Date();
@@ -775,7 +790,11 @@ export class FirebaseService {
                 }
                 // if friend chat room is exist, don't make new one.
                 else{
-                    console.log("exist room: " + JSON.stringify(result.value));// Room ID
+                    // console.log(result);
+                    for(var room_id in result['value']){
+                        this.selectedRoomMessageArray = this.jsonToArray(this.rooms[room_id]['messages']);
+                    }
+                    console.log("exist room: " + JSON.parse(JSON.stringify(result['value'])));// Room ID
                 }
             },
             '/users/' + user_id + '/user_rooms',
@@ -811,13 +830,14 @@ export class FirebaseService {
                 user_room['roomIcon'] = friend[friend_id]["profile"]["profilePicsrc"];
                 user_room['title'] = friend[friend_id]["profile"]["name"];
                 user_room['messageIcon'] = user[uid]["profile"]["profilePicsrc"];
+                user_room['userName'] = user[uid]["profile"]["name"];
                 // set room access athentication on user database
                 firebase.setValue('/users/'+uid+'/user_rooms/'+room_id, friend_id).then(result => {
                     // user can write on chat room
                     firebase.setValue('/rooms/'+room_id+'/room_users/'+uid, user_room).then(result2 => {
-                        console.log(result);
+                        // console.log(result);
                         this.syncRoomMessages(room_id);
-                        this.syncRoom(room_id);
+                        // this.syncRoom(room_id);
                     });
                 });
             }
@@ -834,129 +854,127 @@ export class FirebaseService {
         message_pack['message'] = message;
         message_pack['timestamp'] = new Date();
         firebase.push('/rooms/'+room_id+'/messages', message_pack).then(result => {                
-            console.log("created key: " + result.key);// Message_pack ID
+            // console.log("created key: " + result.key);// Message_pack ID
         });
     }
 
     
 
-
-    //----------------------------Auth Section------------------------------------------
-
+    //---------------------------- Firebase Realtime database test Section--------------------
     // make array type database and push data in array type database
-    pushInArrayDatabase(databaseOfArrayPath:string, pushData:any){
-        firebase.getCurrentUser().then(user => {
-            firebase.push('/users/' + user.uid + databaseOfArrayPath, pushData).then(result => {
-                console.log("created key: " + result.key);
-            });
-        });
-    }
+    // pushInArrayDatabase(databaseOfArrayPath:string, pushData:any){
+    //     firebase.getCurrentUser().then(user => {
+    //         firebase.push('/users/' + user.uid + databaseOfArrayPath, pushData).then(result => {
+    //             // console.log("created key: " + result.key);
+    //         });
+    //     });
+    // }
 
-    // make data structure of value type database
-    makeStructureOfValueDatabase(databasePath:string, structure: any){
-        firebase.getCurrentUser().then(user => {
-            firebase.setValue('/users/' + user.uid + databasePath, structure);
-        });
-    }
+    // // make data structure of value type database
+    // makeStructureOfValueDatabase(databasePath:string, structure: any){
+    //     firebase.getCurrentUser().then(user => {
+    //         firebase.setValue('/users/' + user.uid + databasePath, structure);
+    //     });
+    // }
 
-    // add attribute in value type database and update data in value type database
-    writeValueOfValueDatabase(databasePath:string, updateData: any){
-        firebase.getCurrentUser().then(user => {
-            firebase.update('/users/' + user.uid + databasePath, updateData);
-        });
-    }
+    // // add attribute in value type database and update data in value type database
+    // writeValueOfValueDatabase(databasePath:string, updateData: any){
+    //     firebase.getCurrentUser().then(user => {
+    //         firebase.update('/users/' + user.uid + databasePath, updateData);
+    //     });
+    // }
 
 
-    // read data in value type database
-    readValueOfValueDatabase(databasePath:string){
-        firebase.getCurrentUser().then(user => {
-            firebase.getValue('/users/' + user.uid + databasePath).then(result =>{
-                console.log(JSON.stringify(result));
-            }).catch(error => console.log("Error: " + error));
-        });
-    }
-    // complex query
-    queryOnDatabase(databasePath:string){
-        firebase.getCurrentUser().then(user => {
-            firebase.query(
-                this.onQueryEvent,
-                // '/users',
-                '/users/' + user.uid + databasePath,
-                {
-                    // set this to true if you want to check if the value exists or just want the event to fire once
-                    // default false, so it listens continuously.
-                    // Only when true, this function will return the data in the promise as well!
-                    singleEvent: true,
-                    // order by company.country
-                    orderBy: {
-                        type: firebase.QueryOrderByType.CHILD,
-                        value: 'test' // mandatory when type is 'child'
-                    },
-                    // but only companies 'since' a certain year (Telerik's value is 2000, which is imaginary btw)
-                    // use either a 'range'
-                    //range: {
-                    //    type: firebase.QueryRangeType.EQUAL_TO,
-                    //    value: 2000
-                    ///},
-                    // .. or 'chain' ranges like this:
+    // // read data in value type database
+    // readValueOfValueDatabase(databasePath:string){
+    //     firebase.getCurrentUser().then(user => {
+    //         firebase.getValue('/users/' + user.uid + databasePath).then(result =>{
+    //             // console.log(JSON.stringify(result));
+    //         }).catch(error => console.log("Error: " + error));
+    //     });
+    // }
+    // // complex query
+    // queryOnDatabase(databasePath:string){
+    //     firebase.getCurrentUser().then(user => {
+    //         firebase.query(
+    //             this.onQueryEvent,
+    //             // '/users',
+    //             '/users/' + user.uid + databasePath,
+    //             {
+    //                 // set this to true if you want to check if the value exists or just want the event to fire once
+    //                 // default false, so it listens continuously.
+    //                 // Only when true, this function will return the data in the promise as well!
+    //                 singleEvent: true,
+    //                 // order by company.country
+    //                 orderBy: {
+    //                     type: firebase.QueryOrderByType.CHILD,
+    //                     value: 'test' // mandatory when type is 'child'
+    //                 },
+    //                 // but only companies 'since' a certain year (Telerik's value is 2000, which is imaginary btw)
+    //                 // use either a 'range'
+    //                 //range: {
+    //                 //    type: firebase.QueryRangeType.EQUAL_TO,
+    //                 //    value: 2000
+    //                 ///},
+    //                 // .. or 'chain' ranges like this:
 
-                    // ranges: [
-                    //   {
-                    //       type: firebase.QueryRangeType.START_AT,
-                    //       value: 1999
-                    //   },
-                    //   {
-                    //       type: firebase.QueryRangeType.END_AT,
-                    //       value: 2000
-                    //   }
-                    // ],
+    //                 // ranges: [
+    //                 //   {
+    //                 //       type: firebase.QueryRangeType.START_AT,
+    //                 //       value: 1999
+    //                 //   },
+    //                 //   {
+    //                 //       type: firebase.QueryRangeType.END_AT,
+    //                 //       value: 2000
+    //                 //   }
+    //                 // ],
 
-                    // only the first 2 matches
-                    // (note that there's only 1 in this case anyway)
-                    limit: {
-                        type: firebase.QueryLimitType.LAST,
-                        value: 2
-                    }
-                }
-            )
-            .then(result => console.log(JSON.stringify(result)))
-            .catch(error => console.log("Error: " + error));;
-        });
-    }
+    //                 // only the first 2 matches
+    //                 // (note that there's only 1 in this case anyway)
+    //                 limit: {
+    //                     type: firebase.QueryLimitType.LAST,
+    //                     value: 2
+    //                 }
+    //             }
+    //         )
+    //         .then(result => console.log(JSON.stringify(result)))
+    //         .catch(error => console.log("Error: " + error));;
+    //     });
+    // }
 
     
-    // query result
-    onQueryEvent(result) {
-        // note that the query returns 1 match at a time
-        // in the order specified in the query
-        if (!result.error) {
-            console.log("Event type: " + result.type);
-            console.log("Key: " + result.key);
-            console.log("Value: " + JSON.stringify(result.value));
-        }
-    };
+    // // query result
+    // onQueryEvent(result) {
+    //     // note that the query returns 1 match at a time
+    //     // in the order specified in the query
+    //     if (!result.error) {
+    //         console.log("Event type: " + result.type);
+    //         console.log("Key: " + result.key);
+    //         console.log("Value: " + JSON.stringify(result.value));
+    //     }
+    // };
 
-    queryTest(){
-        firebase.query(
-            function(result){
+    // queryTest(){
+    //     firebase.query(
+    //         function(result){
 
-            },
-            '/users',
-            {
-                singleEvent: true,
-                orderBy: {
-                    type: firebase.QueryOrderByType.KEY,
-                    value: 'uid'
-                },
-                range: {
-                    type: firebase.QueryRangeType.EQUAL_TO,
-                    value: 'ayQt5VfwwOhzZ7UEtPMXrHtimce2'
-                },
-            }
-        )
-        .then(result => console.log(result.value['ayQt5VfwwOhzZ7UEtPMXrHtimce2']))
-        .catch(error => console.log("Error: " + error));;
-    }
+    //         },
+    //         '/users',
+    //         {
+    //             singleEvent: true,
+    //             orderBy: {
+    //                 type: firebase.QueryOrderByType.KEY,
+    //                 value: 'uid'
+    //             },
+    //             range: {
+    //                 type: firebase.QueryRangeType.EQUAL_TO,
+    //                 value: 'ayQt5VfwwOhzZ7UEtPMXrHtimce2'
+    //             },
+    //         }
+    //     )
+    //     .then(result => console.log(result.value['ayQt5VfwwOhzZ7UEtPMXrHtimce2']))
+    //     .catch(error => console.log("Error: " + error));;
+    // }
 
 
     // readUserName(){
@@ -965,6 +983,8 @@ export class FirebaseService {
     //         var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
     //     });
     // }
+
+    //----------------------------Auth Section------------------------------------------
 
     register(email, passwd) {
         return firebase.createUser({
@@ -979,10 +999,6 @@ export class FirebaseService {
             }
         )
     }
-
-
-    //----------------------------Init Section------------------------------------------
-
     // get currendUser
     login(user) {
         firebase.login({
@@ -1005,6 +1021,8 @@ export class FirebaseService {
             this.setAuthUser(user);
         });
     }
+
+    //----------------------------Init Section------------------------------------------
     setAuthUser(user:firebase.User){
         this.authuser = user;
         // set thisUser
@@ -1029,15 +1047,15 @@ export class FirebaseService {
         }).catch(error => console.log("getFriendsAndThisUserFromDatabase Error: " + error));
     }
     setThisUser(result:any){
-        var key = result.key;
-        var value = result.value;
+        var key = JSON.parse(JSON.stringify(result.key));
+        var value = JSON.parse(JSON.stringify(result.value));
         var user = {};
         user[key] = value;
-        this.thisUser = JSON.parse(JSON.stringify(user));
-        console.log(this.thisUser);
+        this.thisUser = user;
+        // console.log(this.thisUser);
     }
     setFriends(friend_ids:string[]){ 
-        console.log(friend_ids);
+        // console.log(friend_ids);
         var count = 0;        
         for(var i=0;i<friend_ids.length;i++){
             firebase.query(
@@ -1087,7 +1105,7 @@ export class FirebaseService {
 		this.friendArray = this.jsonToArray(this.getFriends());
 	}
     setRooms(room_ids:string[]){ 
-        console.log(room_ids);
+        // console.log(room_ids);
         var count = 0;
         for(var i=0;i<room_ids.length;i++){
             firebase.query(
@@ -1116,6 +1134,7 @@ export class FirebaseService {
                 if(count==room_ids.length){
                     // console.log(this.rooms);
                     this.setRoomArray();
+                    this.syncThisUserRoomList();
                 }
             })
             .catch(error => console.log("Error: " + error));;
@@ -1126,7 +1145,6 @@ export class FirebaseService {
         for(var key in room){
             this.rooms[key] = room[key];
             this.syncRoomMessages(key);
-            this.syncRoom(key);
         }
     }
     public setRoomArray(){
@@ -1142,18 +1160,15 @@ export class FirebaseService {
 	}
 
     public jsonToArray(json){
+        var array = [];
         if(json!=null){
-            var array = [];
             for(var key in json){
                 var child_json = {};
                 child_json[key] = json[key];
                 array.push(child_json);
             }
-            return array;
         }
-        else{
-            return null;
-        }
+        return array;
     }
     
     public setGeneratedRoomID(generatedRoomID:string){

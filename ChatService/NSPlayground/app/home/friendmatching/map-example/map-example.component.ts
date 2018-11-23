@@ -1,4 +1,4 @@
-import {Component, OnInit, ElementRef, ViewChild, Input} from '@angular/core';
+import {Component, OnInit, ElementRef, ViewChild, Input, EventEmitter, Output} from '@angular/core';
 import {registerElement} from "nativescript-angular/element-registry";
 import { MapView, Marker, Position } from 'nativescript-google-maps-sdk';
 import { FirebaseService } from "../../../services/firebase.service";
@@ -26,6 +26,7 @@ registerElement('MapView', () => MapView);
 export class MapExampleComponent implements OnInit {
     @Input() mapType:string;
     @ViewChild("mapView") mapView: MapView;
+    @Output() markerDrag: EventEmitter<any> = new EventEmitter<any>();
     public latitude =  37.323972;
     public longitude = 127.125109;
     public speed = 0;
@@ -56,7 +57,8 @@ export class MapExampleComponent implements OnInit {
         this.distanceTest();
     }
 	ngOnInit(): void {
-	}
+    }
+
     distanceTest(){
         var origin = new geolocation.Location();
         origin.latitude = 37.323972;
@@ -260,6 +262,7 @@ export class MapExampleComponent implements OnInit {
     }
 
     onMarkerEvent(args) {
+        this.markerDrag.emit(args);
         console.log("Marker Event: '" + args.eventName
             + "' triggered on: " + args.marker.title
             + ", Lat: " + args.marker.position.latitude + ", Lon: " + args.marker.position.longitude, args);

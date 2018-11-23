@@ -10,7 +10,9 @@ export class FloatButtonComponent implements OnInit {
 	@Input() text: string;
 	@Output() tap: EventEmitter<any> = new EventEmitter<any>();
 	public button: StackLayout;
+	buttonState: string;
 	constructor() {
+		this.buttonState = "float-btn up"
 	}
 
 	ngOnInit(): void {
@@ -19,9 +21,11 @@ export class FloatButtonComponent implements OnInit {
 		this.tap.emit(args);
 		if (args.view.className === 'float-btn down') {
 			args.view.className = 'float-btn up';
+			this.buttonState = 'float-btn up';
 		}
 		else {
 			args.view.className = 'float-btn down';
+			this.buttonState = 'float-btn down';
 		}
 	}
 	onTouch(args) {

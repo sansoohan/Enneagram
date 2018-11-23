@@ -18,12 +18,12 @@
 
 			<StackLayout class="site-main-content" row="1">
 				<Label class="site-item-header" text="E-mail"></Label>
-				<TextView textWrap="true" [text]="" class="site-input-field" autocorrect="false" isEnabled="false"></TextView>
+				<TextView textWrap="true" [text]="getUserEmail()" class="site-input-field" autocorrect="false" isEnabled="false"></TextView>
 				<StackLayout android:opacity="0" class="line"></StackLayout>
 				
 				<StackLayout class="line"></StackLayout>
 				<Label class="site-item-header" text="Nick Name"></Label>
-				<TextView textWrap="true" class="site-input-field" autocorrect="false" hint="Enter NOTES"></TextView>
+				<TextView textWrap="true" class="site-input-field" autocorrect="false" hint="Enter NOTES" [text]="getUserName()"></TextView>
 
 				<Label class="site-item-header" text="Gender"></Label>
 				<GridLayout class="p-10" *ngFor="let option of genderOptionButtons">

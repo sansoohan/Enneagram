@@ -4,6 +4,8 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { FirebaseService } from "../../services/firebase.service";
 import { ActionButtonComponent } from "../searchresult/action-button/action-button.component";
 import { alert, confirm, prompt, login, action, inputType } from "tns-core-modules/ui/dialogs";
+import { SearchService } from "../searchoption/search-service";
+
 @Component({
   moduleId: module.id,
   selector: 'Ideamatching',
@@ -13,9 +15,11 @@ import { alert, confirm, prompt, login, action, inputType } from "tns-core-modul
 export class IdeamatchingComponent implements OnInit {
   private _buttonRef: ActionButtonComponent;
 
-  constructor(private blogService: BlogService,
+  constructor(
+    private blogService: BlogService,
     private routerExtensions: RouterExtensions, 
     private firebaseService: FirebaseService,
+    private searchService: SearchService
   ) {}
   ngOnInit() { }
 
@@ -37,7 +41,7 @@ export class IdeamatchingComponent implements OnInit {
 			okButtonText: good_state,
 		}).then((result) => {
 			if (result == true) {
-				this.activityCheck("Do you have some Idea?", result);
+				this.activityCheck("Do you have some good Idea?", result);
       }
       else {
         this.activityCheck("Do you have any worries?", result);
@@ -51,39 +55,45 @@ export class IdeamatchingComponent implements OnInit {
       cancelButtonText: "No",
 			okButtonText: "Yes",
 		}).then((result) => {
-      if (result == true && state == true) {this.lastCheck(this.onFollowMeTap,"Can you show your idea as a image?")}
-      else if (result == false && state == true) {this.lastCheck(this.onAdviceTap,"Can you give some advice?")}
-      else if (result == true && state == false) {this.lastCheck(this.onHelpMeTap,"Can you show what you are worry about as a image?")}
-      else if (result == false && state == false) {this.lastCheck(this.onIdeaTap,"Do you need some idea?")}
+      if (result == true && state == true) {this.lastCheck(result, state,"Can you show your idea as a image?")}
+      else if (result == false && state == true) {this.lastCheck(result, state,"Can you give some advice?")}
+      else if (result == true && state == false) {this.lastCheck(result, state,"Can you show what you are worry about as a image?")}
+      else if (result == false && state == false) {this.lastCheck(result, state,"Do you need some idea?")}
 		});
   }
-  lastCheck(activity, lastCheckMessage:string){
-    activity().bind(this);
-    // confirm({
-		// 	title: "Choose Your Activity",
-		// 	message: lastCheckMessage,-
-    //   cancelButtonText: "No",
-		// 	okButtonText: "Yes",
-		// }).then((result) => {
-    //   if(result == true){
-    //     activity();
-    //   }
-		// });
+  lastCheck(state1, state2, lastCheckMessage:string){
+    confirm({
+			title: "Choose Your Activity",
+			message: lastCheckMessage,
+      cancelButtonText: "No",
+			okButtonText: "Yes",
+		}).then((result) => {
+      if(result){
+        if (state1 == true && state2 == true) {this.onFollowMeTap();}
+        else if (state1 == false && state2 == true) {this.onAdviceTap();}
+        else if (state1 == true && state2 == false) {this.onHelpMeTap();}
+        else if (state1 == false && state2 == false) {this.onIdeaTap();}
+      }
+		});
   }
 
   onIdeaTap(){
-      
+		this.searchService.postType = "idea";
+		this.routerExtensions.navigate(['/searchoption'], { animated: false });
+		this._buttonRef.makeArrow();
   }
   onFollowMeTap(){
-    this.blogService.postType = "follow me";
+    this.blogService.postType = "idea";
     this.routerExtensions.navigate(['/blog'], { animated: false });
     this._buttonRef.makeArrow();
   }
   onAdviceTap(){
-
+		this.searchService.postType = "help";
+		this.routerExtensions.navigate(['/searchoption'], { animated: false });
+		this._buttonRef.makeArrow();
   }
   onHelpMeTap(){
-    this.blogService.postType = "help me";
+    this.blogService.postType = "help";
     this.routerExtensions.navigate(['/blog'], { animated: false });
     this._buttonRef.makeArrow();
   }

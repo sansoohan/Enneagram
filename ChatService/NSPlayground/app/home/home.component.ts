@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
             this.friendlistComponent.closeModal();
             this.friendlistComponent.closeModal();
             if(this.friendlistComponent.drawer){
-                this.friendlistComponent.onTap();
+                this.friendlistComponent.onFloatButtonTap();
                 this.friendlistComponent.floatButton.button.className ="float-btn down";
             }
         }

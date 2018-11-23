@@ -125,7 +125,6 @@ export class BlogComponent implements OnInit {
       type : this.blogService.postType
     }
     this.firebaseService.add_post(data_for_upload);
-    // this.routerExtensions.navigate(['/searchresult'], { animated: false });
-    // this._buttonRef.makeArrow();
+    this.routerExtensions.navigate(['/'], { animated: false });
   }
 }

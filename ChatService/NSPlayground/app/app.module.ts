@@ -31,9 +31,9 @@ import { HomeComponent } from "./home/home.component";
 
 import { EnneagramComponent } from "./home/enneagram/enneagram.component";
 import { BlogComponent } from "./home/blog/blog.component";
-import { ProfileComponent } from "./home/profile/profile.component";
+import { ProfileInputComponent } from "./home/profile-input/profile-input.component";
 import { SettingComponent } from "./home/setting/setting.component";
-
+import { FriendaddComponent } from "./home/friendadd/friendadd.component";
 
 
 
@@ -84,8 +84,9 @@ if(platform.isIOS) {
         SearchOptionComponent,
         EnneagramComponent,
         BlogComponent,
-        ProfileComponent,
+        ProfileInputComponent,
         SettingComponent,
+        FriendaddComponent,
 
         ActionButtonComponent,
         FloatButtonComponent,

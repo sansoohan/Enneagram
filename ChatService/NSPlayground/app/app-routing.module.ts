@@ -14,9 +14,10 @@ import { DetailsComponent } from "./home/searchresult/details/details.component"
 import { EnneagramComponent } from "./home/enneagram/enneagram.component";
 import { MapExampleComponent } from "./home/friendmatching/map-example/map-example.component";
 import { BlogComponent } from "./home/blog/blog.component";
-import { ProfileComponent } from "./home/profile/profile.component";
+import { ProfileInputComponent } from "./home/profile-input/profile-input.component";
 import { SettingComponent } from "./home/setting/setting.component";
 import { SearchOptionComponent } from "./home/searchoption/searchoption.component";
+import { FriendaddComponent } from "./home/friendadd/friendadd.component";
 const routes: Routes = [
     { path: "", redirectTo: "login", pathMatch: "full" },
     { path: "home", redirectTo: "/home/(friendlistoutlet:friendlist//friendchatoutlet:friendchat//friendmatchingoutlet:friendmatching//ideamatchingoutlet:ideamatching)", pathMatch: "full" },
@@ -39,7 +40,8 @@ const routes: Routes = [
     { path: 'ideamatching', component: IdeamatchingComponent },
     { path: 'searchresult', component: SearchResultComponent },
     { path: 'searchoption', component: SearchOptionComponent },
-    { path: 'profile', component: ProfileComponent},
+    { path: 'friendadd', component: FriendaddComponent},
+    { path: 'profile-input', component: ProfileInputComponent},
     { path: 'setting', component: SettingComponent}
 ];
 

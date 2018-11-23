@@ -1,12 +1,12 @@
 .chat-layer{
-    margin-bottom: 10%;
+    margin-bottom: 20%;
 }
 
 .chat-form{
 	border-radius:15;
     background-color: #30bcff;
     height: 80;
-	margin-top: 80%;
+	margin-top: 75%;
     text-align: center;
     margin-left: 10;
     margin-right: 10;
@@ -59,8 +59,9 @@
 	margin-bottom: 15;
 }
 .list-image{
-    height: 60;
-    border-radius: 30;
+    height: 40;
+    width: 40;
+    border-radius: 20;
 }
 .list-title{
     color: black;

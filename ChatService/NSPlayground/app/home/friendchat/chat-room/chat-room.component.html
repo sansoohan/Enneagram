@@ -6,13 +6,13 @@
 	</GridLayout>
 </ActionBar>
 
-<ScrollView #scroll class="page">
+<ScrollView scrollView class="page" (loaded)="onScrollerLoaded($event)">
 	<StackLayout class="chat-layer">
 		<CardView *ngFor="let item of firebaseService.selectedRoomMessageArray" class="card" ios:shadowRadius="3">
 			<StackLayout class="card-layout">
 				<GridLayout rows="auto, auto, auto" columns="auto, auto">
-					<Image height="60" row="0" col="0" rowSpan="3" [src]="getProfilePicsrc(item)" class="thumb img-circle"></Image>
-					<Label class="list-title" row="0" col="1" text=""></Label>
+					<Image class="list-image" row="0" col="0" rowSpan="3" [src]="getProfilePicsrc(item)"></Image>
+					<Label class="list-title" row="0" col="1" [text]="getProfileName(item)"></Label>
 					<Label class="list-items" row="1" col="1" rowSpan="2" [text]="getMessage(item)"></Label>
 				</GridLayout>
 			</StackLayout>

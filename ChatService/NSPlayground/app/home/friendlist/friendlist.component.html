@@ -9,8 +9,8 @@
 	</ListView>
 </ScrollView>
 <AbsoluteLayout>
-	<FloatButton text="+" (tap)="onTap($event)"></FloatButton>
 	<ChildButton1 #childButton1 text="ID" (tap)="onChildButton1Tap()"></ChildButton1>
+	<FloatButton #floatButton text="+" (tap)="onFloatButtonTap($event)"></FloatButton>
 </AbsoluteLayout>
 <GridLayout>
 	<StackLayout style.zIndex="999" modal size="lg" alignment="middle" dismissable="true" duration="100" (open)="onOpenModal()"

@@ -72,10 +72,11 @@ export class FriendchatComponent implements OnInit {
 
 	
 	onItemTap(args) {
-		console.log(this.roomList.items[args.index]);
+		this.firebaseService.selectedRoomMessageArray = [];
+		// console.log(this.roomList.items[args.index]);
 		for(var selectedRoomID in this.roomList.items[args.index]){
 			this.firebaseService.selectedRoomID = selectedRoomID;
-			this.firebaseService.selectedRoomTitle = this.firebaseService.getRooms()[selectedRoomID]['title'];
+			this.firebaseService.selectedRoomTitle = this.firebaseService.getRooms()[selectedRoomID]['room_users'][this.firebaseService.authuser.uid]['title'];
 			var messages = this.firebaseService.getRooms()[selectedRoomID]['messages']
 			this.firebaseService.selectedRoomMessageArray = this.firebaseService.jsonToArray(messages);
 			this.firebaseService.sortMessageArrayWithTimeStamp(this.firebaseService.selectedRoomMessageArray);

@@ -3,7 +3,7 @@
 		<StackLayout row="0" class="sidedrawer-header" (tap)="profileTap()">
 			<Image class="sidedrawer-header-image" [src]="profilePicsrc"></Image>
 			<Label class="sidedrawer-header-brand" [text]="name"></Label>
-			<Label class="footnote" text="username@mail.com"></Label>
+			<Label class="footnote" [text]="email"></Label>
 		</StackLayout>
 
 		<ScrollView row="1">

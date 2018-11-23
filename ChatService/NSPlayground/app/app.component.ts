@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
     private _sideDrawerTransition: DrawerTransitionBase;
     public profilePicsrc = "~/home/images/user-avatar-main-picture.png";
     public name = "user";
+    public email = "user@email";
     @ViewChild("actionButton") _buttonRef: ActionButtonComponent;
 
     user: Observable<firebase.User>;
@@ -24,11 +25,17 @@ export class AppComponent implements OnInit {
         private firebaseService: FirebaseService
     ) {
         // Use the component constructor to inject services.
-
     }
 
     ngOnInit(): void {
         this._sideDrawerTransition = new SlideInOnTopTransition();
+        setInterval(()=>{
+            if(this.firebaseService.authuser){
+                this.profilePicsrc = this.firebaseService.thisUser[this.firebaseService.authuser.uid]['profile']['profilePicsrc'];
+                this.name =  this.firebaseService.thisUser[this.firebaseService.authuser.uid]['profile']['name'];
+                this.email =  this.firebaseService.thisUser[this.firebaseService.authuser.uid]['profile']['email'];    
+            }
+        },5000);
     }
 
     closeDrawer(): void{
@@ -45,7 +52,7 @@ export class AppComponent implements OnInit {
 
     profileTap(): void{
         this.closeDrawer();
-        this.routerExtensions.navigate(['/profile'], { animated: false });
+        this.routerExtensions.navigate(['/profile-input'], { animated: false });
         this._buttonRef.makeArrow();
     }
 

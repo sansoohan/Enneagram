@@ -22,7 +22,7 @@ export class FriendlistComponent implements OnInit {
 	@ViewChild("childButton1") childButton1: ChildButton1Component;
 	@ViewChild("childButton2") childButton2: ChildButton2Component;
 	@ViewChild("childButton3") childButton3: ChildButton3Component;
-	@ViewChild("floatButton") public floatButton: FloatButtonComponent;
+	@ViewChild("floatButton") floatButton: FloatButtonComponent;
 	@ViewChild("friendchat") friendchat: FriendchatComponent;
 	@ViewChild(ModalComponent) modal: ModalComponent;
 	private _buttonRef: ActionButtonComponent;
@@ -34,7 +34,9 @@ export class FriendlistComponent implements OnInit {
 		
 	}
 	onChildButton1Tap(){
-
+		this.routerExtensions.navigate(['/friendadd'], { animated: false });
+		this.closeModal();
+		this._buttonRef.makeArrow();
 	}
 
 	getFriendProfilePicsrc(item):string{
@@ -71,27 +73,34 @@ export class FriendlistComponent implements OnInit {
 	}
 
 	onItemTap(args) {
-		console.log(this.friendList.items[args.index]);
+		// console.log(this.friendList.items[args.index]);
 		for(var selelctedFriendID in this.friendList.items[args.index]){
 			this.firebaseService.selectedFriendID = selelctedFriendID;
 		}
 		this.openModal();
 	}
-	public onTap() {
+	public onFloatButtonTap() {
 		if (this.drawer) {
 			this.drawer = false;
 			this.childButton1.drawerOpen(this.drawer);
+			this.childButton1.floatButtonOn = this.drawer;
 			this.childButton2.drawerOpen(this.drawer);
+			this.childButton2.floatButtonOn = this.drawer;
 			this.childButton3.drawerOpen(this.drawer);
+			this.childButton3.floatButtonOn = this.drawer;
 		}
 		else {
 			this.drawer = true;
 			this.childButton1.drawerOpen(this.drawer);
+			this.childButton1.floatButtonOn = this.drawer;
 			this.childButton2.drawerOpen(this.drawer);
+			this.childButton2.floatButtonOn = this.drawer;
 			this.childButton3.drawerOpen(this.drawer);
+			this.childButton3.floatButtonOn = this.drawer;
 		}
 	}
 	onChatTap(): void {
+		this.firebaseService.selectedRoomMessageArray = [];
 		var selectedFriend = {};
 		selectedFriend[this.firebaseService.selectedFriendID] = this.firebaseService.getFriends()[this.firebaseService.selectedFriendID];
 		this.firebaseService.generateRoomWithSelectedFriends(this.firebaseService.thisUser, selectedFriend);
