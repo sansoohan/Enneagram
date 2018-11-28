@@ -1,5 +1,5 @@
 <div class="feed">
-  <div *ngFor="let message of feed" class="message">
+  <div *ngFor="let message of this.firebaseService.thisRoomMessagesArray" class="message">
     <app-message [chatMessage]=message></app-message>
   </div>
 </div>

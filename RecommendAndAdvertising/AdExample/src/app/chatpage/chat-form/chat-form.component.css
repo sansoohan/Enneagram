@@ -6,7 +6,7 @@
     color: #000;
     transition: 0.1s ease-out;
     padding-left: 80px;
-    width:90vw;
+    width:85vw;
 }
 
 .chatInput:focus{
@@ -24,7 +24,6 @@
     background-color: #2A2845;
     color: white;
     transition: 0.2s ease-out;
-    
     width:10vw;
 }
 

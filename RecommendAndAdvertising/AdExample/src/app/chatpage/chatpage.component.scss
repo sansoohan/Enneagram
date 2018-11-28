@@ -14,3 +14,83 @@
 app-chatroom {
     height: 1000;
 }
+
+
+
+.userListWrapper {
+    background-color: #2A2845;
+    color: #fff;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.8em;
+    flex: 1;
+    order: 1;
+    padding:20px 30px 40px 30px;
+    border-right: 1px solid #222;
+}
+
+.feedWrapper {
+    width: 100%;
+    height: 80vh;
+    background-color: #fff;
+    background: 
+        linear-gradient(181deg, rgba(100,200,255,0.6), rgba(0, 0, 0, 0.9)),
+        url('../../assets/img/chat-bg-1.png') center center no-repeat;;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.2em;
+    flex: 5;
+    order: 2;
+    overflow-y: scroll;
+    padding:20px 0px 0px 24px;
+}
+
+
+#scroll-style::-webkit-scrollbar-track
+{
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.alert{
+    margin: 10px 0px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
+    width: 100%;
+    height: 30px;
+    line-height: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+.alert-light{
+    border-radius: 10px;
+    font-size: 15px;
+}
+.alert-resultOut{
+    height: auto;
+    line-height: 20px;
+    color: white;
+}
+.alert-resultOut2{
+    height: auto;
+    line-height: 20px;
+    color: white;
+}
+.btn{
+    margin: auto;
+    height: 20px;
+    line-height: 10px;
+    border-radius: 0px;
+    font-size: 12px;
+}
+
+.btn-group{
+    width: 100%;
+    font-size: 12px;
+}
+.btn-form{
+    margin: 10px;
+}
+.btn-search{
+    height: 40px;
+    margin-top: 10px;
+}
+
+

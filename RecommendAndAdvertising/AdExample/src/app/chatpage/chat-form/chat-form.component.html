@@ -1,2 +1,11 @@
-<input class="chatInput" [(ngModel)]="message"(keydown)="handleSubmit($event)"/>
-<button class="chatButton" (click)=send()>Send</button>
+
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <button class="btn btn-outline-primary" type="button" id="button-addon1">Quit</button>
+    </div>
+    <input type="text" class="form-control" aria-describedby="button-addon2"
+    [(ngModel)]="message" (keydown)="handleSubmit($event)">
+    <div class="input-group-append">
+        <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)=send()>Send</button>
+    </div>
+</div>

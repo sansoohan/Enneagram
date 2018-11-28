@@ -1,6 +1,120 @@
-<div class="chatRoom">
-  <div class="chatHeaderWrapper">
-    <app-navbar></app-navbar>
-  </div>
+<!-- <div class="chatRoom">
+  <app-navbar class="chatHeaderWrapper"></app-navbar>
   <app-chatroom></app-chatroom>
+</div> -->
+
+<!-- Navigation -->
+<app-navbar></app-navbar>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="wrapper" [ngClass]="{'toggled':firebaseService.userWaiting}">
+      <div id="sidebar-wrapper">
+          <ul class="sidebar-nav">
+            <div class="alert alert-light" role="alert">
+              Select Your Personality
+            </div>
+            
+            <div class="btn-form">
+              <div class="alert alert-success" role="alert">
+                Which emotion do you usually feel?
+              </div>      
+              <div class="btn-group btn-group-toggle btn-group-vertical" id="emotionButton" data-toggle="buttons" (click)="onSelectionChange()">
+                <label class="btn btn-success">
+                  <input type="radio" name="options" id="option1" autocomplete="off" value="Anger"> Anger
+                </label>
+                <label class="btn btn-success">
+                  <input type="radio" name="options" id="option2" autocomplete="off" value="Shame"> Shame
+                </label>
+                <label class="btn btn-success">
+                  <input type="radio" name="options" id="option3" autocomplete="off" value="Fear"> Fear
+                </label>
+              </div>
+            </div>
+            
+            <div class="btn-form">
+              <div class="alert alert-danger" role="alert">
+                What kind of person are you?
+              </div>
+              <div class="btn-group btn-group-toggle btn-group-vertical" id="behaviorButton" data-toggle="buttons" (click)="onSelectionChange()">
+                <label class="btn btn-danger">
+                  <input type="radio" name="options" id="option1" autocomplete="off" value="Active Person"> Active Person
+                </label>
+                <label class="btn btn-danger">
+                  <input type="radio" name="options" id="option2" autocomplete="off" value="Listener"> Listener
+                </label>
+                <label class="btn btn-danger">
+                  <input type="radio" name="options" id="option3" autocomplete="off" value="Not Active Person"> Not Active Person
+                </label>
+              </div>
+            </div>
+            
+            <div class="btn-form">
+              <div class="alert alert-info" role="alert">
+                Which one do you usually think?
+              </div>
+              <div class="btn-group btn-group-toggle btn-group-vertical" id="thoughtButton" data-toggle="buttons" (click)="onSelectionChange()">
+                <label class="btn btn-info">
+                  <input type="radio" name="options" id="option1" autocomplete="off" value="Positive or Negative"> Positive or Negative
+                </label>
+                <label class="btn btn-info">
+                  <input type="radio" name="options" id="option2" autocomplete="off" value="Trust or Betray"> Trust or Betray
+                </label>
+                <label class="btn btn-info">
+                  <input type="radio" name="options" id="option3" autocomplete="off" value="Success or Failure"> Success or Failure
+                </label>
+              </div>
+            </div>
+            <div class="btn-form">
+              <div class="alert alert-resultOut" id="resultOut" role="alert">
+                Please fill the form.
+              </div>
+            </div>
+
+            <div class="btn-form" *ngIf="number">
+              <div class="alert alert-dark" role="alert">
+                Select Search Level
+              </div>
+              <div class="btn-group btn-group-toggle" id="filterButton" data-toggle="buttons" (click)="onFilterChange()">
+                <label class="btn btn-dark">
+                  <input type="radio" name="options" id="option1" autocomplete="off" value="High"> High
+                </label>
+                <label class="btn btn-dark">
+                  <input type="radio" name="options" id="option2" autocomplete="off" value="Midium"> Midium
+                </label>
+                <label class="btn btn-dark">
+                  <input type="radio" name="options" id="option3" autocomplete="off" value="Low"> Low
+                </label>
+              </div>
+            </div>
+
+            <div class="btn-form">
+              <div class="alert alert-resultOut2" id="resultOut2" role="alert">
+
+              </div>
+            </div>
+
+            <div>
+              <button type="button" class="btn btn-search btn-primary btn-lg btn-block" [disabled]="!firebaseService.userWaiting" (click)="onToggleButton()">Go to Random Matching →</button>
+            </div>
+          </ul>
+      </div>
+      
+      <div #scroller class="feedWrapper">
+        <app-feed></app-feed>
+      </div>
+
+      <div class="chatFormWrapper">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <button class="btn btn-outline-primary" type="button" id="button-addon1" [disabled]="firebaseService.userWaiting" (click)="onToggleButton()">Quit</button>
+          </div>
+          <input type="text" class="form-control" aria-describedby="button-addon2"
+          [(ngModel)]="message" (keydown)="handleSubmit($event)">
+          <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="button" id="button-addon2" [disabled]="!firebaseService.userChatting" (click)=send()>Send</button>
+          </div>
+        </div>
+      </div>
+  </div>
 </div>

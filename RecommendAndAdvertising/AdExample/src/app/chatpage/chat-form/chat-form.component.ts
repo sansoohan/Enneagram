@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ChatService } from '../services/chat.service';
 import { FirebaseService } from '../services/firebase.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { FirebaseService } from '../services/firebase.service';
 export class ChatFormComponent implements OnInit {
   message;
 
-  constructor(private chat: ChatService,
+  constructor(
     private firebaseService: FirebaseService
   ) {
     this.message = '';
@@ -20,16 +19,18 @@ export class ChatFormComponent implements OnInit {
   }
 
   send() {
-    // this.chat.sendMessage(this.message);
-    this.message = '';
-    this.firebaseService.sendMessage('-LQUOFlwScLlyhEjAAj0', {
-      randomuser_id: '-LQUOFlwScLlyhEjAAj0',
+    if (this.message === '') {
+      return;
+    }
+    this.firebaseService.sendMessage({
+      randomuser_id: this.firebaseService.thisUser_id,
       randomuser_enneagram_num: '8',
-      message: 'hello',
+      message: this.message,
       timeSent: this.firebaseService.getTimeStamp(),
       timeOpened: this.firebaseService.getTimeStamp(),
       timeClosed: this.firebaseService.getTimeStamp()
     });
+    this.message = '';
   }
 
   handleSubmit(event) {

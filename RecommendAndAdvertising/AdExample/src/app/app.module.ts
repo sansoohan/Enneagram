@@ -10,8 +10,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from 'src/environments/environment';
 
-import { AuthService } from 'src/app/chatpage/services/auth.service';
-import { ChatService } from 'src/app/chatpage/services/chat.service';
+
 import { FirebaseService } from 'src/app/chatpage/services/firebase.service';
 
 import { AppComponent } from './app.component';
@@ -25,13 +24,11 @@ import { ApplicationHomeComponent } from './application-home/application-home.co
   import { AppStartComponent } from './application-home/start/start.component';
 
 import { AdvertiseHomeComponent } from './advertise-home/advertise-home.component';
-import { ChatroomComponent } from './chatpage/chatroom/chatroom.component';
 import { ChatpageComponent } from './chatpage/chatpage.component';
-import { ChatFormComponent } from './chatpage/chat-form/chat-form.component';
-import { FeedComponent } from './chatpage/feed/feed.component';
-import { UserItemComponent } from './chatpage/user-item/user-item.component';
-import { MessageComponent } from './chatpage/message/message.component';
-import { NavbarComponent } from './chatpage/navbar/navbar.component';
+  import { ChatFormComponent } from './chatpage/chat-form/chat-form.component';
+  import { FeedComponent } from './chatpage/feed/feed.component';
+    import { MessageComponent } from './chatpage/feed/message/message.component';
+  import { NavbarComponent } from './chatpage/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -46,13 +43,11 @@ import { NavbarComponent } from './chatpage/navbar/navbar.component';
     ApplicationHomeComponent,
     AdvertiseHomeComponent,
 
-    ChatroomComponent,
     ChatpageComponent,
     ChatFormComponent,
     FeedComponent,
-    UserItemComponent,
     MessageComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,13 +57,11 @@ import { NavbarComponent } from './chatpage/navbar/navbar.component';
     HttpClientModule,
     HttpModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
   ],
   providers: [
-    AuthService,
-    ChatService,
     FirebaseService,
     {provide: APP_BASE_HREF, useValue: '/'}],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
