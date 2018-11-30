@@ -16,3 +16,12 @@
 	padding: 10;
 }
 
+.message_row{
+    margin-left: 10%;
+    height: 40;
+    font-size: 20;
+}
+.message_title{
+    height: 40;
+    font-size: 20;
+}

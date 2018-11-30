@@ -5,3 +5,7 @@
         <ActionButton (tap)="onTap($event)" isArrow="true"></ActionButton>
     </GridLayout>
 </ActionBar>
+<GridLayout rows="auto", columns="auto auto">
+    <Label class="message_title" row="0" col="0" text="Search ID:"></Label>
+    <TextField class="message_row" row="0" col="1" [(ngModel)]="searchID" hint="meter"></TextField>
+</GridLayout>

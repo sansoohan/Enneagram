@@ -11,7 +11,7 @@ import { FirebaseService } from "../../services/firebase.service";
 	styleUrls: ['./friendadd.component.css']
 })
 export class FriendaddComponent implements OnInit {
-
+	searchID;
 	constructor(private routerExtensions: RouterExtensions,
 		private firebaseService: FirebaseService
 	) {

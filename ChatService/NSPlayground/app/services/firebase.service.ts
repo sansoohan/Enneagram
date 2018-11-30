@@ -419,6 +419,15 @@ export class FirebaseService {
         });
     }
 
+    getSelectedPost(){
+        for(var i=0 ;i<this.postSearchResultArray.length;i++){
+            for(var post_id in this.postSearchResultArray[i]){
+                if(this.selectedPostID === post_id){
+                    return this.postSearchResultArray[i];
+                }
+            }
+        }
+    }
     // ---------------------- test queries ------------------------------------
 
     // // new user
