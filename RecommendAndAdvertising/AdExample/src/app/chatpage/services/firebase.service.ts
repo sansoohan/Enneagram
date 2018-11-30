@@ -7,24 +7,24 @@ import { SelectMultipleControlValueAccessor } from '@angular/forms';
   providedIn: 'root'
 })
 export class FirebaseService {
-  thisUser_messages: Observable<any[]>;
-  itemValue: string;
-  thisRoom_id: string;
-  thisRoomMessages: any;
-  thisRoomMessagesArray: Array<any>;
-  thisUser_id: string;
-  thisUser_state: any;
-  selectedUser_id: any;
-  thisUser_enneagram: any;
-  searchedUsers: any;
-  searchedUsersCount: number;
-  searchedUsersIndex: number;
-  filteredUsersIndex: number;
-  databaseLock: boolean;
+  public thisUser_messages: Observable<any[]>;
+  public itemValue: string;
+  public thisRoom_id: string;
+  public thisRoomMessages: any;
+  public thisRoomMessagesArray: Array<any>;
+  public thisUser_id: string;
+  public thisUser_state: any;
+  public selectedUser_id: any;
+  public thisUser_enneagram: any;
+  public searchedUsers: any;
+  public searchedUsersCount: number;
+  public searchedUsersIndex: number;
+  public filteredUsersIndex: number;
+  public databaseLock: boolean;
 
-  userWaiting: boolean;
-  userChatting: boolean;
-  userSearching: boolean;
+  public userWaiting: boolean;
+  public userChatting: boolean;
+  public userSearching: boolean;
   constructor(public angularFireDatabase: AngularFireDatabase,
     // private angularFireList: AngularFireList<any>,
     // private angularFireList: AngularFireList<ChatMessage>

@@ -13,7 +13,7 @@ export class FeedComponent implements OnInit, OnChanges {
   // feed: FirebaseListObservable<ChatMessage[]>;
 
   constructor(
-    private firebaseService: FirebaseService,
+    public firebaseService: FirebaseService,
   ) { }
 
   ngOnInit() {

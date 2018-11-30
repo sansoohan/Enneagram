@@ -10,7 +10,7 @@ export class ChatFormComponent implements OnInit {
   message;
 
   constructor(
-    private firebaseService: FirebaseService
+    public firebaseService: FirebaseService
   ) {
     this.message = '';
   }

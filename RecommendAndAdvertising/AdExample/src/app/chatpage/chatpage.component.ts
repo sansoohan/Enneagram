@@ -28,7 +28,7 @@ export class ChatpageComponent implements OnInit, AfterViewChecked {
   selectedUser_id_temp: string;
   @ViewChild('scroller') private feedContainer: ElementRef;
   constructor(
-    private firebaseService: FirebaseService,
+    public firebaseService: FirebaseService,
     // private dialog: MatDialog
   ) {
     this.message = '';
@@ -101,7 +101,7 @@ export class ChatpageComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  onSelectionChange(entry) {
+  onSelectionChange() {
     setTimeout(() => {
       if ($('#emotionButton input:radio:checked').val()) {
         this.emotion = $('#emotionButton input:radio:checked').val();
