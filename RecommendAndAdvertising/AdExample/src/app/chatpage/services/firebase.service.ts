@@ -39,6 +39,8 @@ export class FirebaseService {
     this.userChatting = false;
     this.userSearching = false;
     this.selectedUser_id = '-';
+    this.thisRoomMessages = {};
+    this.thisRoomMessagesArray = [];
   }
 
   syncThisUserState() {
@@ -47,9 +49,6 @@ export class FirebaseService {
     this.angularFireDatabase.list('/randomusers/' + this.thisUser_id)
     .snapshotChanges(['child_changed'])
     .subscribe(actions => {
-      this.thisRoomMessages = {};
-      this.thisRoomMessagesArray = [];
-      this.pushSystemMessage('Searching...');
       actions.forEach(action => {
         // console.log('syncThisUserState type  :' + action.type);
         // console.log('syncThisUserState key   :' + action.key);
@@ -71,6 +70,7 @@ export class FirebaseService {
                 break;
               case 'waiting':
                 this.userWaiting = false;
+                this.setMessageDisabled();
                 break;
               case 'searching':
                 this.userSearching = false;
@@ -80,19 +80,23 @@ export class FirebaseService {
           this.thisUser_state = action.payload.val();
           switch (this.thisUser_state) {
             case 'chatting':
+              this.thisRoomMessages = {};
+              this.thisRoomMessagesArray = [];
               this.userChatting = true;
-              if (this.selectedUser_id !== '-') {
-                this.pushSystemMessage('You are now chatting with a random stranger. Say hi!');
-              }
+              setTimeout(() => {
+                if (this.selectedUser_id !== '-') {
+                  this.pushSystemMessage('You are now chatting with a random stranger. Say hi!');
+                }
+              }, 1500);
               break;
             case 'waiting':
               this.userWaiting = true;
               // this.thisRoomMessages = {};
               this.pushSystemMessage('You have disconnected.');
-              this.setMessageDisabled();
               break;
             case 'searching':
               this.userSearching = true;
+              this.pushSystemMessage('Searching...');
               break;
           }
           console.log('user_state :' + this.thisUser_state);
@@ -160,7 +164,7 @@ export class FirebaseService {
         this.setUserState(this.thisUser_id, user_profile);
         this.setUserState(this.selectedUser_id, {state: 'chatting', selected_user: this.thisUser_id});
       }
-    }, 1500);
+    }, 1000);
   }
   // 2. set thisuser (after unlock database)
   setUserState(user_id: string, user_profile: any) {
