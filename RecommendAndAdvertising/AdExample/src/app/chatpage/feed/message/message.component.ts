@@ -31,7 +31,7 @@ export class MessageComponent implements OnInit {
         console.log(this.chatMessage[messageID]['randomuser_id']);
         console.log(this.firebaseService.thisUser_id);
         this.isOwnMessage = (this.chatMessage[messageID]['randomuser_id'] === this.firebaseService.thisUser_id);
-        this.userName = this.isOwnMessage ? 'You' : 'Apponent';
+        this.userName = this.isOwnMessage ? 'You' : 'Stranger';
         if (this.chatMessage[messageID]['randomuser_id'] === 'system') {
           this.userName = 'System';
         }

@@ -14,8 +14,9 @@ export class FirebaseService {
   public thisRoomMessagesArray: Array<any>;
   public thisUser_id: string;
   public thisUser_state: any;
-  public selectedUser_id: any;
   public thisUser_enneagram: any;
+  public selectedUser_id: any;
+  public selectedUser_enneagram: any;
   public searchedUsers: any;
   public searchedUsersCount: number;
   public searchedUsersIndex: number;
@@ -57,6 +58,9 @@ export class FirebaseService {
         if (action.key === 'selected_user') {
           this.selectedUser_id = action.payload.val();
         }
+        if (action.key === 'number') {
+          this.thisUser_enneagram = action.payload.val();
+        }
         if (action.key === 'state') {
           if (this.thisUser_state === action.payload.val()) {
             return;
@@ -78,13 +82,13 @@ export class FirebaseService {
             case 'chatting':
               this.userChatting = true;
               if (this.selectedUser_id !== '-') {
-                this.pushSystemMessage('Chat start!');
+                this.pushSystemMessage('You are now chatting with a random stranger. Say hi!');
               }
               break;
             case 'waiting':
               this.userWaiting = true;
               // this.thisRoomMessages = {};
-              this.pushSystemMessage('Chat end.');
+              this.pushSystemMessage('You have disconnected.');
               this.setMessageDisabled();
               break;
             case 'searching':

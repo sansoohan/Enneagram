@@ -88,7 +88,7 @@ export class ChatpageComponent implements OnInit, AfterViewChecked {
     }
     this.firebaseService.sendMessage({
       randomuser_id: this.firebaseService.thisUser_id,
-      randomuser_enneagram_num: this.firebaseService.selectedUser_id,
+      randomuser_enneagram_num: this.firebaseService.thisUser_enneagram,
       message: this.message,
       timeSent: this.firebaseService.getTimeStamp(),
     });
