@@ -52,6 +52,7 @@ export class ChatpageComponent implements OnInit, AfterViewChecked {
       alert('Please Select All.');
       return;
     }
+    // start chatting
     if (this.firebaseService.userWaiting) {
       this.userProfile['state'] = 'chatting';
       if (!this.firebaseService.thisUser_id) {
@@ -59,6 +60,7 @@ export class ChatpageComponent implements OnInit, AfterViewChecked {
       }
       console.log(this.enneagram_nums);
       this.firebaseService.findFriend(this.enneagram_nums, this.userProfile);
+    // quit room
     } else if (this.firebaseService.userSearching) {
       this.userProfile['state'] = 'waiting';
       this.firebaseService.setUserState(this.firebaseService.thisUser_id, this.userProfile);
@@ -86,11 +88,9 @@ export class ChatpageComponent implements OnInit, AfterViewChecked {
     }
     this.firebaseService.sendMessage({
       randomuser_id: this.firebaseService.thisUser_id,
-      randomuser_enneagram_num: '8',
+      randomuser_enneagram_num: this.firebaseService.selectedUser_id,
       message: this.message,
       timeSent: this.firebaseService.getTimeStamp(),
-      timeOpened: this.firebaseService.getTimeStamp(),
-      timeClosed: this.firebaseService.getTimeStamp(),
     });
     this.message = '';
   }

@@ -14,6 +14,7 @@ export class MessageComponent implements OnInit {
   timeStamp: Date = new Date();
   messageContent: string;
   isOwnMessage: boolean;
+  isSystemMessage: boolean;
 
   constructor(
     private firebaseService: FirebaseService
@@ -31,6 +32,9 @@ export class MessageComponent implements OnInit {
         console.log(this.firebaseService.thisUser_id);
         this.isOwnMessage = (this.chatMessage[messageID]['randomuser_id'] === this.firebaseService.thisUser_id);
         this.userName = this.isOwnMessage ? 'You' : 'Apponent';
+        if (this.chatMessage[messageID]['randomuser_id'] === 'system') {
+          this.userName = 'System';
+        }
       }
     }
   }

@@ -25,6 +25,8 @@ export class FirebaseService {
   public userWaiting: boolean;
   public userChatting: boolean;
   public userSearching: boolean;
+
+  public thisUserMessageSync;
   constructor(public angularFireDatabase: AngularFireDatabase,
     // private angularFireList: AngularFireList<any>,
     // private angularFireList: AngularFireList<ChatMessage>
@@ -35,6 +37,7 @@ export class FirebaseService {
     this.userWaiting = true;
     this.userChatting = false;
     this.userSearching = false;
+    this.selectedUser_id = '-';
   }
 
   syncThisUserState() {
@@ -45,6 +48,7 @@ export class FirebaseService {
     .subscribe(actions => {
       this.thisRoomMessages = {};
       this.thisRoomMessagesArray = [];
+      this.pushSystemMessage('Searching...');
       actions.forEach(action => {
         // console.log('syncThisUserState type  :' + action.type);
         // console.log('syncThisUserState key   :' + action.key);
@@ -73,12 +77,15 @@ export class FirebaseService {
           switch (this.thisUser_state) {
             case 'chatting':
               this.userChatting = true;
+              if (this.selectedUser_id !== '-') {
+                this.pushSystemMessage('Chat start!');
+              }
               break;
             case 'waiting':
               this.userWaiting = true;
               // this.thisRoomMessages = {};
-              // this.thisRoomMessagesArray = [];
-              // this.setMessageDisabled();
+              this.pushSystemMessage('Chat end.');
+              this.setMessageDisabled();
               break;
             case 'searching':
               this.userSearching = true;
@@ -95,9 +102,17 @@ export class FirebaseService {
     });
   }
 
+  pushSystemMessage(system_message: string) {
+    this.thisRoomMessagesArray.push({system: {
+      message: system_message,
+      timeSent: this.getTimeStamp(),
+      randomuser_id: 'system',
+      randomuser_enneagram_num: 9
+    }});
+  }
+
   // 1. set random friend (lock database)
   findFriend(search_enneagram_nums: Array<any>, user_profile: any) {
-    // Lock
     this.selectedUser_id = '-';
     this.searchedUsers = {};
     this.searchedUsersCount = 0;
