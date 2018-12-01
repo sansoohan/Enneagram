@@ -45,7 +45,8 @@ export class ChatpageComponent implements OnInit, AfterViewChecked {
       emotion: this.emotion,
       thought: this.thought,
       number: this.number,
-      selected_user: '-'
+      selected_user: '-',
+      // this should be added after findFriend()
     };
 
     if (!this.number || !this.filterLevel) {

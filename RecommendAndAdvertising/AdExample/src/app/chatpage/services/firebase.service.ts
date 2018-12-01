@@ -17,6 +17,7 @@ export class FirebaseService {
   public thisUser_enneagram: any;
   public selectedUser_id: any;
   public selectedUser_enneagram: any;
+  public selectedUser_search_numbers_array: Array<any>;
   public searchedUsers: any;
   public searchedUsersCount: number;
   public searchedUsersIndex: number;
@@ -120,12 +121,13 @@ export class FirebaseService {
   }
 
   // 1. set random friend (lock database)
-  findFriend(search_enneagram_nums: Array<any>, user_profile: any) {
+  findFriend(search_enneagram_nums: Array<any>, user_profile: any): void {
     this.selectedUser_id = '-';
     this.searchedUsers = {};
     this.searchedUsersCount = 0;
-    this.angularFireDatabase
+    this.selectedUser_search_numbers_array = [];
 
+    this.angularFireDatabase
     // friend search query and set friend random.
     .list('/randomusers').query.orderByChild('state').equalTo('searching')
     .on('child_added', snapshot => {
@@ -133,8 +135,11 @@ export class FirebaseService {
       // console.log(snapshot.child('/').val());
       console.log(snapshot.child('/').val()['number']);
       // console.log(search_enneagram_nums[this.searchedUsersIndex]);
-      // console.log(search_enneagram_nums[this.searchedUsersIndex]);
-      if (search_enneagram_nums.find(function(element) {return (element === snapshot.child('/').val()['number']); })) {
+
+      // match this user -> other user
+      if (search_enneagram_nums.find(function(element): boolean {
+        return (element === snapshot.child('/').val()['number']);
+      })) {
         this.searchedUsers[snapshot.key] = snapshot.child('/').val();
         this.searchedUsersCount++;
       }
@@ -142,18 +147,35 @@ export class FirebaseService {
 
     // wait search query done. 1.5 sec.
     setTimeout(() => {
+      // match other user -> this user
+      this.filteredUsersIndex = 0;
+      for (this.selectedUser_id in this.searchedUsers) {
+        if (this.searchedUsers[this.selectedUser_id]['search_numbers'].split(',')
+        .find((element): boolean => {
+          return element === this.thisUser_enneagram;
+        })) {
+          continue;
+        } else {
+          delete this.searchedUsers[this.selectedUser_id];
+          this.searchedUsersCount--;
+        }
+      }
       // console.log(this.searchedUsers);
+
+      // random user Pick
       this.filteredUsersIndex = 0;
       const generatedRandomIndex = Math.floor(this.searchedUsersCount * Math.random());
       for (this.selectedUser_id in this.searchedUsers) {
         if (generatedRandomIndex === this.filteredUsersIndex ) {
-          break;
+          if (this.selectedUser_search_numbers_array.find((element): boolean => {
+            return element === this.thisUser_enneagram;
+          })) {
+            break;
+          }
         } else {
           this.filteredUsersIndex++;
         }
       }
-      // Unlock
-      // this.databaseLock = false;
       console.log('selected_id : ' + this.selectedUser_id);
       if (this.selectedUser_id === '-') {
         user_profile['state'] = 'searching';
@@ -193,25 +215,7 @@ export class FirebaseService {
       this.thisRoomMessagesArray.push(messagePack);
     });
   }
-  // syncThisUserMessage() {
-  //   let messagePack;
-  //   console.log('snapshot');
-  //   this.angularFireDatabase.list('/randomrooms/' + this.thisUser_id + '/messages')
-  //   .snapshotChanges(['child_added'])
-  //   .subscribe(actions => {
-  //     this.thisRoomMessages = {};
-  //     this.thisRoomMessagesArray = [];
-  //     actions.forEach(action => {
-  //       console.log(action.type);
-  //       console.log(action.key);
-  //       console.log(action.payload.val());
-  //       this.thisRoomMessages[action.key] = action.payload.val();
-  //       messagePack = {};
-  //       messagePack[action.key] = action.payload.val();
-  //       this.thisRoomMessagesArray.push(messagePack);
-  //     });
-  //   });
-  // }
+
   async delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
   }
