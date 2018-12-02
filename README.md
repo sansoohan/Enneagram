@@ -48,15 +48,17 @@ Enneagram - Analyzing Natural Language
 
 <h2>Marketting tools</h2>
 
-<a href='https://youtu.be/WzL-98kEfhs'>Tracking User Data for marketting</a>
-<a href='https://youtu.be/V0doxN0gkoI'>Login by Facebook ID tutorial</a>
-<a href='https://github.com/EddyVerbruggen/nativescript-admob'>Addmod example</a>
-<a href='https://youtu.be/w7muIkMYE_A'>Addmod example</a>
-<a href='https://youtu.be/rMvSWDtZGVo'>Google AdWords tutorial</a>
-<a href='https://github.com/EddyVerbruggen/nativescript-plugin-firebase/blob/master/docs/ANALYTICS.md'>Firebase Analytics example</a>
-<a href='https://youtu.be/uyCZIN_gDIw'>Firebase Analytics tutorial</a>
-<a href='https://github.com/NativeScript/NativeScript/issues/3738'>Deep Link example</a>
+<p><a href='https://youtu.be/WzL-98kEfhs'>Tracking User Data for marketting</a></p>
+<p><a href='https://youtu.be/V0doxN0gkoI'>Login by Facebook ID tutorial</a></p>
+<p><a href='https://github.com/EddyVerbruggen/nativescript-admob'>Addmod example</a></p>
+<p><a href='https://youtu.be/w7muIkMYE_A'>Addmod example</a></p>
+<p><a href='https://youtu.be/rMvSWDtZGVo'>Google AdWords tutorial</a></p>
+<p><a href='https://github.com/EddyVerbruggen/nativescript-plugin-firebase/blob/master/docs/ANALYTICS.md'>Firebase Analytics example</a></p>
+<p><a href='https://youtu.be/uyCZIN_gDIw'>Firebase Analytics tutorial</a></p>
+<p><a href='https://github.com/NativeScript/NativeScript/issues/3738'>Deep Link example</a></p>
 
 <h2>Analyzing tools</h2>
 
-<a href='https://www.youtube.com/watch?v=VSbU7bKfNkA&list=PL9ooVrP1hQOGyFc60sExNX1qBWJyV5IMb'>Spark and Scala</a>
+<p><a href='https://www.youtube.com/watch?v=VSbU7bKfNkA&list=PL9ooVrP1hQOGyFc60sExNX1qBWJyV5IMb'>Spark and Scala tutorial</a></p>
+<p><a href='https://github.com/EddyVerbruggen/nativescript-plugin-firebase/blob/master/docs/ML_KIT.md'>Firebase Machine Learning : example</a></p>
+<p><a href='https://www.youtube.com/watch?v=T0273WiUQPI'></a></p>
