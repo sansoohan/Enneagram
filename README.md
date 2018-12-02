@@ -40,7 +40,23 @@ Enneagram - Analyzing Natural Language
 <p>Rapberry Pi Hadoop : Utube tutorial</p>
 <p>Amazon EC2 : Utube tutorial</p>
 <p>Amazon EC2 Cloudera : Utube tutorial</p>
-<p>Hadoop Scoop : Utube tutorial</p>
-<p>Hive query : document/googling</p>
+<p>JDBC Hive query : document/googling</p>
+<p>DeepLearning : 밑바닥부터 시작하는 딥러닝</p>
+<p>Tensorflow tutorial : Utube tutorial</p>
 
-<h2>Next Skills</h2>
+<h1>Next Step</h1>
+
+<h2>Marketting tools</h2>
+
+<a href='https://youtu.be/WzL-98kEfhs'>Tracking User Data for marketting</a>
+<a href='https://youtu.be/V0doxN0gkoI'>Login by Facebook ID tutorial</a>
+<a href='https://github.com/EddyVerbruggen/nativescript-admob'>Addmod example</a>
+<a href='https://youtu.be/w7muIkMYE_A'>Addmod example</a>
+<a href='https://youtu.be/rMvSWDtZGVo'>Google AdWords tutorial</a>
+<a href='https://github.com/EddyVerbruggen/nativescript-plugin-firebase/blob/master/docs/ANALYTICS.md'>Firebase Analytics example</a>
+<a href='https://youtu.be/uyCZIN_gDIw'>Firebase Analytics tutorial</a>
+<a href='https://github.com/NativeScript/NativeScript/issues/3738'>Deep Link example</a>
+
+<h2>Analyzing tools</h2>
+
+<a href='https://www.youtube.com/watch?v=VSbU7bKfNkA&list=PL9ooVrP1hQOGyFc60sExNX1qBWJyV5IMb'>Spark and Scala</a>
