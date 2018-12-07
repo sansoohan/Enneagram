@@ -148,6 +148,7 @@ export class FirebaseService {
     // wait search query done. 1.5 sec.
     setTimeout(() => {
       // match other user -> this user
+      console.log(this.selectedUser_id);
       this.filteredUsersIndex = 0;
       for (this.selectedUser_id in this.searchedUsers) {
         if (this.searchedUsers[this.selectedUser_id]['search_numbers'].split(',')
@@ -186,7 +187,7 @@ export class FirebaseService {
         this.setUserState(this.thisUser_id, user_profile);
         this.setUserState(this.selectedUser_id, {state: 'chatting', selected_user: this.thisUser_id});
       }
-    }, 1000);
+    }, 1500);
   }
   // 2. set thisuser (after unlock database)
   setUserState(user_id: string, user_profile: any) {
