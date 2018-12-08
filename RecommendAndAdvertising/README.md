@@ -31,6 +31,10 @@ Developement Steps.
 <img src="result/advertismenthome/advertismenthome05.png" width="800"><br>
 <h1>4. Random Chat Room UI[done]</h1>
 <img src="result/randomchatroom/randomchatroom01.png" width="800"><br>
+<img src="result/randomchatroom/randomchatroom02.png" width="800"><br>
+<img src="result/randomchatroom/randomchatroom03.png" width="800"><br>
+<img src="result/randomchatroom/randomchatroom04.png" width="800"><br>
+<img src="result/randomchatroom/randomchatroom05.png" width="800"><br>
 <h1>5. Random Chat Function test</h1>
 <h1>6. Random Chat Database Architect</h1>
 <img src="result/database/database01.png" width="800"><br>
