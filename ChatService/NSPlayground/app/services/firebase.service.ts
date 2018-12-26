@@ -1008,8 +1008,10 @@ export class FirebaseService {
             }
         )
     }
+
+
     // get currendUser
-    login(user) {
+    loginByEmail(user) {
         firebase.login({
             type: firebase.LoginType.PASSWORD,
             passwordOptions: {
@@ -1018,28 +1020,108 @@ export class FirebaseService {
             }
         }).then((result: any) => {
             this.setCurrentUser();
-            ApplicationSettings.setBoolean("authenticated", true);
-            this.routerExtensions.navigate(["/home"], { clearHistory: true } );
             return JSON.stringify(result);
         }, (errorMessage: any) => {
             alert(errorMessage);
         });
     }
-    public setCurrentUser(){
-        firebase.getCurrentUser().then(user => {
-            this.setAuthUser(user);
+
+    public loginByFacebook(){
+        firebase.login({
+            type: firebase.LoginType.FACEBOOK,
+            // Optional
+            facebookOptions: {
+              // defaults to ['public_profile', 'email']
+              scope: ['public_profile', 'email']
+            }
+        }).then((result: any) => {
+            this.setCurrentUser();
+            return JSON.stringify(result);
+        }, (errorMessage: any) => {
+            alert(errorMessage);
         });
     }
 
+    public loginByGoogle(){
+        firebase.login({
+            type: firebase.LoginType.GOOGLE,
+            // Optional 
+            googleOptions: {
+              hostedDomain: "chat-demo-5d3a7.firebaseapp.com"
+            }
+        }).then((result: any) => {
+            this.setCurrentUser();
+            return JSON.stringify(result);
+        }, (errorMessage: any) => {
+            alert(errorMessage);
+        });
+    }
+
+    public setCurrentUser(){
+        firebase.getCurrentUser().then(user => {
+            this.authuser = user;
+            this.checkFirstUser();
+        });
+    }
+
+    // if thisuser is first user, make a firstuser data in firebase
+    checkFirstUser(){
+        firebase.getValue('/users/' + this.authuser.uid).then(result =>{
+            console.log(JSON.stringify(result));
+            let newUserData = {
+                "enneagram" : {
+                    "behavior" : "",
+                    "emotion" : "",
+                    "number" : 0,
+                    "state" : "",
+                    "thought" : ""
+                },
+                "friends" : {
+                },
+                "profile" : {
+                    "backgroundPicsrc" : "https://firebasestorage.googleapis.com/v0/b/chat-demo-5d3a7.appspot.com/o/users%2FXkM4MNwK30htBUgvW8vJPDRj4qF2%2Fimages%2Fimg_rank_s.jpg?alt=media&token=ceb99b79-8373-4c47-b97c-79cd73b12fc3",
+                    "country" : "Korea",
+                    "email" : this.authuser.email,
+                    "gender" : "",
+                    "interest" : "",
+                    "introducing" : "",
+                    "language" : "",
+                    "name" : this.authuser.email,
+                    "profilePicsrc" : "https://firebasestorage.googleapis.com/v0/b/chat-demo-5d3a7.appspot.com/o/firstuser%2Fimages%2Fuser-avatar-main-picture.png?alt=media&token=b749d53c-a1e5-446f-9afa-e8f7ee528333"
+                },
+                "user_rooms" : {
+                }
+            }
+            if(result.value == null){
+                firebase.setValue('/users/' + this.authuser.uid, newUserData).then(result => {
+                    console.log("first ok");
+                    console.log(JSON.stringify(result));
+                    ApplicationSettings.setBoolean("authenticated", true);
+                    this.routerExtensions.navigate(["/home"], { clearHistory: true } );
+                });
+            }
+            else{
+                console.log("user ok");
+                this.setAuthUser();
+                ApplicationSettings.setBoolean("authenticated", true);
+                this.routerExtensions.navigate(["/home"], { clearHistory: true } );
+            }
+            // this.rooms[result['key']] = JSON.parse(JSON.stringify(result['value']));
+            // this.setRoomArray();
+            // console.log(this.rooms[result['key']]);
+        }).catch(error => console.log("Error: " + error));
+    }
+
+
+
     //----------------------------Init Section------------------------------------------
-    setAuthUser(user:firebase.User){
-        this.authuser = user;
+    setAuthUser(){
         // set thisUser
-        firebase.getValue('/users/' + user.uid).then(result =>{
+        firebase.getValue('/users/' + this.authuser.uid).then(result =>{
             this.setThisUser(result);
         }).catch(error => console.log("Error: " + error));
         // set friends
-        firebase.getValue('/users/' + user.uid + '/friends').then(result =>{
+        firebase.getValue('/users/' + this.authuser.uid + '/friends').then(result =>{
             var result_keys = [];
             for(var k in result.value){
                 result_keys.push(k);
@@ -1063,6 +1145,8 @@ export class FirebaseService {
         this.thisUser = user;
         // console.log(this.thisUser);
     }
+
+    
     setFriends(friend_ids:string[]){ 
         // console.log(friend_ids);
         var count = 0;        
@@ -1102,8 +1186,6 @@ export class FirebaseService {
             .catch(error => console.log("Error: " + error));;
         }
     }
-
-
     addFriend(friend){
         for(var key in friend){
             this.friends[key] = friend[key];
@@ -1203,5 +1285,6 @@ export class FirebaseService {
     logout(){
         ApplicationSettings.setBoolean("authenticated", false);
         firebase.logout();
+        this.authuser == null;
     }
 }

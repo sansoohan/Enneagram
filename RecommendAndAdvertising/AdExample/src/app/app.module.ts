@@ -29,6 +29,7 @@ import { ChatpageComponent } from './chatpage/chatpage.component';
   import { FeedComponent } from './chatpage/feed/feed.component';
     import { MessageComponent } from './chatpage/feed/message/message.component';
   import { NavbarComponent } from './chatpage/navbar/navbar.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ChatpageComponent } from './chatpage/chatpage.component';
     FeedComponent,
     MessageComponent,
     NavbarComponent,
+    PrivacyComponent,
   ],
   imports: [
     BrowserModule,
