@@ -1,0 +1,41 @@
+<StackLayout>
+  <!-- <MLKitTextRecognition
+    class="my-class"
+    width="260"
+    height="380"
+    processEveryNthFrame="10"
+    preferFrontCamera="false"
+    [pause]="pause"
+    [torchOn]="torchOn"
+    (scanResult)="onTextRecognitionResult($event)">
+  </MLKitTextRecognition> -->
+
+  <!-- <MLKitFaceDetection
+    width="260"
+    height="380"
+    detectionMode="accurate"
+    enableFaceTracking="true"
+    minimumFaceSize="0.2"
+    preferFrontCamera="true"
+    [torchOn]="torchOn"
+    (scanResult)="onFaceDetectionResult($event)">
+  </MLKitFaceDetection> -->
+
+  <!-- <MLKitBarcodeScanner
+    width="260"
+    height="380"
+    formats="QR_CODE, EAN_8, EAN_13"
+    preferFrontCamera="false"
+    [torchOn]="torchOn"
+    (scanResult)="onBarcodeScanResult($event)">
+  </MLKitBarcodeScanner> -->
+  
+  <MLKitImageLabeling
+    width="260"
+    height="380"
+    confidenceThreshold="0.6"
+    preferFrontCamera="false"
+    [torchOn]="torchOn"
+    (scanResult)="onImageLabelingResult($event)">
+  </MLKitImageLabeling>
+</StackLayout>

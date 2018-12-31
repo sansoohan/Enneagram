@@ -4,10 +4,18 @@ import firebaseWeb = require("nativescript-plugin-firebase/app");
 
 import {Injectable, NgZone} from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
-
+import { MLKitRecognizeTextResult } from "nativescript-plugin-firebase/mlkit/textrecognition";
+import { MLKitDetectFacesOnDeviceResult } from "nativescript-plugin-firebase/mlkit/facedetection";
+import { BarcodeFormat, MLKitScanBarcodesOnDeviceResult } from "nativescript-plugin-firebase/mlkit/barcodescanning";
+import { MLKitImageLabelingOnDeviceResult } from "nativescript-plugin-firebase/mlkit/imagelabeling";
+import { MLKitImageLabelingCloudResult } from "nativescript-plugin-firebase/mlkit/imagelabeling";
+import { MLKitLandmarkRecognitionCloudResult } from "nativescript-plugin-firebase/mlkit/landmarkrecognition";
 
 import { android, ios } from "tns-core-modules/application";
-import { ImageSource } from "image-source";
+
+import { ImageSource, fromFile, fromResource, fromBase64 } from "tns-core-modules/image-source";
+import {Folder, path, knownFolders} from "tns-core-modules/file-system";
+
 import { ImageAsset } from "tns-core-modules/image-asset";
 import * as ApplicationSettings from "application-settings";
 import * as imagePicker from "nativescript-imagepicker";
@@ -275,8 +283,94 @@ export class FirebaseService {
         //     roles : {"ayQt5VfwwOhzZ7UEtPMXrHtimce2" : "owner"},
         //     type : "chat"
         //   }]
+
+        
+        // this.textRecognition();
+        // this.faceDetection();
+        // this.barcodeScanning();
+        // this.imageLabeling();
+        // this.landmarkRecognition();
     }
 
+    //------------------------ firebase ml kit test ------------------
+    textRecognition(){
+        const folder: Folder = <Folder> knownFolders.currentApp();
+        const folderPath: string = path.join(folder.path, "images/Wege_der_parlamentarischen_Demokratie.jpg");
+        const imageSource: ImageSource = <ImageSource> fromFile(folderPath);
+
+        console.log(imageSource);
+        firebase.mlkit.textrecognition.recognizeTextOnDevice({
+            image: imageSource // a NativeScript Image or ImageSource, see the demo for examples
+        }).then((result: MLKitRecognizeTextResult) => { // just look at this type to see what else is returned
+            console.log(result.text ? result.text : "");
+        }).catch(errorMessage => console.log("ML Kit error: " + errorMessage));
+    }
+
+    faceDetection(){
+        const folder: Folder = <Folder> knownFolders.currentApp();
+        const folderPath: string = path.join(folder.path, "images/sansoo.jpg");
+        const imageSource: ImageSource = <ImageSource> fromFile(folderPath);
+        firebase.mlkit.facedetection.detectFacesOnDevice({
+            image: imageSource, // a NativeScript Image or ImageSource, see the demo for examples
+            detectionMode: "accurate", // default "fast"
+            enableFaceTracking: true, // default false
+            minimumFaceSize: 0.25 // default 0.1 (which means the face must be at least 10% of the image)
+        })
+        .then((result: MLKitDetectFacesOnDeviceResult) => console.log(JSON.stringify(result.faces)))
+        .catch(errorMessage => console.log("ML Kit error: " + errorMessage));
+    }
+    barcodeScanning(){
+        const folder: Folder = <Folder> knownFolders.currentApp();
+        const folderPath: string = path.join(folder.path, "images/qrcode.png");
+        const imageSource: ImageSource = <ImageSource> fromFile(folderPath);
+        firebase.mlkit.barcodescanning.scanBarcodesOnDevice({
+            image: imageSource,
+            formats: [BarcodeFormat.QR_CODE, BarcodeFormat.CODABAR] // limit recognition to certain formats (faster), or leave out entirely for all formats (default)
+        })
+        .then((result: MLKitScanBarcodesOnDeviceResult) => console.log(JSON.stringify(result.barcodes)))
+        .catch(errorMessage => console.log("ML Kit error: " + errorMessage));
+
+        const folderPath2: string = path.join(folder.path, "images/EAN-Obst.jpg");
+        const imageSource2: ImageSource = <ImageSource> fromFile(folderPath2);
+        firebase.mlkit.barcodescanning.scanBarcodesOnDevice({
+            image: imageSource2,
+            formats: [BarcodeFormat.EAN_13] // limit recognition to certain formats (faster), or leave out entirely for all formats (default)
+        })
+        .then((result: MLKitScanBarcodesOnDeviceResult) => console.log(JSON.stringify(result.barcodes)))
+        .catch(errorMessage => console.log("ML Kit error: " + errorMessage));
+    }
+    imageLabeling(){
+        const folder: Folder = <Folder> knownFolders.currentApp();
+        const folderPath: string = path.join(folder.path, "images/1024px-Valais_Cup_2013_-_OM-FC_Porto_13-07-2013_-_Brice_Samba_en_extension.jpg");
+        const imageSource: ImageSource = <ImageSource> fromFile(folderPath);
+
+        firebase.mlkit.imagelabeling.labelImageOnDevice({
+            image: imageSource,
+            confidenceThreshold: 0.6 // this will only return labels with at least 0.6 (60%) confidence. Default 0.5.
+        })
+        .then((result: MLKitImageLabelingOnDeviceResult) => console.log(JSON.stringify(result.labels)))
+        .catch(errorMessage => console.log("ML Kit error: " + errorMessage));
+
+        firebase.mlkit.imagelabeling.labelImageCloud({
+            image: imageSource,
+            modelType: "stable", // either "latest" or "stable" (default "stable")
+            maxResults: 5 // default 10
+        })
+        .then((result: MLKitImageLabelingCloudResult) => console.log(JSON.stringify(result.labels)))
+        .catch(errorMessage => console.log("ML Kit error: " + errorMessage));
+    }
+    landmarkRecognition(){
+        const folder: Folder = <Folder> knownFolders.currentApp();
+        const folderPath: string = path.join(folder.path, "images/680px-Bruegge_View_from_Rozenhoedkaai.jpg");
+        const imageSource: ImageSource = <ImageSource> fromFile(folderPath);
+        firebase.mlkit.landmarkrecognition.recognizeLandmarksCloud({
+            image: imageSource,
+            modelType: "latest", // either "latest" or "stable" (default "stable")
+            maxResults: 8 // default 10
+        })
+        .then((result: MLKitLandmarkRecognitionCloudResult) => console.log(JSON.stringify(result.landmarks)))
+        .catch(errorMessage => console.log("ML Kit error: " + errorMessage));
+    }
     //------------------------ firebase cloude storage test ------------------
 
     // need to know how to get http img src

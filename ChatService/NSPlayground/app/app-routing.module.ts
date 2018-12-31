@@ -18,6 +18,10 @@ import { ProfileInputComponent } from "./home/profile-input/profile-input.compon
 import { SettingComponent } from "./home/setting/setting.component";
 import { SearchOptionComponent } from "./home/searchoption/searchoption.component";
 import { FriendaddComponent } from "./home/friendadd/friendadd.component";
+import { FacedetectionComponent } from "./facedetection/facedetection.component";
+import { AdmobComponent } from "./admob/admob.component";
+import { AnalyticsComponent } from "./analytics/analytics.component";
+
 const routes: Routes = [
     { path: "", redirectTo: "login", pathMatch: "full" },
     { path: "home", redirectTo: "/home/(friendlistoutlet:friendlist//friendchatoutlet:friendchat//friendmatchingoutlet:friendmatching//ideamatchingoutlet:ideamatching)", pathMatch: "full" },
@@ -30,7 +34,7 @@ const routes: Routes = [
             // { path: 'ideamatching', component: MapExampleComponent, outlet: 'ideamatchingoutlet' },
         ]
     },
-    { path: "login", component: LoginComponent },
+    { path: "login", component: AnalyticsComponent },
     { path: "register", component: RegisterComponent },
     { path: "details", component: DetailsComponent },
     { path: "chatroom", component: ChatRoomComponent },

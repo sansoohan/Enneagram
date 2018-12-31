@@ -23,6 +23,7 @@ import { FirebaseService} from "../services/firebase.service";
     moduleId: module.id,
     templateUrl: "./home.component.html"
 })
+
 export class HomeComponent implements OnInit {
     @ViewChild("actionButton") _buttonRef: ActionButtonComponent;
     @ViewChild("friendlistComponent") friendlistComponent: FriendlistComponent;

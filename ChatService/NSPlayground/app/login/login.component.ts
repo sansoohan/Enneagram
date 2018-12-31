@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
         private firebaseService: FirebaseService,
         private page: Page
     ) {
-        this.showBanner();
+        // this.showBanner();
     }
 
     public ngOnInit() {
@@ -76,33 +76,33 @@ export class LoginComponent implements OnInit {
     //     });
     // }
 
-    public showBanner(){
-        setTimeout(() => {
-            firebase.admob.showBanner({
-                size: firebase.admob.AD_SIZE.SMART_BANNER, // see firebase.admob.AD_SIZE for all options
-                margins: { // optfsdfional nr of device independent pixels from the top or bottom (don't set both)
-                // bottom: 10,
-                top: 0
-                },
-                androidBannerId: "ca-app-pub-5445779750154576/7005154644",
-                // iosBannerId: "ca-app-pub-9517346003011652/3985369721",
-                testing: false, // when not running in production set this to true, Google doesn't like it any other way
-                // iosTestDeviceIds: [ //Android automatically adds the connected device as test device with testing:true, iOS does not
-                //     "45d77bf513dfabc2949ba053da83c0c7b7e87715", // Eddy's iPhone 6s
-                //     "fee4cf319a242eab4701543e4c16db89c722731f"  // Eddy's iPad Pro
-                // ],
-                keywords: ["keyword1", "keyword2"] // add keywords for ad targeting
-            }).then(
-                function () {
-                console.log("AdMob banner showing");
-                },
-                function (errorMessage) {
-                    alert("admob error");
-                }
-            )
-        },
-        1000);
-    }
+    // public showBanner(){
+    //     setTimeout(() => {
+    //         firebase.admob.showBanner({
+    //             size: firebase.admob.AD_SIZE.SMART_BANNER, // see firebase.admob.AD_SIZE for all options
+    //             margins: { // optfsdfional nr of device independent pixels from the top or bottom (don't set both)
+    //             // bottom: 10,
+    //             top: 0
+    //             },
+    //             androidBannerId: "ca-app-pub-5445779750154576/7005154644",
+    //             // iosBannerId: "ca-app-pub-9517346003011652/3985369721",
+    //             testing: false, // when not running in production set this to true, Google doesn't like it any other way
+    //             // iosTestDeviceIds: [ //Android automatically adds the connected device as test device with testing:true, iOS does not
+    //             //     "45d77bf513dfabc2949ba053da83c0c7b7e87715", // Eddy's iPhone 6s
+    //             //     "fee4cf319a242eab4701543e4c16db89c722731f"  // Eddy's iPad Pro
+    //             // ],
+    //             keywords: ["keyword1", "keyword2"] // add keywords for ad targeting
+    //         }).then(
+    //             function () {
+    //             console.log("AdMob banner showing");
+    //             },
+    //             function (errorMessage) {
+    //                 alert("admob error");
+    //             }
+    //         )
+    //     },
+    //     1000);
+    // }
 
     // public hideBanner() {
     //     Admob.hideBanner().then(function() {

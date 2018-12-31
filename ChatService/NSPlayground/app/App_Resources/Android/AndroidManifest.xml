@@ -17,6 +17,9 @@
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.CAMERA"/>
+	<uses-feature android:name="android.hardware.camera" android:required="false" />
+	<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 
 	<application
 		android:name="com.tns.NativeScriptApplication"
@@ -36,6 +39,10 @@
 		<meta-data
 			android:name="com.google.android.gms.ads.APPLICATION_ID"
 			android:value="ca-app-pub-5445779750154576~5050033005" />
+
+		<meta-data
+			android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+			android:value="ocr,barcode,face,label" />
 
 		<activity
 			android:name="com.tns.NativeScriptActivity"

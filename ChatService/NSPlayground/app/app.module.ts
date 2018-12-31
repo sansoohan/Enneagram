@@ -35,8 +35,6 @@ import { ProfileInputComponent } from "./home/profile-input/profile-input.compon
 import { SettingComponent } from "./home/setting/setting.component";
 import { FriendaddComponent } from "./home/friendadd/friendadd.component";
 
-
-
 import { FloatButtonComponent } from "./buttons/float-button/float-button.component";
 import { ChildButton1Component } from "./buttons/child-button1/child-button1.component";
 import { ChildButton2Component } from "./buttons/child-button2/child-button2.component";
@@ -44,8 +42,12 @@ import { ChildButton3Component } from "./buttons/child-button3/child-button3.com
 import { FriendchatComponent } from "./home/friendchat/friendchat.component";
 import { ActionButtonComponent } from "./home/searchresult/action-button/action-button.component";
 import { ModalComponent } from "./modal/modal.component";
+import { FacedetectionComponent } from "./facedetection/facedetection.component";
+import { AdmobComponent } from "./admob/admob.component";
+import { AnalyticsComponent } from "./analytics/analytics.component";
 
 import * as platform from "platform";
+
 declare var GMSServices: any;
 
 if(platform.isIOS) {
@@ -94,6 +96,9 @@ if(platform.isIOS) {
         ChildButton2Component,
         ChildButton3Component,
         ModalComponent,
+        FacedetectionComponent,
+        AdmobComponent,
+        AnalyticsComponent,
     ],
     providers: [
         FirebaseService,
@@ -105,4 +110,6 @@ if(platform.isIOS) {
         NO_ERRORS_SCHEMA
     ]
 })
-export class AppModule { }
+export class AppModule { 
+
+}

@@ -24,6 +24,7 @@
         "@angular/router": "6.1.1",
         "merge-json": "0.1.0-b.3",
         "nativescript-accelerometer": "^2.0.1",
+        "nativescript-admob": "^3.3.0",
         "nativescript-angular": "^6.1.0",
         "nativescript-background-http": "^3.3.0",
         "nativescript-bitmap-factory": "^1.7.1",
