@@ -9,42 +9,44 @@ import { TNSCheckBoxModule } from 'nativescript-checkbox/angular';
 import { FormsModule } from '@angular/forms';
 
 import { FirebaseService } from "./services/firebase.service";
-import { AnimationsService } from "./home/searchresult/animations-service";
-import { BlogService } from "./home/blog/blog-service";
-import { SearchService } from "./home/searchoption/search-service";
+import { AnimationsService } from "./pages/home/searchresult/animations-service";
+import { UploadpostService } from "./pages/home/uploadpost/uploadpost-service";
+import { SearchService } from "./pages/home/searchoption/search-service";
 
 import { AppRoutingModule } from "./app-routing.module";
+import { GoogleMapComponent } from "./modules/google-map/google-map.component";
+import { GoogleAnalyticsComponent } from "./modules/google-analytics/google-analytics.component";
+
 import { AppComponent } from "./app.component";
+    import { PagesComponent } from "./pages/pages.component";
+        import { LoginComponent } from "./pages/login/login.component";
+            import { RegisterComponent } from "./pages/register/register.component";
+        import { HomeComponent } from "./pages/home/home.component";
+            import { UploadpostComponent } from "./pages/home/uploadpost/uploadpost.component";
+            import { FriendlistComponent } from "./pages/home/friendlist/friendlist.component";
+            import { FriendchatComponent } from "./pages/home/friendchat/friendchat.component";
+            import { FriendmatchingComponent } from "./pages/home/friendmatching/friendmatching.component";
+            import { ChatRoomComponent } from "./pages/home/chat-room/chat-room.component";
+            import { IdeamatchingComponent } from "./pages/home/ideamatching/ideamatching.component";
+            import { SearchResultComponent } from "./pages/home/searchresult/searchresult.component";
+                import { DetailsComponent } from "./pages/home/searchresult/details/details.component"; 
+            import { SearchOptionComponent } from "./pages/home/searchoption/searchoption.component";
+            import { FriendaddComponent } from "./pages/home/friendadd/friendadd.component";
+        import { ProfileInputComponent } from "./pages/profile-input/profile-input.component";
+        import { EnneagramComponent } from "./pages/enneagram/enneagram.component";
+        import { SettingComponent } from "./pages/setting/setting.component";
 
-import { LoginComponent } from "./login/login.component";
-import { RegisterComponent } from "./register/register.component";
-import { HomeComponent } from "./home/home.component";
-    import { FriendlistComponent } from "./home/friendlist/friendlist.component";
-    import { FriendmatchingComponent } from "./home/friendmatching/friendmatching.component";
-        import { MapExampleComponent } from "./home/friendmatching/map-example/map-example.component";
-        import { FoodMatchingComponent } from "./home/friendmatching/foodmatching/foodmatching.component";
-    import { ChatRoomComponent } from "./home/friendchat/chat-room/chat-room.component";
-    import { IdeamatchingComponent } from "./home/ideamatching/ideamatching.component";
-    import { SearchResultComponent } from "./home/searchresult/searchresult.component";
-        import { DetailsComponent } from "./home/searchresult/details/details.component"; 
-    import { SearchOptionComponent } from "./home/searchoption/searchoption.component";
+import { FloatButtonComponent } from "./modules/buttons/float-button/float-button.component";
+import { ChildButton1Component } from "./modules/buttons/child-button1/child-button1.component";
+import { ChildButton2Component } from "./modules/buttons/child-button2/child-button2.component";
+import { ChildButton3Component } from "./modules/buttons/child-button3/child-button3.component";
+import { ActionButtonComponent } from "./modules/buttons/action-button/action-button.component";
 
-import { EnneagramComponent } from "./home/enneagram/enneagram.component";
-import { BlogComponent } from "./home/blog/blog.component";
-import { ProfileInputComponent } from "./home/profile-input/profile-input.component";
-import { SettingComponent } from "./home/setting/setting.component";
-import { FriendaddComponent } from "./home/friendadd/friendadd.component";
 
-import { FloatButtonComponent } from "./buttons/float-button/float-button.component";
-import { ChildButton1Component } from "./buttons/child-button1/child-button1.component";
-import { ChildButton2Component } from "./buttons/child-button2/child-button2.component";
-import { ChildButton3Component } from "./buttons/child-button3/child-button3.component";
-import { FriendchatComponent } from "./home/friendchat/friendchat.component";
-import { ActionButtonComponent } from "./home/searchresult/action-button/action-button.component";
-import { ModalComponent } from "./modal/modal.component";
-import { FacedetectionComponent } from "./facedetection/facedetection.component";
-import { AdmobComponent } from "./admob/admob.component";
-import { AnalyticsComponent } from "./analytics/analytics.component";
+import { ModalComponent } from "./modules/modal/modal.component";
+import { FacedetectionComponent } from "./test/facedetection/facedetection.component";
+import { AdmobComponent } from "./test/admob/admob.component";
+
 
 import * as platform from "platform";
 
@@ -71,13 +73,14 @@ if(platform.isIOS) {
     ],
     declarations: [
         AppComponent,
+        GoogleMapComponent,
+        GoogleAnalyticsComponent,
+        PagesComponent,
         LoginComponent,
         RegisterComponent,
         HomeComponent,
         FriendlistComponent,
         FriendmatchingComponent,
-        MapExampleComponent,
-        FoodMatchingComponent,
         FriendchatComponent,
         ChatRoomComponent,
         IdeamatchingComponent,
@@ -85,7 +88,7 @@ if(platform.isIOS) {
         DetailsComponent,
         SearchOptionComponent,
         EnneagramComponent,
-        BlogComponent,
+        UploadpostComponent,
         ProfileInputComponent,
         SettingComponent,
         FriendaddComponent,
@@ -98,12 +101,11 @@ if(platform.isIOS) {
         ModalComponent,
         FacedetectionComponent,
         AdmobComponent,
-        AnalyticsComponent,
     ],
     providers: [
         FirebaseService,
         AnimationsService,
-        BlogService,
+        UploadpostService,
         SearchService,
     ],
     schemas: [

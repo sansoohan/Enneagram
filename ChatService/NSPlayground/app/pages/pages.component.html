@@ -1,0 +1,5 @@
+<StackLayout>
+  <Login *ngIf=isLoginState (tap)="loginPageEmit($event)"></Login>
+  <Register *ngIf=isRegisterState (tap)="registerPageEmit($event)"></Register>
+  <Home *ngIf=isHomeState (tap)="homePageEmit($event)"></Home>
+</StackLayout>

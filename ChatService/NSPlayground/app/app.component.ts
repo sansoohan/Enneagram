@@ -4,7 +4,7 @@ import * as app from "application";
 import * as ApplicationSettings from "application-settings";
 import { RouterExtensions } from "nativescript-angular/router";
 import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
-import { ActionButtonComponent } from "./home/searchresult/action-button/action-button.component";
+import { ActionButtonComponent } from "~/modules/buttons/action-button/action-button.component";
 import { FirebaseService } from "./services/firebase.service";
 import firebase = require("nativescript-plugin-firebase");
 
@@ -14,7 +14,7 @@ import firebase = require("nativescript-plugin-firebase");
 })
 export class AppComponent implements OnInit {
     private _sideDrawerTransition: DrawerTransitionBase;
-    public profilePicsrc = "~/home/images/user-avatar-main-picture.png";
+    public profilePicsrc = "~/pages/home/images/user-avatar-main-picture.png";
     public name = "user";
     public email = "user@email";
     @ViewChild("actionButton") _buttonRef: ActionButtonComponent;

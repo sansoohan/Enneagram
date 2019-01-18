@@ -2,7 +2,7 @@ import firebase = require("nativescript-plugin-firebase");
 import { firestore } from "nativescript-plugin-firebase";
 import firebaseWeb = require("nativescript-plugin-firebase/app");
 
-import {Injectable, NgZone} from "@angular/core";
+import { Injectable } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { MLKitRecognizeTextResult } from "nativescript-plugin-firebase/mlkit/textrecognition";
 import { MLKitDetectFacesOnDeviceResult } from "nativescript-plugin-firebase/mlkit/facedetection";
@@ -13,8 +13,8 @@ import { MLKitLandmarkRecognitionCloudResult } from "nativescript-plugin-firebas
 
 import { android, ios } from "tns-core-modules/application";
 
-import { ImageSource, fromFile, fromResource, fromBase64 } from "tns-core-modules/image-source";
-import {Folder, path, knownFolders} from "tns-core-modules/file-system";
+import { ImageSource, fromFile } from "tns-core-modules/image-source";
+import { Folder, path, knownFolders } from "tns-core-modules/file-system";
 
 import { ImageAsset } from "tns-core-modules/image-asset";
 import * as ApplicationSettings from "application-settings";
@@ -52,14 +52,14 @@ export class FirebaseService {
     public currentBackgroundImageFileURL: string;
 	public currentBlogImageFileURL: string;
 
-    test_data: Array<any>;
+    testData: Array<any>;
 
     public postSearchResultArray: Array<any> = [];
     public selectedPostID: string;
     constructor(
         private routerExtensions: RouterExtensions,
     ){
-        // this.test_data = [{
+        // this.testData = [{
         //     behavior : "",
         //     emotion : "",
         //     number : 9,
@@ -292,6 +292,16 @@ export class FirebaseService {
         // this.landmarkRecognition();
     }
 
+    //------------------------ google analytics ------------------
+    analyticsCount(activityName: string): void{
+        firebase.analytics.logEvent({
+            key: activityName
+        }).then(
+            function () {
+                // console.log("Firebase Analytics event logged");
+            }
+        );
+    }
     //------------------------ firebase ml kit test ------------------
     textRecognition(){
         const folder: Folder = <Folder> knownFolders.currentApp();
@@ -374,16 +384,16 @@ export class FirebaseService {
     //------------------------ firebase cloude storage test ------------------
 
     // need to know how to get http img src
-    // upload picture first and make post_data
+    // upload picture first and make postData
 
     // update_image_src(){
     //     firebaseWeb.firestore()
     //     .collection("posts")
     // }
-    // update_post(post_id, post_data){
+    // update_post(postID, postData){
     //     firebaseWeb.firestore()
-    //     .collection("posts").doc(post_id)
-    //     .update(post_data).then(() => {
+    //     .collection("posts").doc(postID)
+    //     .update(postData).then(() => {
     //         console.log("post updated");
     //     });
     // }
@@ -398,60 +408,61 @@ export class FirebaseService {
     }
 
     //----------------------------Blog Section------------------------------------------
-    search_post(
+    searchPost(
         type:string,
-        enneagram_num:number,
-        origin_latitude:number,
-        origin_longitude:number,
-        distance_meter:number
+        otheruserEnneagramNum:number,
+        originLatitude:number,
+        originLongitude:number,
+        distanceMeter:number
     ){
         const ONE_DEGREE_EARTH_PER_METER = 111000;
 
-        var max_latitude_degree = origin_latitude + distance_meter/(2*ONE_DEGREE_EARTH_PER_METER);
-        var min_latitude_degree = origin_latitude - distance_meter/(2*ONE_DEGREE_EARTH_PER_METER);
-        if(max_latitude_degree >= 90){
-            max_latitude_degree = 90;
+        var maxLatitudeDegree = originLatitude + distanceMeter/(2*ONE_DEGREE_EARTH_PER_METER);
+        var minLatitudeDegree = originLatitude - distanceMeter/(2*ONE_DEGREE_EARTH_PER_METER);
+        if(maxLatitudeDegree >= 90){
+            maxLatitudeDegree = 90;
         }
-        if(min_latitude_degree <= -90){
-            min_latitude_degree = -90;
+        if(minLatitudeDegree <= -90){
+            minLatitudeDegree = -90;
         }
         
-        var max_longitude_degree = origin_longitude + distance_meter/(2*ONE_DEGREE_EARTH_PER_METER*Math.sin(origin_latitude * (180 / Math.PI)));
-        var min_longitude_degree = origin_longitude - distance_meter/(2*ONE_DEGREE_EARTH_PER_METER*Math.sin(origin_latitude * (180 / Math.PI)));
-        if(max_longitude_degree - min_longitude_degree >= 360){
-            max_longitude_degree = 180;
-            min_longitude_degree = -180;
+        var maxLongitudeDegree = originLongitude + distanceMeter/(2*ONE_DEGREE_EARTH_PER_METER*Math.sin(originLatitude * (180 / Math.PI)));
+        var minLongitudeDegree = originLongitude - distanceMeter/(2*ONE_DEGREE_EARTH_PER_METER*Math.sin(originLatitude * (180 / Math.PI)));
+        if(maxLongitudeDegree - minLongitudeDegree >= 360){
+            maxLongitudeDegree = 180;
+            minLongitudeDegree = -180;
         }
         else{
-            if(max_longitude_degree >= 180){
-                max_longitude_degree = max_longitude_degree - 360;
+            if(maxLongitudeDegree >= 180){
+                maxLongitudeDegree = maxLongitudeDegree - 360;
             }
-            if(min_longitude_degree <= -180){
-                min_longitude_degree = min_longitude_degree - 360;
+            if(minLongitudeDegree <= -180){
+                minLongitudeDegree = minLongitudeDegree - 360;
             }    
         }
 
-        if(min_longitude_degree > max_longitude_degree){
-            var temp = min_longitude_degree;
-            min_longitude_degree = max_longitude_degree;
-            max_longitude_degree = temp;
+        if(minLongitudeDegree > maxLongitudeDegree){
+            var temp = minLongitudeDegree;
+            minLongitudeDegree = maxLongitudeDegree;
+            maxLongitudeDegree = temp;
         }
-        // console.log("min_lat",min_latitude_degree);
-        // console.log("ori_lat",origin_latitude);        
-        // console.log("max_lat",max_latitude_degree);
-        // console.log("min_lon",min_longitude_degree);
-        // console.log("ori_lon",origin_longitude);
-        // console.log("max_lon",max_longitude_degree);
+        // console.log("min_lat",minLatitudeDegree);
+        // console.log("ori_lat",originLatitude);        
+        // console.log("max_lat",maxLatitudeDegree);
+        // console.log("min_lon",minLongitudeDegree);
+        // console.log("ori_lon",originLongitude);
+        // console.log("max_lon",maxLongitudeDegree);
+        
         firebaseWeb.firestore()
         .collection("posts")
-        .where("number", "==", enneagram_num)
+        .where("number", "==", otheruserEnneagramNum)
         .where("type", "==", type)
-        .where("longitude", "<=", max_longitude_degree)
-        .where("longitude", ">=", min_longitude_degree)
+        .where("longitude", "<=", maxLongitudeDegree)
+        .where("longitude", ">=", minLongitudeDegree)
         .get()
         .then(querySnapshot => {
             querySnapshot.forEach(doc => {
-                if(doc.data().latitude <= max_latitude_degree && doc.data().latitude >= min_latitude_degree){
+                if(doc.data().latitude <= maxLatitudeDegree && doc.data().latitude >= minLatitudeDegree){
                     // console.log(`searched doc : ${doc.id} => ${JSON.stringify(doc.data())}`);
                     var searchResult = {};
                     searchResult[doc.id] = JSON.parse(JSON.stringify(doc.data()));
@@ -460,24 +471,25 @@ export class FirebaseService {
             });
         });
     }
-    search_queries(
+    searchQueries(
         type:string,
-        enneagram_nums:number[],
-        origin_latitude:number,
-        origin_longitude:number,
-        distance_meter:number,
+        otheruserEnneagramNums:number[],
+        originLatitude:number,
+        originLongitude:number,
+        distanceMeter:number,
     ){
         this.postSearchResultArray = [];
-        for(var i=0;i<enneagram_nums.length;i++){
-            this.search_post(type,enneagram_nums[i],origin_latitude,origin_longitude,distance_meter);
+        for(var i=0;i<otheruserEnneagramNums.length;i++){
+            // console.log("type"+otheruserEnneagramNums[i]);
+            this.searchPost(type,otheruserEnneagramNums[i],originLatitude,originLongitude,distanceMeter);
         }
     }
 
-    get_user_posts(user_id:string){
+    get_user_posts(userID:string){
         this.postSearchResultArray = [];
         firebaseWeb.firestore()
         .collection("posts")
-        .where("roles."+user_id, "==", "owner")
+        .where("roles."+userID, "==", "owner")
         .get()
         .then(querySnapshot => {
             querySnapshot.forEach(doc => {
@@ -489,34 +501,34 @@ export class FirebaseService {
         });
     }
 
-    add_post(post_data){
+    addPost(postData){
         firebaseWeb.firestore()
         .collection("posts")
-        .add(post_data).then(documentRef => {
-            console.log(`auto-generated post ID: ${documentRef.id}`);
+        .add(postData).then(documentRef => {
+            // console.log(`auto-generated post ID: ${documentRef.id}`);
         });
     }
-    add_comment(post_id, comment_data){
+    addComment(postID, commentData){
         var posts = firebaseWeb.firestore()
-        .collection("posts").doc(post_id)
+        .collection("posts").doc(postID)
         .collection("comments")
-        .add(comment_data).then(documentRef => {
-            console.log(`auto-generated comment ID: ${documentRef.id}`);
+        .add(commentData).then(documentRef => {
+            // console.log(`auto-generated comment ID: ${documentRef.id}`);
         });
     }
-    update_comment(post_id, comment_id, comment_data){
+    updateComment(postID, commentID, commentData){
         firebaseWeb.firestore()
-        .collection("posts").doc(post_id)
-        .collection("comments").doc(comment_id)
-        .update(comment_data).then(() => {
-            console.log("comment updated");
+        .collection("posts").doc(postID)
+        .collection("comments").doc(commentID)
+        .update(commentData).then(() => {
+            // console.log("comment updated");
         });
     }
 
     getSelectedPost(){
         for(var i=0 ;i<this.postSearchResultArray.length;i++){
-            for(var post_id in this.postSearchResultArray[i]){
-                if(this.selectedPostID === post_id){
+            for(var postID in this.postSearchResultArray[i]){
+                if(this.selectedPostID === postID){
                     return this.postSearchResultArray[i];
                 }
             }
@@ -724,7 +736,7 @@ export class FirebaseService {
             }
         }).then(
             uploadedFile => {
-                console.log("File uploaded: " + JSON.stringify(uploadedFile));
+                // console.log("File uploaded: " + JSON.stringify(uploadedFile));
                 this.getFileURL(fileType, this.authuser.uid, uploadedFile.name);
             },
             function (error) {
@@ -776,7 +788,7 @@ export class FirebaseService {
             // console.log("Event type: " + result.type);
             // console.log("Key: " + result.key);
             // console.log("Value: " + JSON.stringify(result.value));
-            this.updateRoom(result.key, result.value);
+            this.updateRoom(result.key);
         }, "/users/" + this.authuser.uid + "/user_rooms").then(
             function(listenerWrapper) {
               var path = listenerWrapper.path;
@@ -785,8 +797,8 @@ export class FirebaseService {
             }
         );
     }
-    updateRoom(updated_room_id, room_friend_id:any){
-        firebase.getValue('/rooms/' + updated_room_id).then(result =>{
+    updateRoom(updatedRoomID: string){
+        firebase.getValue('/rooms/' + updatedRoomID).then(result =>{
             // console.log(JSON.stringify(result));
             this.rooms[result['key']] = JSON.parse(JSON.stringify(result['value']));
             this.setRoomArray();
@@ -796,13 +808,13 @@ export class FirebaseService {
 
     // If someone push message(include you), function(result) will be activated.
     // It change the messages array.
-    syncRoomMessages(room_id:string){
+    syncRoomMessages(roomID: string){
         firebase.addChildEventListener(result => {
             // console.log("Event type: " + result.type);
             // console.log("Key: " + result.key);
             // console.log("Value: " + JSON.stringify(result.value));
-            this.updateRoomMessages(room_id, result.key ,result.value);
-        }, "/rooms/"+room_id+"/messages").then(
+            this.updateRoomMessages(roomID, result.key ,result.value);
+        }, "/rooms/"+roomID+"/messages").then(
             function(listenerWrapper) {
               var path = listenerWrapper.path;
               var listeners = listenerWrapper.listeners; // an Array of listeners added
@@ -810,15 +822,15 @@ export class FirebaseService {
             }
         );
     }
-    updateRoomMessages(room_id:string, message_id:any, message:any){
-        if(!this.rooms[room_id]['messages']){
-            this.rooms[room_id]['messages'] = {};
+    updateRoomMessages(roomID:string, messageID:any, message:any){
+        if(!this.rooms[roomID]['messages']){
+            this.rooms[roomID]['messages'] = {};
         }
-        this.rooms[room_id]['messages'][message_id] = JSON.parse(JSON.stringify(message));
-        var message_to_add = {};
-        message_to_add[message_id] = this.rooms[room_id]['messages'][message_id]
-        if(room_id == this.selectedRoomID){
-            this.selectedRoomMessageArray.push(message_to_add);
+        this.rooms[roomID]['messages'][messageID] = JSON.parse(JSON.stringify(message));
+        var messageToAdd = {};
+        messageToAdd[messageID] = this.rooms[roomID]['messages'][messageID]
+        if(roomID == this.selectedRoomID){
+            this.selectedRoomMessageArray.push(messageToAdd);
             this.sortMessageArrayWithTimeStamp(this.selectedRoomMessageArray);
             this.messageUpdatedToggle = true;
             // console.log(this.selectedRoomMessageArray.length);
@@ -830,26 +842,26 @@ export class FirebaseService {
             return null;
         }
         messageArray.sort(function (a, b) {
-            var message_a;
-            var message_b;
+            var messageA;
+            var messageB;
             for(var key in a){
-                message_a = a[key];
+                messageA = a[key];
             }
             for(var key in b){
                 Date
-                message_b = b[key];
+                messageB = b[key];
             }
-            var time_b = message_b['timestamp']['time'];
-            var time_a = message_a['timestamp']['time'];
+            var time_b = messageB['timestamp']['time'];
+            var time_a = messageA['timestamp']['time'];
             return time_a - time_b;
         });
     }
     // If there is no message :
     // This will ba activated when user send a message to friend after invite friend.
-    pushFriendOnRoom(user:any, room_id:string){
+    pushFriendOnRoom(user:any, roomID:string){
         for(var uid in user){
-            firebase.setValue('/rooms/'+room_id+"/room_users/"+uid, user[uid]).then(result2 => {
-                // this.pushRoomIDOnUser(user, room_id);
+            firebase.setValue('/rooms/'+roomID+"/room_users/"+uid, user[uid]).then(result2 => {
+                // this.pushRoomIDOnUser(user, roomID);
             });
         }
     }
@@ -864,43 +876,43 @@ export class FirebaseService {
 
     // 1. generate room id
     generateRoomWithSelectedFriends(user:any, friend:any){
-        var friend_id;
+        var friendID;
         for(var id in friend){
-            friend_id = id;
+            friendID = id;
         }
-        var user_id;
+        var userID;
         for(var id in user){
-            user_id = id;
+            userID = id;
         }
         // check room exist before generate.
         firebase.query(
             result => {
                 // if friend chat room is not exist, create new room.
                 if(result.value == null){
-                    console.log("no room with friend_id: " + friend_id);
-                    var open_room = {room_users:{}};
-                    open_room['isOpen'] = true;
-                    open_room['openTime'] = new Date();
-                    open_room['closeTime'] = "";
+                    // console.log("no room with friendID: " + friendID);
+                    var openRoom = {roomUsers:{}};
+                    openRoom['isOpen'] = true;
+                    openRoom['openTime'] = new Date();
+                    openRoom['closeTime'] = "";
                     for(var uid in user){
-                        firebase.push('/rooms/', open_room).then(result2 => {
+                        firebase.push('/rooms/', openRoom).then(result2 => {
                             this.pushRoomIDOnUser(user, friend, result2.key);
                             this.pushRoomIDOnUser(friend, user, result2.key);
                             this.setGeneratedRoomID(result2.key);
-                            console.log("created key: " + result2.key);// Room ID
+                            // console.log("created key: " + result2.key);// Room ID
                         });
                     }
                 }
                 // if friend chat room is exist, don't make new one.
                 else{
                     // console.log(result);
-                    for(var room_id in result['value']){
-                        this.selectedRoomMessageArray = this.jsonToArray(this.rooms[room_id]['messages']);
+                    for(var roomID in result['value']){
+                        this.selectedRoomMessageArray = this.jsonToArray(this.rooms[roomID]['messages']);
                     }
-                    console.log("exist room: " + JSON.parse(JSON.stringify(result['value'])));// Room ID
+                    // console.log("exist room: " + JSON.parse(JSON.stringify(result['value'])));// Room ID
                 }
             },
-            '/users/' + user_id + '/user_rooms',
+            '/users/' + userID + '/user_rooms',
             {
                 singleEvent: true,
                 orderBy: {
@@ -909,7 +921,7 @@ export class FirebaseService {
                 },
                 range: {
                    type: firebase.QueryRangeType.EQUAL_TO,
-                   value: friend_id
+                   value: friendID
                 },
                 limit: {
                     type: firebase.QueryLimitType.LAST,
@@ -923,24 +935,24 @@ export class FirebaseService {
         .catch(error => console.log("Error: " + error));
     }
     // 2. set authentication for rooms on user database
-    pushRoomIDOnUser(user:any, friend:any, room_id:string){
-        var user_room = {};
-        user_room['inRoom'] = true;
-        user_room['joinTime'] = Date.now();
-        user_room['leaveTime'] = "";
-        for(var friend_id in friend){
+    pushRoomIDOnUser(user:any, friend:any, roomID:string){
+        var userRoom = {};
+        userRoom['inRoom'] = true;
+        userRoom['joinTime'] = Date.now();
+        userRoom['leaveTime'] = "";
+        for(var friendID in friend){
             for(var uid in user){
-                user_room['roomIcon'] = friend[friend_id]["profile"]["profilePicsrc"];
-                user_room['title'] = friend[friend_id]["profile"]["name"];
-                user_room['messageIcon'] = user[uid]["profile"]["profilePicsrc"];
-                user_room['userName'] = user[uid]["profile"]["name"];
+                userRoom['roomIcon'] = friend[friendID]["profile"]["profilePicsrc"];
+                userRoom['title'] = friend[friendID]["profile"]["name"];
+                userRoom['messageIcon'] = user[uid]["profile"]["profilePicsrc"];
+                userRoom['userName'] = user[uid]["profile"]["name"];
                 // set room access athentication on user database
-                firebase.setValue('/users/'+uid+'/user_rooms/'+room_id, friend_id).then(result => {
+                firebase.setValue('/users/'+uid+'/user_rooms/'+roomID, friendID).then(result => {
                     // user can write on chat room
-                    firebase.setValue('/rooms/'+room_id+'/room_users/'+uid, user_room).then(result2 => {
+                    firebase.setValue('/rooms/'+roomID+'U/'+uid, userRoom).then(result2 => {
                         // console.log(result);
-                        this.syncRoomMessages(room_id);
-                        // this.syncRoom(room_id);
+                        this.syncRoomMessages(roomID);
+                        // this.syncRoom(roomID);
                     });
                 });
             }
@@ -949,14 +961,14 @@ export class FirebaseService {
 
 
     // If there are some messages :
-    pushMessageOnRoom(room_id:string, user:any, message:string){
-        var message_pack = {};
+    pushMessageOnRoom(roomID:string, user:any, message:string){
+        var messagePack = {};
         for(var uid in user){
-            message_pack['user'] = uid;
+            messagePack['user'] = uid;
         }
-        message_pack['message'] = message;
-        message_pack['timestamp'] = new Date();
-        firebase.push('/rooms/'+room_id+'/messages', message_pack).then(result => {                
+        messagePack['message'] = message;
+        messagePack['timestamp'] = new Date();
+        firebase.push('/rooms/'+roomID+'/messages', messagePack).then(result => {                
             // console.log("created key: " + result.key);// Message_pack ID
         });
     }
@@ -1161,7 +1173,7 @@ export class FirebaseService {
     // if thisuser is first user, make a firstuser data in firebase
     checkFirstUser(){
         firebase.getValue('/users/' + this.authuser.uid).then(result =>{
-            console.log(JSON.stringify(result));
+            // console.log(JSON.stringify(result));
             let newUserData = {
                 "enneagram" : {
                     "behavior" : "",
@@ -1188,14 +1200,14 @@ export class FirebaseService {
             }
             if(result.value == null){
                 firebase.setValue('/users/' + this.authuser.uid, newUserData).then(result => {
-                    console.log("first ok");
-                    console.log(JSON.stringify(result));
+                    // console.log("first ok");
+                    // console.log(JSON.stringify(result));
                     ApplicationSettings.setBoolean("authenticated", true);
                     this.routerExtensions.navigate(["/home"], { clearHistory: true } );
                 });
             }
             else{
-                console.log("user ok");
+                // console.log("user ok");
                 this.setAuthUser();
                 ApplicationSettings.setBoolean("authenticated", true);
                 this.routerExtensions.navigate(["/home"], { clearHistory: true } );
@@ -1216,19 +1228,19 @@ export class FirebaseService {
         }).catch(error => console.log("Error: " + error));
         // set friends
         firebase.getValue('/users/' + this.authuser.uid + '/friends').then(result =>{
-            var result_keys = [];
+            var resultKeys = [];
             for(var k in result.value){
-                result_keys.push(k);
+                resultKeys.push(k);
             }
-            this.setFriends(result_keys);
+            this.setFriends(resultKeys);
         }).catch(error => console.log("getFriendsAndThisUserFromDatabase Error: " + error));
         // set rooms
         firebase.getValue('/users/' + this.authuser.uid + '/user_rooms').then(result =>{
-            var result_keys = [];
+            var resultKeys = [];
             for(var k in result.value){
-                result_keys.push(k);
+                resultKeys.push(k);
             }
-            this.setRooms(result_keys);
+            this.setRooms(resultKeys);
         }).catch(error => console.log("getFriendsAndThisUserFromDatabase Error: " + error));
     }
     setThisUser(result:any){
@@ -1237,14 +1249,24 @@ export class FirebaseService {
         var user = {};
         user[key] = value;
         this.thisUser = user;
+        this.analyzeUserLogin(this.authuser.uid);
         // console.log(this.thisUser);
     }
-
+    analyzeUserLogin(id:string){
+        firebase.analytics.setAnalyticsCollectionEnabled(true);
+        firebase.analytics.setUserId({
+            userId: id
+        }).then(
+            function () {
+            // console.log("Analytics userId set");
+            }
+        );
+    }
     
-    setFriends(friend_ids:string[]){ 
-        // console.log(friend_ids);
+    setFriends(friendIDs:string[]){ 
+        // console.log(friendIDs);
         var count = 0;        
-        for(var i=0;i<friend_ids.length;i++){
+        for(var i=0;i<friendIDs.length;i++){
             firebase.query(
                 function(result){},
                 '/users',
@@ -1256,7 +1278,7 @@ export class FirebaseService {
                     },
                     range: {
                         type: firebase.QueryRangeType.EQUAL_TO,
-                        value: friend_ids[i]
+                        value: friendIDs[i]
                     },
                     limit: {
                         type: firebase.QueryLimitType.LAST,
@@ -1267,8 +1289,8 @@ export class FirebaseService {
             .then(result => {
                 this.addFriend(result.value);
                 count++;
-                if(count==friend_ids.length){
-                    // this.setFriends(friend_ids);
+                if(count==friendIDs.length){
+                    // this.setFriends(friendIDs);
                     // var friend = {};
                     // friend['H6U4ZRvLW6SL8RmIX18TYmg1hhV2'] = this.getFriends()['H6U4ZRvLW6SL8RmIX18TYmg1hhV2'];
                     // this.pushFriendOnRoom(this.thisUser,"-LPLVNVF2yM1MzyG-D71");
@@ -1289,10 +1311,10 @@ export class FirebaseService {
     setFriendArray(): void{
 		this.friendArray = this.jsonToArray(this.getFriends());
 	}
-    setRooms(room_ids:string[]){ 
-        // console.log(room_ids);
+    setRooms(roomIDs:string[]){ 
+        // console.log(roomIDs);
         var count = 0;
-        for(var i=0;i<room_ids.length;i++){
+        for(var i=0;i<roomIDs.length;i++){
             firebase.query(
                 function(result){},
                 '/rooms',
@@ -1304,7 +1326,7 @@ export class FirebaseService {
                     },
                     range: {
                         type: firebase.QueryRangeType.EQUAL_TO,
-                        value: room_ids[i]
+                        value: roomIDs[i]
                     },
                     limit: {
                         type: firebase.QueryLimitType.LAST,
@@ -1316,7 +1338,7 @@ export class FirebaseService {
                 // console.log(result);
                 this.addRoom(result.value);
                 count++;
-                if(count==room_ids.length){
+                if(count==roomIDs.length){
                     // console.log(this.rooms);
                     this.setRoomArray();
                     this.syncThisUserRoomList();
@@ -1335,11 +1357,11 @@ export class FirebaseService {
     public setRoomArray(){
         this.roomArray = this.jsonToArray(this.getRooms());
         // this.add_comment('j3XeVIroAJwLqSD5re6C',{hello:'hello'});
-        // for(var i=0;i<this.test_data.length;i++){
-        //     this.add_post(this.test_data[i]);
+        // for(var i=0;i<this.testData.length;i++){
+        //     this.add_post(this.testData[i]);
         // }
-        // this.search_post("chat",3,37.323972, 127.125109 ,100000);
-        // this.search_queries("chat",[1,2,3,4,5,6,7,8,9],37.323972, 127.125109 ,100000);
+        // this.searchPost("chat",3,37.323972, 127.125109 ,100000);
+        // this.searchQueries("chat",[1,2,3,4,5,6,7,8,9],37.323972, 127.125109 ,100000);
         // this.getFileURL('asqU21QzltYOgnT5MDcgWotRJwH2','gteton-schwabachers-landing_dollar_680.jpg');
         // this.get_user_posts("I33CAKsu5uUkq4Xqt2xUVJgcGHM2");
 	}
@@ -1348,9 +1370,9 @@ export class FirebaseService {
         var array = [];
         if(json!=null){
             for(var key in json){
-                var child_json = {};
-                child_json[key] = json[key];
-                array.push(child_json);
+                var childJson = {};
+                childJson[key] = json[key];
+                array.push(childJson);
             }
         }
         return array;

@@ -1,6 +1,6 @@
 // this import should be first in order to load some required settings (like globals and reflect-metadata)
 import { platformNativeScriptDynamic } from "nativescript-angular/platform";
-import {enableProdMode} from '@angular/core';
+import { enableProdMode } from '@angular/core';
 
 import { AppModule } from "./app.module";
 import firebase = require("nativescript-plugin-firebase");
@@ -16,9 +16,9 @@ firebase.init({
     //persist should be set to false as otherwise numbers aren't returned during livesync
     persist: true,
     onAuthStateChanged: function(data) { // optional but useful to immediately re-logon the user when he re-visits your app
-        console.log(data.loggedIn ? "Logged in to firebase" : "Logged out from firebase");
+        // console.log(data.loggedIn ? "Logged in to firebase" : "Logged out from firebase");
         if (data.loggedIn) {
-          console.log("user's email address: " + (data.user.email ? data.user.email : "N/A"));
+        //   console.log("user's email address: " + (data.user.email ? data.user.email : "N/A"));
         }
     }
     //storageBucket: 'gs://yowwlr.appspot.com',
