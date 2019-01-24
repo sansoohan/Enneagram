@@ -95,14 +95,14 @@ export class UploadpostComponent implements OnInit {
     var userEnneagramEmotion;
     var userEnneagramThought;
     var userEnneagramState;
-    var post_roles = {};
+    var postRoles = {};
     for(var userID in this.firebaseService.thisUser){
       userEnneagramNum = this.firebaseService.thisUser[userID]['enneagram']['number'];
       userEnneagramBehavior = this.firebaseService.thisUser[userID]['enneagram']['behavior'];
       userEnneagramEmotion = this.firebaseService.thisUser[userID]['enneagram']['emotion'];
       userEnneagramThought = this.firebaseService.thisUser[userID]['enneagram']['thought'];
       userEnneagramState = this.firebaseService.thisUser[userID]['enneagram']['state'];
-      post_roles[userID] = "owner";
+      postRoles[userID] = "owner";
     }
 
     console.log(this.firebaseService.thisUser);
@@ -113,16 +113,18 @@ export class UploadpostComponent implements OnInit {
       number : userEnneagramNum,
       state : userEnneagramState,
       thought : userEnneagramThought,
-      closeTime : "",
       description : this.descriptionValue,
       image : this.firebaseService.currentBlogImageFileURL,
       isOpen : true,
-      likes : 0,
-      latitude: this.uploadpostService.postLocation.position.latitude,
-      longitude: this.uploadpostService.postLocation.position.longitude,
+      likes : "",
+      favorites : "",
+      comments : "",
       name : this.titleValue,
       openTime : Date.now(),
-      roles : post_roles,
+      closeTime : "",
+      roles : postRoles,
+      latitude: this.uploadpostService.postLocation.position.latitude,
+      longitude: this.uploadpostService.postLocation.position.longitude,
       type : this.uploadpostService.postType
     }
     this.firebaseService.addPost(uploadData);

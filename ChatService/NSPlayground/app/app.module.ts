@@ -29,7 +29,7 @@ import { AppComponent } from "./app.component";
             import { ChatRoomComponent } from "./pages/home/chat-room/chat-room.component";
             import { IdeamatchingComponent } from "./pages/home/ideamatching/ideamatching.component";
             import { SearchResultComponent } from "./pages/home/searchresult/searchresult.component";
-                import { DetailsComponent } from "./pages/home/searchresult/details/details.component"; 
+                import { DetailComponent } from "./pages/home/searchresult/detail/detail.component"; 
             import { SearchOptionComponent } from "./pages/home/searchoption/searchoption.component";
             import { FriendaddComponent } from "./pages/home/friendadd/friendadd.component";
         import { ProfileInputComponent } from "./pages/profile-input/profile-input.component";
@@ -85,7 +85,7 @@ if(platform.isIOS) {
         ChatRoomComponent,
         IdeamatchingComponent,
         SearchResultComponent,
-        DetailsComponent,
+        DetailComponent,
         SearchOptionComponent,
         EnneagramComponent,
         UploadpostComponent,

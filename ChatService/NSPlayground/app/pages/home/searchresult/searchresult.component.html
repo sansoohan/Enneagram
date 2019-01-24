@@ -1,20 +1,82 @@
-<ActionBar class="action-bar" backgroundColor="#2B3238">
-	<NavigationButton visibility="collapsed"></NavigationButton>
-	<GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
-		<ActionButton (tap)="onTap($event)" isArrow="true"></ActionButton>
-		<Label col="1" text="Friend Location" class="action-bar-label"></Label>
+<GridLayout rows="auto,*" columns="auto">
+	<GridLayout row="0" #navTab class="navTab" verticalAlignment="top" height="50"
+		width="100%" rows="auto" columns="50,*,*" color="#FFFFFF">
+		<GridLayout col="0" row="0">
+			<Label verticalAlignment="top" horizontalAlignment="left"
+				(tap)="onBackTap()" fontSize="24" text="&#xf060;" class="fa close">
+			</Label>
+		</GridLayout>
+		<GridLayout [class]="selectedTabview==0?'tabview.active':'tabview'"
+			(tap)="onPopularTap()" rows="*,auto" columns="auto" col="1" row="0"
+			verticalAlignment="center" horizontalAlignment="center">
+			<Image *ngIf="selectedTabview == 0" row="0" class="navIcon" [src]="selectedTabview==0?'~/assets/images/category.png':''"></Image>
+			<Label [class]="selectedTabview==0?'tabviewText.active':'tabviewText'"
+				row="1" text="Picture"></Label>
+		</GridLayout>
+		<GridLayout [class]="selectedTabview==1?'tabview.active':'tabview'"
+			(tap)="onCategoryTap()" rows="*,auto" columns="auto" col="2" row="0"
+			width="34%">
+			<Image *ngIf="selectedTabview == 1" row="0" class="navIcon" [src]="selectedTabview==1?'~/assets/images/category.png':''"></Image>
+			<Label [class]="selectedTabview==1?'tabviewText.active':'tabviewText'"
+				row="1" text="Location"></Label>
+		</GridLayout>
 	</GridLayout>
-</ActionBar>
-<GridLayout height="100%">
-	<ListView #list [items]="firebaseService.postSearchResultArray" (itemTap)="onNavigationItemTap($event)">
-		<ng-template let-item="item">
-			<GridLayout class="list-item">
-				<Image [src]="getPostImage(item)"></Image>
-				<Label [text]="getPostName(item)" class="item-title"></Label>
-			</GridLayout>
-		</ng-template>
-	</ListView>
-	<AbsoluteLayout #animatingImageContainer opacity="0" class="animating-image-container">
-		<Image #animatingImage width="100%"></Image>
-	</AbsoluteLayout>
+
+	<GridLayout *ngIf="selectedTabview == 0" row="1" width="100%"
+		backgroundColor="white">
+		<ListView #listview [items]="items" separatorColor="transparent">
+			<ng-template let-item="item">
+				<StackLayout class="main">
+					<StackLayout class="content">
+						<Image stretch="aspectFill" class="card-img" (tap)="onItemTap(item)"
+							[src]="showItemCover(item)"></Image>
+						<GridLayout width="100%" columns="auto,*" rows="auto,auto"
+							class="" verticalAlignment="center">
+							<Label [text]="categoryIcon(item)" row="0"
+								col="0" rowSpan="2" [backgroundColor]="setCategoryColor(item)"
+								class="fa category-icon"></Label>
+							<Label row="0" col="1" class="item-name" textwrap="true"
+								verticalAlignment="bottom"
+								horizontalAlignment="left" [text]="getItemName(item)"></Label>
+						</GridLayout>
+						<StackLayout width="100%" marginTop="5" class="line"></StackLayout>
+
+						<GridLayout columns="auto,*,auto,auto" rows="auto">
+							<GridLayout col="0" rows="auto" columns="auto,auto"
+								(tap)="toggleLike(item)">
+								<Label col="0" row="0" #like [class]="getIsLike(item) ? 'fa like-icon liked-active' : 'fa like-icon default'"
+									[text]="getIsLike(item) ? '&#xf164;':'&#xf087;'"></Label>
+								<Label col="1" row="0" class="layout" [text]="getLikeCount(item)"></Label>
+							</GridLayout>
+							<StackLayout col="1" orientation="horizontal" marginLeft="15">
+								<Label ref="" class="like-icon layout fa" text="&#xf0e5;"
+								(tap)="onCommentTap(item)"></Label>
+								<Label class="layout" [text]="getCommentCount(item)"></Label>
+							</StackLayout>
+							<GridLayout col="2" rows="auto" columns="auto,auto"
+								(tap)="toggleHeart(item)" marginRight="15">
+								<Label col="0" row="0" #favorite [class]="getIsFavorite(item) ? 'like-icon fa heart-active' : 'like-icon fa default'"
+									[text]="getIsFavorite(item) ? '&#xf004;':'&#xf08a;'"></Label>
+								<Label col="1" row="0" class="layout" text="Favorite"></Label>
+							</GridLayout>
+							<StackLayout col="3" orientation="horizontal">
+								<Label ref="" class="like-icon layout fa"
+									text="&#xf045;"></Label>
+								<Label class="layout" text="Share"></Label>
+							</StackLayout>
+
+						</GridLayout>
+					</StackLayout>
+
+					<StackLayout width="100%" class="lineBreak"></StackLayout>
+
+				</StackLayout>
+			</ng-template>
+		</ListView>
+	</GridLayout>
+
+	<GridLayout *ngIf="selectedTabview == 1" row="1" width="100%"
+		backgroundColor="white">
+
+	</GridLayout>
 </GridLayout>

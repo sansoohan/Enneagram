@@ -121,7 +121,7 @@ export class FriendlistComponent implements OnInit {
 
 	onHomeTap(){
 		this.modal.hide();
-		this.firebaseService.get_user_posts(this.firebaseService.selectedFriendID);
+		this.firebaseService.getUserPosts(this.firebaseService.selectedFriendID);
 		this.routerExtensions.navigate(['/searchresult'], { animated: false });
 		this._buttonRef.makeArrow();
 	}

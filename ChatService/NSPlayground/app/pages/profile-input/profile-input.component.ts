@@ -11,6 +11,7 @@ import * as dialogs from "ui/dialogs";
 import { android, ios } from "tns-core-modules/application";
 import { knownFolders, path } from "file-system";
 import { RadioOption } from "~/modules/buttons/radio-option";
+import { Page } from "ui/page";
 
 @Component({
   moduleId: module.id,
@@ -19,43 +20,41 @@ import { RadioOption } from "~/modules/buttons/radio-option";
   styleUrls: ['./profile-input.component.css']
 })
 export class ProfileInputComponent implements OnInit {
-	email: string = "";
-	name: string =""
-	gender: string = "";
 	country: string = "";
 	interest: string = "";
 	introducing: string = "";
 	language: string = "";
+    thisUserProfilePicsrc;
+    thisUserBackgroundPicsrc;
 
-  	statusChangeSubscr: Subscription;
-  
-	private isUpdating: boolean = false;
-	private isAddingNew: boolean = false;
-
-	private removedImageUrl: string;
 	genderOptionButtons?: Array<RadioOption>;
 	
 
-	constructor(private routerExtensions: RouterExtensions,
+	constructor(
+		private routerExtensions: RouterExtensions,
 		private firebaseService: FirebaseService,
-		
+		private page: Page
 	) { 
+		this.page.actionBarHidden = true;
+		this.thisUserBackgroundPicsrc = this.firebaseService.currentBackgroundImageFileURL;
+		this.thisUserProfilePicsrc = this.firebaseService.currentProfileImageFileURL;
 
 	}
 	ngOnInit() { 
-		this.genderOptionButtons = [
-			new RadioOption("Gender", "male"),
-			new RadioOption("Gender", "female"),
-		];
-		this.email = this.firebaseService.thisUser[this.firebaseService.authuser.uid]['profile']['email'];
-		this.name = this.firebaseService.thisUser[this.firebaseService.authuser.uid]['profile']['name'];
 	}
 
-	onTap(args: GestureEventData) {
+	onCloseTap(args: GestureEventData) {
 		this.routerExtensions.back();
 	}
 
+	getCover(item){
+        for(var id in item){
+            return item[id]['image'];
+        }
+    }
+
   	onAddImageTap(imageType:string): void {
+		console.log(imageType);
 		if (this.firebaseService.authuser) {
 			this.firebaseService.pickImage(imageType);
 		} else {
@@ -63,36 +62,14 @@ export class ProfileInputComponent implements OnInit {
 		}
 	}
 
-	changeCheckedRadio(radioOption: RadioOption): void {
-		radioOption.selected = !radioOption.selected;
-
-		if (!radioOption.selected) {
-			return;
-		}
-
-
-		switch (radioOption.group) {
-			case "Gender":
-				this.gender = radioOption.text;
-				this.genderOptionButtons.forEach(option => {
-					if (option.text !== radioOption.text) {
-						option.selected = false;
-					}
-				});
-				break;
-		}
-	}
 
 	onSaveTap(){
 		var userProfileToUpdate = {
-			backgroundPicsrc: this.firebaseService.currentBackgroundImageFileURL,
 			country: this.country,
-			email: this.email,
-			gender: this.gender,
 			interest: this.interest,
 			introducing: this.introducing,
 			language: this.language,
-			name: this.name,
+			backgroundPicsrc: this.firebaseService.currentBackgroundImageFileURL,
 			profilePicsrc: this.firebaseService.currentProfileImageFileURL
 		}
 		this.firebaseService.setThisUserProfile(userProfileToUpdate);

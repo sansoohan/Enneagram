@@ -20,7 +20,7 @@ export class SearchOptionComponent implements OnInit {
   matchingLevel:string;
   public distanceValue:string;
   @ViewChild("googleMapComponent") googleMapComponent: GoogleMapComponent;
-  @ViewChild("actionButton") _buttonRef: ActionButtonComponent;
+  @ViewChild("actionButton") actionButton: ActionButtonComponent;
   constructor(
     private searchService: SearchService,
     private routerExtensions: RouterExtensions,
@@ -140,7 +140,6 @@ export class SearchOptionComponent implements OnInit {
       var distance = parseInt(this.distanceValue);
       this.firebaseService.searchQueries(type, otheruserEnneagramNums, originLatitude, originLongitude, distance);
       this.routerExtensions.navigate(['/searchresult'], { animated: false });
-      
     }
   }
 }

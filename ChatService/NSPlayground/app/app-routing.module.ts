@@ -7,7 +7,7 @@ import { HomeComponent } from "./pages/home/home.component";
 import { ChatRoomComponent } from "./pages/home/chat-room/chat-room.component";
 import { IdeamatchingComponent } from "./pages/home/ideamatching/ideamatching.component";
 import { SearchResultComponent } from "./pages/home/searchresult/searchresult.component";
-import { DetailsComponent } from "./pages/home/searchresult/details/details.component";
+import { DetailComponent } from "./pages/home/searchresult/detail/detail.component";
 import { EnneagramComponent } from "./pages/enneagram/enneagram.component";
 import { GoogleMapComponent } from "./modules/google-map/google-map.component";
 import { UploadpostComponent } from "./pages/home/uploadpost/uploadpost.component";
@@ -27,7 +27,7 @@ const routes: Routes = [
     { path: "login", component: LoginComponent },
     { path: 'home', component: HomeComponent },
     { path: "register", component: RegisterComponent },
-    { path: "details", component: DetailsComponent },
+    { path: "detail/:id", component: DetailComponent },
     { path: "chatroom", component: ChatRoomComponent },
     { path: 'enneagram', component: EnneagramComponent },
     { path: 'map', component: GoogleMapComponent },

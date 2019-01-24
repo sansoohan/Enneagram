@@ -1,148 +1,202 @@
-import { Component, ViewChild, ElementRef } from "@angular/core";
-import { PlatformLocation } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
-import { View } from "tns-core-modules/ui/core/view";
-import { Page } from "tns-core-modules/ui/page";
-import { AnimationCurve } from "tns-core-modules/ui/enums";
-import { topmost } from "tns-core-modules/ui/frame";
-import { Color } from "color";
-import { android, ios } from "application";
-import { device } from "platform";
-import { AnimationsService } from "./animations-service";
 import { FirebaseService } from "~/services/firebase.service";
 import { ActionButtonComponent } from "~/modules/buttons/action-button/action-button.component";
-import { GestureEventData } from "tns-core-modules/ui/gestures";
+import { Page } from "ui/page";
+
 @Component({
-	selector: "SearchResult",
-	moduleId: module.id,
-	templateUrl: "./searchresult.component.html",
-	styleUrls: ['./searchresult.component.css']
+    selector: "SearchResult",
+    moduleId: module.id,
+    templateUrl: "./searchresult.component.html",
+    styleUrls: ['./searchresult.component.css']
 })
-export class SearchResultComponent {
-	private _landmarks: Array<any>;
-	private _selectedView: View;
-	private _adjustedOffset: number = 0;
 
-	@ViewChild("actionButton") _buttonRef: ActionButtonComponent;
-	@ViewChild("search") _searchRef: ElementRef;
-	@ViewChild("list") _listRef: ElementRef;
-	@ViewChild("animatingImage") _imageRef: ElementRef;
-	@ViewChild("animatingImageContainer") _imageContainerRef: ElementRef;
+export class SearchResultComponent implements OnInit {
+    lastDelY = 0;
+    headerCollapsed = false;
+    selectedTab = 0;
+    selectedTabview = 0;
+	items: Array<any>;
+	isLike: Array<any>;
 
-	constructor(private animationsService: AnimationsService,
+	@ViewChild("actionButton") actionButton: ActionButtonComponent;
+
+	constructor(
 		private routerExtensions: RouterExtensions,
 		private firebaseService: FirebaseService,
-		private page: Page,
-		private location: PlatformLocation
+		private page: Page
 	) {
+		this.page.actionBarHidden = true;
+		this.items = this.firebaseService.postSearchResultArray;
+    }
 
-		this.page['scrollableContent'] = true;
-		this._landmarks = this.firebaseService.postSearchResultArray;
-
-		if (android) {
-			this._updateStatusBarColor("#2B3238");
-		}
-	}
-
-	ngOnInit() {
-		this.location.onPopState(() => {
-			this._onNavigatedTo();
-		});
-
-		if (ios) {
-			topmost().ios.controller.navigationBar.barStyle = 1;
-		}
-	}
-
-	onTap(args: GestureEventData) {
+	onBackTap(){
 		this.routerExtensions.back();
 	}
 
-	getPostImage(item): string{
-		var ret:string = "";
-		for(var postID in item) {
-			ret = item[postID]['image'];
+    ngOnInit(): void {
+    }
+
+    onItemTap(item) {
+		console.log(`Tapped on ${item}`);
+		for(var id in item){
+			this.routerExtensions.navigate(["detail/" + id, {
+				animated: true,
+				transition: {
+					name: "slideTop",
+					duration: 380,
+					curve: "easeIn"
+				}
+			}]);
 		}
-		return ret;
-	}
-	getPostName(item): string{
-		var ret:string = "";
-		for(var postID in item) {
-			ret = item[postID]['name'];
-		}
-		return ret;
-	}
+    }
 
-	get landmarks() {
-		return this._landmarks;
-	}
-
-	public onNavigationItemTap(args: any) {
-		for(var post_id in this.firebaseService.postSearchResultArray[args.index]){
-			this.firebaseService.selectedPostID = post_id;
-			console.log(this.firebaseService.selectedPostID);
-		}
-		this._selectedView = args.view;
-		this.animationsService.animationOffset = this.measureOffset(args.view, args.object);
-		this.routerExtensions.navigate(['/details'], { animated: false });
-		setTimeout(() => {
-			this._prepareForBackNavigation();
-		});
-	}
-
-	private measureOffset(view1: View, view2: View) {
-		let offset = view1.getLocationRelativeTo(view2).y;
-		if (view2.ios && view2.ios.adjustedContentInset) {
-			this._adjustedOffset = view2.ios.adjustedContentInset.top;
-		}
-		return offset - this._adjustedOffset;
-	}
-
-	private _prepareForBackNavigation() {
-		this._listRef.nativeElement.opacity = 0;
-		this._selectedView.opacity = 0;
-
-		this._imageRef.nativeElement.src = this.firebaseService.getSelectedPost()[this.firebaseService.selectedPostID]['image'];
-		this._imageContainerRef.nativeElement.translateY = this._adjustedOffset;
-		this._imageContainerRef.nativeElement.opacity = 1;
-
-		this._buttonRef.makeArrow();
-		this._searchRef.nativeElement.opacity = 0;
-	}
-
-	private _onNavigatedTo() {
-		let offset = this.animationsService.animationOffset + this._adjustedOffset;
-		this._imageContainerRef.nativeElement.animate({
-			translate: { x: 0, y: offset },
-			duration: 200,
-			curve: AnimationCurve.easeOut
-		}).then(() => {
-			this._selectedView.opacity = 1;
-			this._imageContainerRef.nativeElement.animate({
-				opacity: 0,
-				duration: 400,
-				curve: AnimationCurve.easeOut
-			}).then(() => {
-				this._imageContainerRef.nativeElement.translateY = 0;
-			})
-		}).catch(() => { });
-
-		this._listRef.nativeElement.animate({
-			opacity: 1,
-			duration: 200
-		}).catch(() => { });
-		this._searchRef.nativeElement.animate({
-			opacity: 1,
-			duration: 200
-		}).catch(() => { });
-	}
-
-	private _updateStatusBarColor(color: string) {
-		if (device.sdkVersion >= "21" && android.foregroundActivity) {
-			var nativeColor = new Color(color).android;
-			var window = android.foregroundActivity.getWindow();
-			window.setStatusBarColor(nativeColor);
+	showItemCover(item){
+		for(var id in item){
+			return item[id]['image'];
 		}
 	}
+
+    categoryIcon(item) {
+		for(var id in item){
+			switch (item[id]['type']) {
+				case "food":
+					return String.fromCharCode(0xf0f5); //"fa-cutlery";
+				case "chat":
+					return String.fromCharCode(0xf0fc); //"fa-beer";
+				case "game":
+					return String.fromCharCode(0xf0f4); //"fa-coffee";
+				case "Cake":
+					return String.fromCharCode(0xf1fd); //"fa-birthday-cake";
+				default:
+					return String.fromCharCode(0xf06d); //"fa-fire";
+			}
+		}
+    }
+
+	setCategoryColor(item) {
+		for(var id in item){
+			switch (item[id]['type']) {
+				case "food":
+					return "#2D9CDB";
+				case "chat":
+					return "#e4ce0d";
+				case "game":
+					return "#27AE60";
+				case "Cake":
+					return "white";
+				default:
+					return "white";
+			}
+		}
+	}
+
+	getItemName(item) {
+		for(var id in item){
+			return item[id]['name'];
+		}
+	}
+
+	toggleLike(item) {
+		for(var id in item){
+			for(var userId in item[id]['likes']){
+				if(this.firebaseService.authuser.uid === userId){
+					// partial delete
+					item[id]['like_count']--;
+				}
+				else{
+					// partial add
+					item[id]['like_count']++;
+				}
+			}
+			item[id]['is_like'] = !item[id]['is_like'];
+			if(item[id]['is_like']){
+
+			}
+			else{
+				var likeData = {};
+				likeData[this.firebaseService.authuser.uid] = "like";
+				this.firebaseService.addLike(id, likeData);
+			}
+		}
+	}
+	
+	getIsLike(item){
+		for(var id in item){
+			return item[id]['is_like'];
+		}
+	}
+	getLikeCount(item){
+		for(var id in item){
+			return item[id]['like_count'];
+		}
+	}
+    toggleHeart(item) {
+		for(var id in item){
+			for(var userId in item[id]['favorites']){
+				if(this.firebaseService.authuser.uid === userId){
+					// partial delete
+				}
+				else{
+					// partial add
+				}
+			}
+			item[id]['is_favorite'] = !item[id]['is_favorite'];
+		}
+    }
+
+	onCommentTap(item){
+		for(var id in item){
+			item[id]['is_comment'] = !item[id]['is_comment'];
+			this.onItemTap(item);
+		}
+	}
+	getIsFavorite(item){
+		for(var id in item){
+			return item[id]['is_favorite'];
+		}
+	}
+	getCommentCount(item){
+        for(var id in item){
+			return item[id]['comment_count'];
+		}
+	}
+
+
+    //Top nav bar tap methods
+    onBellTap() {
+    }
+
+    onSearchTap() {
+    }
+
+    onPopularTap() {
+        this.selectedTabview = 0;
+    }
+
+    onCategoryTap() {
+        this.selectedTabview = 1;
+    }
+
+    onPromosTap() {
+        this.selectedTabview = 2;
+    }
+
+    //Bottom nav bar tap methods
+    onHomeTap() {
+        this.selectedTab = 0;
+    }
+
+    onCartTap() {
+        this.selectedTab = 1;
+    }
+
+    onHistoryTap() {
+        this.selectedTab = 2;
+    }
+
+    onAboutTap() {
+        this.selectedTab = 3;
+    }
+
 }

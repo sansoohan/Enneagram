@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
 
     onHomeTap(): void{
         this.closeDrawer();
-		this.firebaseService.get_user_posts(this.firebaseService.authuser.uid);
+		this.firebaseService.getUserPosts(this.firebaseService.authuser.uid);
 		this.routerExtensions.navigate(['/searchresult'], { animated: false });
 		this._buttonRef.makeArrow();
     }
@@ -53,6 +53,12 @@ export class AppComponent implements OnInit {
     profileTap(): void{
         this.closeDrawer();
         this.routerExtensions.navigate(['/profile-input'], { animated: false });
+        this._buttonRef.makeArrow();
+    }
+
+    settingTap(): void{
+        this.closeDrawer();
+        this.routerExtensions.navigate(['/setting'], { animated: false });
         this._buttonRef.makeArrow();
     }
 

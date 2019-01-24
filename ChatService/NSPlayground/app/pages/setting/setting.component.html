@@ -1,0 +1,37 @@
+<ActionBar class="action-bar" backgroundColor="#2B3238">
+	<NavigationButton visibility="collapsed"></NavigationButton>
+	<GridLayout columns="auto,*,auto" ios:padding="0 10" height="100%" width="100%">
+		<Label col="1" text="Profile" class="action-bar-label"></Label>
+		<ActionButton (tap)="onTap($event)" isArrow="true"></ActionButton>
+	</GridLayout>
+</ActionBar>
+
+<GridLayout>
+	<ScrollView>
+		<GridLayout rows="auto, auto">
+
+			<StackLayout class="site-main-content" row="1">
+				<Label class="site-item-header" text="E-mail"></Label>
+				<TextView textWrap="true" [text]="email" class="site-input-field" autocorrect="false" isEnabled="false"></TextView>
+				<StackLayout android:opacity="0" class="line"></StackLayout>
+				
+				<StackLayout class="line"></StackLayout>
+				<Label class="site-item-header" text="Nick Name"></Label>
+				<TextView textWrap="true" class="site-input-field" autocorrect="false" hint="Enter NOTES" [text]="name"></TextView>
+
+				<Label class="site-item-header" text="Gender"></Label>
+				<GridLayout class="p-10" *ngFor="let option of genderOptionButtons">
+					<StackLayout orientation="horizontal" verticalAlignment="center">
+						<CheckBox #elem [checked]="option.selected" (checkedChange)="elem.checked !== option.selected && changeCheckedRadio(option)"
+						 class="checkbox" boxType="circle"></CheckBox>
+						<StackLayout verticalAlignment="center">
+							<Label [text]="option.text" textWrap="true" (tap)="changeCheckedRadio(option)"></Label>
+						</StackLayout>
+					</StackLayout>
+				</GridLayout>
+				<StackLayout android:opacity="0" class="line"></StackLayout>
+			</StackLayout>
+
+		</GridLayout>
+	</ScrollView>
+</GridLayout>

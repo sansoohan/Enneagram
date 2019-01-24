@@ -44,10 +44,10 @@ export class HomeComponent implements OnInit {
         private firebaseServices: FirebaseService,
     ) {
         // Use the component constructor to inject providers.
-        this.friendlistIcon = '~/home/images/user-avatar-main-picture.png';
-        this.friendchatIcon = '~/home/images/speech-bubble.png';
-        this.friendmatchingIcon = '~/home/images/magnifier-with-a-heart.png';
-        this.ideamatchingIcon = '~/home/images/magnifier-with-a-star.png';
+        this.friendlistIcon = '~/pages/home/images/user-avatar-main-picture.png';
+        this.friendchatIcon = '~/pages/home/images/speech-bubble.png';
+        this.friendmatchingIcon = '~/pages/home/images/magnifier-with-a-heart.png';
+        this.ideamatchingIcon = '~/pages/home/images/magnifier-with-a-star.png';
     }
 
 
@@ -90,7 +90,7 @@ export class HomeComponent implements OnInit {
         });
     }
     ideamatchingTap() {
-        if (this.ideamatchingIcon = '~/home/images/magnifier-with-a-star-locked.png') {
+        if (this.ideamatchingIcon = '~/pages/home/images/magnifier-with-a-star-locked.png') {
 
         }
     }
@@ -103,10 +103,10 @@ export class HomeComponent implements OnInit {
     afterLogin(): void{
         // Init your component properties here.
         if (this.firebaseServices.thisUser.enneagram.number === 0) {
-            this.friendmatchingIcon = '~/home/images/magnifier-with-a-heart-locked.png';
+            this.friendmatchingIcon = '~/pages/home/images/magnifier-with-a-heart-locked.png';
         }
         if (this.firebaseServices.thisUser.enneagram.number === 0) {
-            this.ideamatchingIcon = '~/home/images/magnifier-with-a-star-locked.png';
+            this.ideamatchingIcon = '~/pages/home/images/magnifier-with-a-star-locked.png';
         }
     }
 

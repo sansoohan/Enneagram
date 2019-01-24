@@ -9,24 +9,24 @@
 		<ScrollView row="1">
 			<StackLayout class="sidedrawer-content">
 				<GridLayout columns="auto, *" class="sidedrawer-list-item" (tap)="onHomeTap()">
-					<Label col="0" text="&#xf015;" class="fa"></Label>
-					<Label col="1" text="Home" class="p-r-10"></Label>
+					<Label col="0" text="&#xf040;" class="fa"></Label>
+					<Label col="1" text="My Post" class="p-r-10"></Label>
 				</GridLayout>
 			
 				<GridLayout columns="auto, *" class="sidedrawer-list-item" (tap)="enneagramTap()">
-					<Label col="0" text="&#xf666;" class="fa"></Label>
+					<Label col="0" text="&#xf29a;" class="fa"></Label>
 					<Label col="1" text="Enneagram" class="p-r-10"></Label>
 				</GridLayout>
 			
 				<StackLayout class="hr-light"></StackLayout>
 			
-				<GridLayout columns="auto, *" class="sidedrawer-list-item">
+				<GridLayout columns="auto, *" class="sidedrawer-list-item" (tap)="settingTap()">
 					<Label col="0" text="&#xf013;" class="fa"></Label>
 					<Label col="1" text="Settings" class="p-r-10"></Label> 
 				</GridLayout>
 
 				<GridLayout columns="auto, *" class="sidedrawer-list-item" (tap)="logoutTap()">
-					<Label col="0" text="&#xf013;" class="fa"></Label>
+					<Label col="0" text="&#xf08b;" class="fa"></Label>
 					<Label col="1" text="Log out" class="p-r-10"></Label>
 				</GridLayout>
 			</StackLayout>

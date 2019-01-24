@@ -24,9 +24,9 @@ firebase.init({
     //storageBucket: 'gs://yowwlr.appspot.com',
 }).then(
     function (instance) {
-      console.log("firebase.init done");
+        console.log("firebase.init done");
     },
     function (error) {
-      console.log("firebase.init error: " + error);
+        console.log("firebase.init error: " + error);
     }
 );

@@ -1,0 +1,85 @@
+<StackLayout class="main" verticalAlignment="top">
+
+	<GridLayout class="anim-cover" rows="auto" columns="*">
+		<Image row="0" col="0" marginTop="-40" height="180" stretch="aspectFill"
+			class="card-img" [src]="getCover(item)"></Image>
+		<Label row="0" col="0" verticalAlignment="top" horizontalAlignment="left"
+			(tap)="onCloseTap()" fontSize="24" text="&#xf060;" class="fa close">
+		</Label>
+	</GridLayout>
+
+	<ScrollView class="anim-images" orientation="horizontal">
+		<StackLayout orientation="horizontal" class="">
+			<GridLayout *ngFor="let imageString of getImages(item)" rows="auto"
+				columns="*">
+				<Image class="card-img-thumb" row="0" col="0" [src]="imageString"
+					stretch="aspectFill"></Image>
+				</GridLayout>
+		</StackLayout>
+	</ScrollView>
+	
+	<GridLayout rows="auto,auto,auto,auto" columns="auto" class="content">
+
+		<GridLayout *ngIf="item" class="anim-itemInfo" marginTop="15" row="1"
+			width="100%" columns="auto,*" rows="auto,auto,auto,auto"
+			verticalAlignment="center">
+			<Label [text]="categoryIcon(item) " row="0" col="0" rowSpan="2"
+				[backgroundColor]="setCategoryColor(item)" class="fa category-icon"></Label>
+			<Label row="0" col="1" class="item-name" textwrap="true"
+				verticalAlignment="bottom" horizontalAlignment="left" [text]="getItemName(item)"></Label>	
+		</GridLayout>
+
+		<StackLayout class="line anim-likes" row="2" width="100%" marginTop="10"></StackLayout>
+
+		<GridLayout *ngIf="item" columns="auto,*,auto,auto" rows="auto" marginTop="5" width="100%" row="3" class="anim-likes">
+			<GridLayout col="0" rows="auto" columns="auto,auto" (tap)="toggleLike(item)">
+				<Label col="0" row="0" #like [class]="getIsLike(item) ? 'fa like-icon liked-active' : 'fa like-icon default'"
+					[text]="getIsLike(item) ? '&#xf164;':'&#xf087;'"></Label>
+				<Label col="1" row="0" class="layout" [text]="getLikeCount(item)"></Label>
+			</GridLayout>
+
+			<StackLayout col="1" orientation="horizontal" marginLeft="15">
+				<Label ref="" class="like-icon layout fa" text="&#xf0e5;"></Label>
+				<Label class="layout" [text]="getCommentCount(item)"></Label>
+			</StackLayout>
+
+			<GridLayout col="2" rows="auto" columns="auto,auto" (tap)="toggleHeart(item)" marginRight="15">
+				<Label col="0" row="0" #favorite [class]="getIsFavorite(item) ? 'like-icon fa heart-active' : 'like-icon fa default'"
+					[text]="getIsFavorite(item) ? '&#xf004;':'&#xf08a;'"></Label>
+				<Label col="1" row="0" class="layout" text="Favorite"></Label>
+			</GridLayout>
+
+			<StackLayout col="3" orientation="horizontal">
+				<Label ref="" class="like-icon layout fa" text="&#xf045;"></Label>
+				<Label class="layout" text="Share"></Label>
+			</StackLayout>
+		</GridLayout>
+	</GridLayout>
+
+	<StackLayout width="100%" class="lineBreak anim-likes"></StackLayout>
+
+	<Gridlayout rows="auto,*" class="content anim-content" marginTop="15">
+		<GridLayout row="0" rows="auto" marginBottom="5" columns="auto, auto">
+			<Label col="0" text="&#xf02c;" class="fa description-icon"
+				textWrap="true"></Label>
+			<Label col="1" class="description-text" text="Description"
+				textWrap="true"></Label>
+		</GridLayout>
+
+		<StackLayout row="1" *ngIf="!getIsComment(item)">
+			<ScrollView>
+				<StackLayout verticalAlignment="top" horizontalAlignment="left" *ngIf="item">
+					<Textview editable="false" class="description-value"
+						textWrap="true" [text]="getItemDescription(item)">
+					</Textview>
+				</StackLayout>
+			</ScrollView>
+		</StackLayout>
+		
+		<StackLayout row="1" *ngIf="getIsComment(item)">
+			<ScrollView>
+
+			</ScrollView>
+		</StackLayout>
+	</Gridlayout>
+</StackLayout>
