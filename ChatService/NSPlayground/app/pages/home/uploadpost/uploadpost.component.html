@@ -19,7 +19,7 @@
 		</StackLayout>
 		<Label class="message_row" row="4" col="0" text="Image"></Label>
 		<Label class="message_row" row="4" col="1" marginright="10%" [text]="imageCollapsed" (tap)="onImageToggleTap()"></Label>
-		<Image row="5" col="0" colspan="2" *ngIf="!firebaseService.currentBlogImageFilePath" src="~/home/blog/images/image.png" [height]="imageHeight" (tap)="selectImage('blog')"></Image>
+		<Image row="5" col="0" colspan="2" *ngIf="!firebaseService.currentBlogImageFilePath" src="~/pages/home/blog/images/image.png" [height]="imageHeight" (tap)="selectImage('blog')"></Image>
 		<Image row="5" col="0" colspan="2" *ngIf="firebaseService.currentBlogImageFilePath" [src]="firebaseService.currentBlogImageFilePath" [height]="imageHeight" (tap)="selectImage('blog')"></Image>
 		<StackLayout class="pic_row" row="6" col="0" colspan="2" height="1000">
 			<TextView class="input input-rounded" hint="Enter your message" [(ngModel)]="descriptionValue" editable="true"></TextView>

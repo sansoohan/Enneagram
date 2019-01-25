@@ -50,8 +50,10 @@ export class HomeComponent implements OnInit {
         this.ideamatchingIcon = '~/pages/home/images/magnifier-with-a-star.png';
     }
 
+    ngOnInit(): void {
 
-
+    }
+    
     onSelectedIndexChanged(args: SelectedIndexChangedEventData) {
         if (args.oldIndex !== -1) {
             const newIndex = args.newIndex;
@@ -89,16 +91,8 @@ export class HomeComponent implements OnInit {
             }
         });
     }
-    ideamatchingTap() {
-        if (this.ideamatchingIcon = '~/pages/home/images/magnifier-with-a-star-locked.png') {
-
-        }
-    }
 
 
-    ngOnInit(): void {
-
-    }
 
     afterLogin(): void{
         // Init your component properties here.

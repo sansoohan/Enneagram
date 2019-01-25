@@ -10,11 +10,9 @@
 
 	<ScrollView class="anim-images" orientation="horizontal">
 		<StackLayout orientation="horizontal" class="">
-			<GridLayout *ngFor="let imageString of getImages(item)" rows="auto"
-				columns="*">
-				<Image class="card-img-thumb" row="0" col="0" [src]="imageString"
-					stretch="aspectFill"></Image>
-				</GridLayout>
+			<GridLayout *ngFor="let imageString of getImages(item)" rows="auto" columns="*">
+				<Image class="card-img-thumb" row="0" col="0" [src]="imageString" stretch="aspectFill"></Image>
+			</GridLayout>
 		</StackLayout>
 	</ScrollView>
 	

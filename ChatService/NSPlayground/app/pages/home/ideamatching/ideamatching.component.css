@@ -12,17 +12,17 @@
 	height: 30%;
 }
 .test-background{
-    background-image: ~/home/ideamatching/images/enneagram.png;
+    background-image: ~/pages/home/ideamatching/images/enneagram.png;
     background-size: 100% 100%;
 	border-radius: 20%;
 }
 .mentor-background{
-    background-image: ~/home/ideamatching/images/idea.jpg;
+    background-image: ~/pages/home/ideamatching/images/idea.jpg;
     background-size: 100% 100%;
 	border-radius: 20%;
 }
 .mentee-background{
-    background-image: ~/home/ideamatching/images/question.png;
+    background-image: ~/pages/home/ideamatching/images/question.png;
     background-size: 100% 100%;
 	border-radius: 20%;
 }
