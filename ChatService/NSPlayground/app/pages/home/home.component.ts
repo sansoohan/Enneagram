@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
     ngOnInit(): void {
 
     }
-    
+
     onSelectedIndexChanged(args: SelectedIndexChangedEventData) {
         if (args.oldIndex !== -1) {
             const newIndex = args.newIndex;
@@ -78,6 +78,7 @@ export class HomeComponent implements OnInit {
             }
         }
     }
+    
     enneagramConfirm() {
         confirm({
             title: "Matching Friend",
