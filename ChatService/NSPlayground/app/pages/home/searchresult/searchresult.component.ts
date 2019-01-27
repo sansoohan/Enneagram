@@ -98,26 +98,20 @@ export class SearchResultComponent implements OnInit {
 	}
 
 	toggleLike(item) {
-		for(var id in item){
-			for(var userId in item[id]['likes']){
-				if(this.firebaseService.authuser.uid === userId){
-					// partial delete
-					item[id]['like_count']--;
-				}
-				else{
-					// partial add
-					item[id]['like_count']++;
-				}
-			}
-			item[id]['is_like'] = !item[id]['is_like'];
+		for(var id in item){			
 			if(item[id]['is_like']){
+				// partial delete
+				item[id]['like_count']--;
 
 			}
 			else{
+				// partial add
+				item[id]['like_count']++;
 				var likeData = {};
 				likeData[this.firebaseService.authuser.uid] = "like";
 				this.firebaseService.addLike(id, likeData);
 			}
+			item[id]['is_like'] = !item[id]['is_like'];
 		}
 	}
 	

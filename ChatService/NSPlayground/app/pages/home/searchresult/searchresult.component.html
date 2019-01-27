@@ -9,14 +9,14 @@
 		<GridLayout [class]="selectedTabview==0?'tabview.active':'tabview'"
 			(tap)="onPopularTap()" rows="*,auto" columns="auto" col="1" row="0"
 			verticalAlignment="center" horizontalAlignment="center">
-			<Image *ngIf="selectedTabview == 0" row="0" class="navIcon" [src]="selectedTabview==0?'~/assets/images/category.png':''"></Image>
+			<Image *ngIf="selectedTabview == 0" row="0" class="navIcon" [src]="selectedTabview==0?'~/images/category.png':''"></Image>
 			<Label [class]="selectedTabview==0?'tabviewText.active':'tabviewText'"
 				row="1" text="Picture"></Label>
 		</GridLayout>
 		<GridLayout [class]="selectedTabview==1?'tabview.active':'tabview'"
 			(tap)="onCategoryTap()" rows="*,auto" columns="auto" col="2" row="0"
 			width="34%">
-			<Image *ngIf="selectedTabview == 1" row="0" class="navIcon" [src]="selectedTabview==1?'~/assets/images/category.png':''"></Image>
+			<Image *ngIf="selectedTabview == 1" row="0" class="navIcon" [src]="selectedTabview==1?'~/images/category.png':''"></Image>
 			<Label [class]="selectedTabview==1?'tabviewText.active':'tabviewText'"
 				row="1" text="Location"></Label>
 		</GridLayout>
@@ -75,8 +75,6 @@
 		</ListView>
 	</GridLayout>
 
-	<GridLayout *ngIf="selectedTabview == 1" row="1" width="100%"
-		backgroundColor="white">
-
+	<GridLayout *ngIf="selectedTabview == 1" row="1" width="100%" backgroundColor="white">
 	</GridLayout>
 </GridLayout>

@@ -98,17 +98,13 @@ export class DetailComponent implements OnInit {
 
 	toggleLike(item) {
 		for(var id in item){
-			for(var userId in item[id]['likes']){
-				if(this.firebaseService.authuser.uid === userId){
-					// partial delete
-					item[id]['like_count']--;
-				}
-				else{
-					// partial add
-					item[id]['like_count']++;
-				}
-			}
 			item[id]['is_like'] = !item[id]['is_like'];
+			if(item[id]['is_like']){
+				item[id]['like_count']++;
+			}
+			else{
+				item[id]['like_count']--;
+			}
 		}
 	}
 	getIsLike(item){

@@ -14,7 +14,7 @@ import firebase = require("nativescript-plugin-firebase");
 })
 export class AppComponent implements OnInit {
     private _sideDrawerTransition: DrawerTransitionBase;
-    public profilePicsrc = "~/pages/home/images/user-avatar-main-picture.png";
+    public profilePicsrc = "res://noprofilepicture";
     public name = "user";
     public email = "user@email";
     @ViewChild("actionButton") _buttonRef: ActionButtonComponent;

@@ -46,7 +46,7 @@ export class FacedetectionComponent implements OnInit {
   //------------------------ firebase ml kit test ------------------
   textRecognition(){
       const folder: Folder = <Folder> knownFolders.currentApp();
-      const folderPath: string = path.join(folder.path, "images/Wege_der_parlamentarischen_Demokratie.jpg");
+      const folderPath: string = path.join(folder.path, "./images/Wege_der_parlamentarischen_Demokratie.jpg");
       const imageSource: ImageSource = <ImageSource> fromFile(folderPath);
 
       console.log(imageSource);
@@ -59,7 +59,7 @@ export class FacedetectionComponent implements OnInit {
 
   faceDetection(){
       const folder: Folder = <Folder> knownFolders.currentApp();
-      const folderPath: string = path.join(folder.path, "images/sansoo.jpg");
+      const folderPath: string = path.join(folder.path, "./images/sansoo.jpg");
       const imageSource: ImageSource = <ImageSource> fromFile(folderPath);
       firebase.mlkit.facedetection.detectFacesOnDevice({
           image: imageSource, // a NativeScript Image or ImageSource, see the demo for examples
@@ -72,7 +72,7 @@ export class FacedetectionComponent implements OnInit {
   }
   barcodeScanning(){
       const folder: Folder = <Folder> knownFolders.currentApp();
-      const folderPath: string = path.join(folder.path, "images/qrcode.png");
+      const folderPath: string = path.join(folder.path, "./images/qrcode.png");
       const imageSource: ImageSource = <ImageSource> fromFile(folderPath);
       firebase.mlkit.barcodescanning.scanBarcodesOnDevice({
           image: imageSource,
@@ -81,7 +81,7 @@ export class FacedetectionComponent implements OnInit {
       .then((result: MLKitScanBarcodesOnDeviceResult) => console.log(JSON.stringify(result.barcodes)))
       .catch(errorMessage => console.log("ML Kit error: " + errorMessage));
 
-      const folderPath2: string = path.join(folder.path, "images/EAN-Obst.jpg");
+      const folderPath2: string = path.join(folder.path, "./images/EAN-Obst.jpg");
       const imageSource2: ImageSource = <ImageSource> fromFile(folderPath2);
       firebase.mlkit.barcodescanning.scanBarcodesOnDevice({
           image: imageSource2,
@@ -92,7 +92,7 @@ export class FacedetectionComponent implements OnInit {
   }
   imageLabeling(){
       const folder: Folder = <Folder> knownFolders.currentApp();
-      const folderPath: string = path.join(folder.path, "images/1024px-Valais_Cup_2013_-_OM-FC_Porto_13-07-2013_-_Brice_Samba_en_extension.jpg");
+      const folderPath: string = path.join(folder.path, "./images/1024px-Valais_Cup_2013_-_OM-FC_Porto_13-07-2013_-_Brice_Samba_en_extension.jpg");
       const imageSource: ImageSource = <ImageSource> fromFile(folderPath);
 
       firebase.mlkit.imagelabeling.labelImageOnDevice({
@@ -112,7 +112,7 @@ export class FacedetectionComponent implements OnInit {
   }
   landmarkRecognition(){
       const folder: Folder = <Folder> knownFolders.currentApp();
-      const folderPath: string = path.join(folder.path, "images/680px-Bruegge_View_from_Rozenhoedkaai.jpg");
+      const folderPath: string = path.join(folder.path, "./images/680px-Bruegge_View_from_Rozenhoedkaai.jpg");
       const imageSource: ImageSource = <ImageSource> fromFile(folderPath);
       firebase.mlkit.landmarkrecognition.recognizeLandmarksCloud({
           image: imageSource,

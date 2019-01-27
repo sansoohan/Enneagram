@@ -7,7 +7,7 @@
 </ActionBar>
 
 <TabView class="tab-view" (selectedIndexChanged)="onSelectedIndexChanged($event)">
-	<GridLayout class="tabs" *tabItem="{iconSource: friendlistIcon}">
+	<GridLayout class="tabs" width="15%" *tabItem="{iconSource: friendlistIcon}">
 		<Friendlist #friendlistComponent></Friendlist>
 	</GridLayout>
 
@@ -19,6 +19,7 @@
 		<Friendmatching #friendmatchingComponent></Friendmatching>
 	</GridLayout>
 
+	
 	<GridLayout class="tabs" *tabItem="{iconSource: ideamatchingIcon}">
 		<Ideamatching #ideamatchingComponent></Ideamatching>
 	</GridLayout>

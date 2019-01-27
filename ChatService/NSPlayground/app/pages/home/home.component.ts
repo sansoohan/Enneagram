@@ -44,10 +44,10 @@ export class HomeComponent implements OnInit {
         private firebaseServices: FirebaseService,
     ) {
         // Use the component constructor to inject providers.
-        this.friendlistIcon = '~/pages/home/images/user-avatar-main-picture.png';
-        this.friendchatIcon = '~/pages/home/images/speech-bubble.png';
-        this.friendmatchingIcon = '~/pages/home/images/magnifier-with-a-heart.png';
-        this.ideamatchingIcon = '~/pages/home/images/magnifier-with-a-star.png';
+        this.friendlistIcon = 'res://noprofilepicture';
+        this.friendchatIcon = 'res://chat';
+        this.friendmatchingIcon = 'res://searchheart';
+        this.ideamatchingIcon = 'res://searchstar';
     }
 
     ngOnInit(): void {
@@ -98,10 +98,10 @@ export class HomeComponent implements OnInit {
     afterLogin(): void{
         // Init your component properties here.
         if (this.firebaseServices.thisUser.enneagram.number === 0) {
-            this.friendmatchingIcon = '~/pages/home/images/magnifier-with-a-heart-locked.png';
+            this.friendmatchingIcon = 'res://searchheartlocked';
         }
         if (this.firebaseServices.thisUser.enneagram.number === 0) {
-            this.ideamatchingIcon = '~/pages/home/images/magnifier-with-a-star-locked.png';
+            this.ideamatchingIcon = 'res://searchstarlocked';
         }
     }
 

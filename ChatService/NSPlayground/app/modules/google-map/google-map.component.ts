@@ -84,134 +84,6 @@ export class GoogleMapComponent implements OnInit {
     //     }
     // }
 
-    getDistance(origins: Marker, destinations: Array<Marker>){
-        this.distancesResult = null;
-        if(destinations.length == 0){
-            return;
-        }
-        var distanceURL = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=transit&origins="+origins.position.latitude+","+origins.position.longitude+"&destinations=";
-        for(var i=0;i<destinations.length;i++){
-            distanceURL += destinations[i].position.latitude+"%2C";
-            distanceURL += destinations[i].position.longitude;
-            if(i!=destinations.length-1){
-                distanceURL += "%7C";
-            }
-        }
-        distanceURL += "&key=AIzaSyDs-iKjb9fpImfEmGsEzF2ro60m0gNfxJY";
-        fetch(distanceURL)
-            .then((response) => response.json()).then((r) => {
-                console.log(r);
-                this.distancesResult = r;
-
-                console.log("Filtering a marker with distance ...");
-                this.filterByDistance(800);
-                console.log(this.filteredByDistance);
-
-                console.log("Filtering a marker with enneagram ...");
-                // this.filterByUserEnneagram("low");
-                console.log(this.filteredByEnneagram);
-
-                console.log("Setting a marker...");
-                this.drawFilteredMarker();
-            });
-    }
-
-    filterByDistance(searchRadious:number){
-        if(this.distancesResult==null){
-            return;
-        }
-        var elements = this.distancesResult.rows[0].elements;
-        this.filteredByDistance = [];
-        for(var i=0;i<elements.length;i++){
-            if(elements[i].distance.value<=searchRadious){
-                this.filteredByDistance.push(true);
-            }
-            else{
-                this.filteredByDistance.push(false);
-            }
-        }
-    }
-
-    filterByUserEnneagram(filterLevel: string, users: any): Array<boolean>{
-        var enneagramFilter: Array<boolean> = new Array<boolean>();
-        var thisUserEnneagramNum = this.firebaseService.thisUser.enneagram.number;
-        var thisUserEnneagramState = this.firebaseService.thisUser.enneagram.state;
-        for(var uid in users){
-            var thisfriend = false;
-            var friendEnneagramNum = users[uid]['enneagram']['number'];
-            var friendEnneagramState = users[uid]['enneagram']['state'];
-            if(filterLevel === "none"){
-                thisfriend = true;
-            }
-
-            if(filterLevel === "high" || filterLevel === "low"){
-                if((thisUserEnneagramState==="good" || thisUserEnneagramState==="") && friendEnneagramState==="bad"){
-                    if(thisUserEnneagramNum == 9 && friendEnneagramNum == 3){this.filteredByEnneagram.push(true);}
-                    else if(thisUserEnneagramNum == 3 && friendEnneagramNum == 6){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 6 && friendEnneagramNum == 9){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 1 && friendEnneagramNum == 7){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 7 && friendEnneagramNum == 5){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 5 && friendEnneagramNum == 8){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 8 && friendEnneagramNum == 2){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 2 && friendEnneagramNum == 4){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 4 && friendEnneagramNum == 1){thisfriend = true;}
-                }
-                else if(thisUserEnneagramState==="bad" && (friendEnneagramState==="good" || friendEnneagramState==="")){
-                    if(thisUserEnneagramNum == 9 && friendEnneagramNum == 6){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 3 && friendEnneagramNum == 9){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 6 && friendEnneagramNum == 3){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 1 && friendEnneagramNum == 4){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 7 && friendEnneagramNum == 1){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 5 && friendEnneagramNum == 7){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 8 && friendEnneagramNum == 5){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 2 && friendEnneagramNum == 8){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 4 && friendEnneagramNum == 2){thisfriend = true;}    
-                }
-                if(thisfriend == true){
-                    // this.friendListService.friends[i].marker.color = "green";
-                }  
-            }
-
-            if(filterLevel === "low"){
-                if((thisUserEnneagramState==="good" || thisUserEnneagramState==="") && (friendEnneagramState==="good" || friendEnneagramState==="")){
-                    if(thisUserEnneagramNum == 9 && friendEnneagramNum == 8){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 9 && friendEnneagramNum == 1){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 3 && friendEnneagramNum == 2){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 3 && friendEnneagramNum == 4){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 6 && friendEnneagramNum == 5){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 6 && friendEnneagramNum == 7){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 1 && friendEnneagramNum == 2){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 1 && friendEnneagramNum == 3){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 7 && friendEnneagramNum == 6){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 7 && friendEnneagramNum == 8){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 5 && friendEnneagramNum == 4){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 5 && friendEnneagramNum == 6){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 8 && friendEnneagramNum == 7){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 8 && friendEnneagramNum == 9){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 2 && friendEnneagramNum == 1){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 2 && friendEnneagramNum == 3){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 4 && friendEnneagramNum == 3){thisfriend = true;}
-                    else if(thisUserEnneagramNum == 4 && friendEnneagramNum == 5){thisfriend = true;}
-                }
-                if(thisfriend == true){
-                    // this.friendListService.friends[i].marker.color = "yellow";
-                }           
-            }
-            enneagramFilter.push(thisfriend);
-        }
-        return enneagramFilter;
-    }
-
-
-    drawFilteredMarker(){
-        for(var i=0;i<this.filteredByDistance.length;i++){
-            if(this.filteredByDistance[i] && this.filteredByEnneagram[i]){
-                // this.mapView.addMarker(this.friendListService.friends[i].marker);
-            }
-        }
-    }
-
-
     //Map events
     onMapReady(event) {
         console.log('Map Ready');
@@ -242,11 +114,8 @@ export class GoogleMapComponent implements OnInit {
         if(this.mapType==="result"){
             
         }
-        // this.mapView.addMarker(this.friendListService.thisUser.index.marker);
 
         console.log("Adding all markers...");
-        // this.addAllMarkers();
-
         console.log("Get distance from origin to destinations ...");
         // this.getDistance(this.friendListService.thisUser.index.marker, this.markers);
     }

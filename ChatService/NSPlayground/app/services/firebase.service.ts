@@ -14,7 +14,7 @@ var fs = require("tns-core-modules/file-system");
 export class FirebaseService {
     public authuser: firebase.User;    
     public thisUser: any = {};
-    public thisUserName = "";    
+    public thisUserName = "";
     public thisUSerEmail = "";
 
     public friends = {};
@@ -223,11 +223,11 @@ export class FirebaseService {
         });
     }
     addLike(postID, commentData){
-        // var posts = firebaseWeb.firestore()
-        // .collection("posts"). doc(postID)
-        // .update({
-        //     like: firebaseWeb.firestore().FieldValue().arrayUnion();
-        // });
+        var posts = firebaseWeb.firestore()
+        .collection("posts").doc(postID)
+        .update({
+            likes: commentData
+        });
     }
     // delete_data_from_document(){
     //     firebaseWeb.firestore().collection("cities").doc("LA")
@@ -719,7 +719,7 @@ export class FirebaseService {
                 "friends" : {
                 },
                 "profile" : {
-                    "backgroundPicsrc" : "https://firebasestorage.googleapis.com/v0/b/chat-demo-5d3a7.appspot.com/o/users%2FXkM4MNwK30htBUgvW8vJPDRj4qF2%2Fimages%2Fimg_rank_s.jpg?alt=media&token=ceb99b79-8373-4c47-b97c-79cd73b12fc3",
+                    "backgroundPicsrc" : "https://firebasestorage.googleapis.com/v0/b/chat-demo-5d3a7.appspot.com/o/firstuser%2Fimages%2Fmountain-range-on-black-background.png?alt=media&token=26ce5feb-098d-4500-914a-d73880352539",
                     "country" : "Korea",
                     "email" : this.authuser.email,
                     "gender" : "",
