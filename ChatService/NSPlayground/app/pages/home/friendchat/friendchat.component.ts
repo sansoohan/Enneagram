@@ -27,9 +27,6 @@ export class FriendchatComponent implements OnInit {
     currentMonth: number = new Date().getMonth() + 1;
     currentYear: number = new Date().getFullYear();
 
-	
-
-
 	constructor(private routerExtensions: RouterExtensions,
 		private firebaseService: FirebaseService) {
 	}
@@ -70,7 +67,6 @@ export class FriendchatComponent implements OnInit {
 		return ret;
 	}
 
-	
 	onItemTap(args) {
 		this.firebaseService.selectedRoomMessageArray = [];
 		// console.log(this.roomList.items[args.index]);
@@ -81,6 +77,7 @@ export class FriendchatComponent implements OnInit {
 			this.firebaseService.selectedRoomMessageArray = this.firebaseService.jsonToArray(messages);
 			this.firebaseService.sortMessageArrayWithTimeStamp(this.firebaseService.selectedRoomMessageArray);
 		}
+		this.firebaseService.analyticsCount("friendChatTap");
 		this.routerExtensions.navigate(['/chatroom'], { animated: false });
 	}
 	public onTap(): void {
@@ -97,5 +94,4 @@ export class FriendchatComponent implements OnInit {
 			this.childButton3.drawerOpen(this.drawer);
 		}
 	}
-
 }

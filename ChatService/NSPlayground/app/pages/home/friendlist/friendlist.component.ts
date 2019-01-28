@@ -76,6 +76,7 @@ export class FriendlistComponent implements OnInit {
 		for(var selelctedFriendID in this.friendList.items[args.index]){
 			this.firebaseService.selectedFriendID = selelctedFriendID;
 		}
+		this.firebaseService.analyticsCount("friendListItemTap");
 		this.openModal();
 	}
 	public onFloatButtonTap() {
@@ -103,6 +104,7 @@ export class FriendlistComponent implements OnInit {
 		var selectedFriend = {};
 		selectedFriend[this.firebaseService.selectedFriendID] = this.firebaseService.getFriends()[this.firebaseService.selectedFriendID];
 		this.firebaseService.generateRoomWithSelectedFriends(this.firebaseService.thisUser, selectedFriend);
+		this.firebaseService.analyticsCount("friendChatTap");
 		this.routerExtensions.navigate(['/chatroom'], { animated: false });
 		this.closeModal();
 		this._buttonRef.makeArrow();
@@ -122,6 +124,7 @@ export class FriendlistComponent implements OnInit {
 	onHomeTap(){
 		this.modal.hide();
 		this.firebaseService.getUserPosts(this.firebaseService.selectedFriendID);
+		this.firebaseService.analyticsCount("friendHomeTap");
 		this.routerExtensions.navigate(['/searchresult'], { animated: false });
 		this._buttonRef.makeArrow();
 	}

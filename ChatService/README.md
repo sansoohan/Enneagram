@@ -17,8 +17,8 @@ Developement Steps.
 --------------
 <h1>1. Select The dev platform [done]</h1>
 <h2>Platform : NodeJS</h2>
-<h2>Framework : Angular6</h2>
-<h2>Framework : Nativescript4</h2>
+<h2>Framework : Angular7</h2>
+<h2>Framework : Nativescript5</h2>
 <h2>Database : Firebase</h2>
 <h2><a href="https://github.com/sansoohan/Enneagram/blob/master/ChatService/NSPlayground/package.json">NodeJS Module Dependencies</a></h2>
 <h2><a href="https://github.com/sansoohan/Enneagram/blob/master/ChatService/NSPlayground/app/App_Resources/Android/app.gradle">Android Dependencies</a></h2>
