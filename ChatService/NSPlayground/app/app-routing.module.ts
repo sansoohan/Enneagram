@@ -17,8 +17,8 @@ import { SearchOptionComponent } from "./pages/home/searchoption/searchoption.co
 import { FriendaddComponent } from "./pages/home/friendadd/friendadd.component";
 import { PagesComponent } from "~/pages/pages.component";
 
+
 import { FacedetectionComponent } from "./test/facedetection/facedetection.component";
-import { AdmobComponent } from "./test/admob/admob.component";
 import { GoogleAnalyticsComponent } from "./modules/google-analytics/google-analytics.component";
 
 const routes: Routes = [

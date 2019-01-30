@@ -16,6 +16,8 @@ import { SearchService } from "./pages/home/searchoption/search-service";
 import { AppRoutingModule } from "./app-routing.module";
 import { GoogleMapComponent } from "./modules/google-map/google-map.component";
 import { GoogleAnalyticsComponent } from "./modules/google-analytics/google-analytics.component";
+import { GoogleAdmobComponent } from "./modules/google-admob/google-admob.component";
+import { MachineLearningComponent } from "./modules/machine-learning/machine-learning.component";
 
 import { AppComponent } from "./app.component";
     import { PagesComponent } from "./pages/pages.component";
@@ -45,7 +47,7 @@ import { ActionButtonComponent } from "./modules/buttons/action-button/action-bu
 
 import { ModalComponent } from "./modules/modal/modal.component";
 import { FacedetectionComponent } from "./test/facedetection/facedetection.component";
-import { AdmobComponent } from "./test/admob/admob.component";
+
 
 
 import * as platform from "platform";
@@ -75,6 +77,8 @@ if(platform.isIOS) {
         AppComponent,
         GoogleMapComponent,
         GoogleAnalyticsComponent,
+        GoogleAdmobComponent,
+        MachineLearningComponent,
         PagesComponent,
         LoginComponent,
         RegisterComponent,
@@ -100,7 +104,6 @@ if(platform.isIOS) {
         ChildButton3Component,
         ModalComponent,
         FacedetectionComponent,
-        AdmobComponent,
     ],
     providers: [
         FirebaseService,

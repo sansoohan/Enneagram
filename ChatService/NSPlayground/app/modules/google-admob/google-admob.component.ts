@@ -5,13 +5,15 @@ import { isIOS } from "tns-core-modules/platform";
 
 @Component({
   moduleId: module.id,
-  selector: 'Admob',
-  templateUrl: './admob.component.html',
-  styleUrls: ['./admob.component.scss']
+  selector: 'GoogleAdmob',
+  templateUrl: './google-admob.component.html',
+  styleUrls: ['./google-admob.component.scss']
 })
-export class AdmobComponent implements OnInit {
-  private androidBannerId: string = "ca-app-pub-5445779750154576/7005154644";
+export class GoogleAdmobComponent implements OnInit {
+  private androidBannerId: string = "	ca-app-pub-3940256099942544/2934735716";
+  private androidBannerTestId: string = "ca-app-pub-3940256099942544/6300978111";
   private androidInterstitialId: string = "ca-app-pub-5445779750154576/2145420061";
+  private androidInterstitialTestId: string = "ca-app-pub-3940256099942544/6300978111";
   private iosBannerId: string = "ca-app-pub-RRRR/TTTT";
   private iosInterstitialId: string = "ca-app-pub-GGGG/HHHH";
   constructor(
@@ -20,18 +22,23 @@ export class AdmobComponent implements OnInit {
   }
 
   ngOnInit() { 
-
-    this.page.actionBarHidden = true;
+    // this.page.actionBarHidden = true;
+    setTimeout(()=>{
+      this.createBanner();
+    },5000);
+    setInterval(()=>{
+      this.createBanner();
+    },60000);
   }
 
   public createBanner() {
     firebase.admob.showBanner({
       size: firebase.admob.AD_SIZE.SMART_BANNER, // see firebase.admob.AD_SIZE for all options
       margins: { // optional nr of device independent pixels from the top or bottom (don't set both)
-        bottom: 10,
-        top: 300
+        bottom: 0,
+        // top: 300
       },
-      androidBannerId: this.androidBannerId,
+      androidBannerId: this.androidBannerTestId,
       iosBannerId: "ca-app-pub-9517346003011652/3985369721",
       testing: false, // when not running in production set this to true, Google doesn't like it any other way
       iosTestDeviceIds: [ //Android automatically adds the connected device as test device with testing:true, iOS does not
@@ -64,7 +71,7 @@ export class AdmobComponent implements OnInit {
   public createInterstitial() {
     firebase.admob.showInterstitial({
       iosInterstitialId: "ca-app-pub-9517346003011652/6938836122",
-      androidInterstitialId: this.androidInterstitialId,
+      androidInterstitialId: this.androidInterstitialTestId,
       testing: true,
       // Android automatically adds the connected device as test device with testing:true, iOS does not
       iosTestDeviceIds: [

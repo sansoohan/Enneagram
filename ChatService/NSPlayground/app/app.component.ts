@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
     public profilePicsrc = "res://noprofilepicture";
     public name = "user";
     public email = "user@email";
+
     @ViewChild("actionButton") _buttonRef: ActionButtonComponent;
 
     user: Observable<firebase.User>;
@@ -77,4 +78,5 @@ export class AppComponent implements OnInit {
     get sideDrawerTransition(): DrawerTransitionBase {
         return this._sideDrawerTransition;
     }
+    
 }
