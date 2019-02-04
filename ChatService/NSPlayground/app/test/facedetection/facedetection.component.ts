@@ -125,7 +125,7 @@ export class FacedetectionComponent implements OnInit {
     }
     customModel(){
         firebase.mlkit.custommodel.useCustomModel({
-                image: imageSource, // a NativeScript Image or ImageSource, see the demo for examples
+                // image: imageSource, // a NativeScript Image or ImageSource, see the demo for examples
                 maxResults: 10, // default 5 (limit numbers to this amount of results)
                 localModelFile: "~/custommodel/inception/inception_v3_quant.tflite", // see the demo, where the model lives in app/custommodel/etc..
                 labelsFile: "~/custommodel/inception/inception_labels.txt",
