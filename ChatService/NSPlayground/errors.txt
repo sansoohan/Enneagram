@@ -1,5 +1,0 @@
-rm C:\Users\sanso\Desktop\ITlocal\Enneagram\ChatService\NSPlayground\platforms\android\app\src\main\assets\app\tns_modules\protobufjs\dist\protobuf.min.js.gz
-rm C:\Users\sanso\Desktop\ITlocal\Enneagram\ChatService\NSPlayground\platforms\android\app\src\main\assets\app\tns_modules\protobufjs\dist\protobuf-light.min.js.gz
-rm C:\Users\sanso\Desktop\ITlocal\Enneagram\ChatService\NSPlayground\platforms\android\app\src\main\assets\app\tns_modules\long\dist\long.min.js.gz
-rm C:\Users\sanso\Desktop\ITlocal\Enneagram\ChatService\NSPlayground\platforms\android\app\src\main\assets\app\tns_modules\bytebuffer\dist\bytebuffer.min.js.gz
-rm C:\Users\sanso\Desktop\ITlocal\Enneagram\ChatService\NSPlayground\platforms\android\app\src\main\assets\app\tns_modules\bytebuffer\dist\bytebuffer-dataview.min.js.gz

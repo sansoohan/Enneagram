@@ -4,7 +4,7 @@ import * as app from "application";
 import * as ApplicationSettings from "application-settings";
 import { RouterExtensions } from "nativescript-angular/router";
 import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
-import { ActionButtonComponent } from "~/modules/buttons/action-button/action-button.component";
+import { ActionButtonComponent } from "./modules/buttons/action-button/action-button.component";
 import { FirebaseService } from "./services/firebase.service";
 import firebase = require("nativescript-plugin-firebase");
 

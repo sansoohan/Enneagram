@@ -15,8 +15,8 @@ import { ProfileInputComponent } from "./pages/profile-input/profile-input.compo
 import { SettingComponent } from "./pages/setting/setting.component";
 import { SearchOptionComponent } from "./pages/home/searchoption/searchoption.component";
 import { FriendaddComponent } from "./pages/home/friendadd/friendadd.component";
-import { PagesComponent } from "~/pages/pages.component";
-
+import { PagesComponent } from "./pages/pages.component";
+import { InvitationComponent } from "./test/invitation/invitation.component";
 
 import { FacedetectionComponent } from "./test/facedetection/facedetection.component";
 import { GoogleAnalyticsComponent } from "./modules/google-analytics/google-analytics.component";

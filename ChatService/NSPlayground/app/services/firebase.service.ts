@@ -1,9 +1,9 @@
 import firebase = require("nativescript-plugin-firebase");
 import firebaseWeb = require("nativescript-plugin-firebase/app");
+
 import { Injectable } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { android, ios } from "tns-core-modules/application";
-
 
 import { ImageAsset } from "tns-core-modules/image-asset";
 import * as ApplicationSettings from "application-settings";
@@ -818,6 +818,7 @@ export class FirebaseService {
         }).catch(error => console.log("getFriendsAndThisUserFromDatabase Error: " + error));
         // set Advertising
         this.createBanner();
+        // this.notifyToUser();
     }
     setThisUser(result:any){
         var key = JSON.parse(JSON.stringify(result.key));

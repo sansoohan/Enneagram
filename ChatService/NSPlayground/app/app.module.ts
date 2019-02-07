@@ -47,7 +47,7 @@ import { ActionButtonComponent } from "./modules/buttons/action-button/action-bu
 
 import { ModalComponent } from "./modules/modal/modal.component";
 import { FacedetectionComponent } from "./test/facedetection/facedetection.component";
-
+import { InvitationComponent } from "./test/invitation/invitation.component";
 
 
 import * as platform from "platform";
@@ -104,6 +104,7 @@ if(platform.isIOS) {
         ChildButton3Component,
         ModalComponent,
         FacedetectionComponent,
+        InvitationComponent,
     ],
     providers: [
         FirebaseService,
