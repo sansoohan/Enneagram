@@ -19,6 +19,15 @@ Enneagram - Analyzing Natural Language
 <p>Nativescript MarketPlace : document/googling</p>
 <p>Nativescript Firebase : document/googling</p>
 <p>Nativescript GoogleMap : document/googling</p>
+<p><a href='https://youtu.be/WzL-98kEfhs'>Tracking User Data for marketting</a></p>
+<p><a href='https://youtu.be/V0doxN0gkoI'>Login by Facebook ID tutorial</a></p>
+<p><a href='https://github.com/EddyVerbruggen/nativescript-admob'>Addmod example</a></p>
+<p><a href='https://youtu.be/w7muIkMYE_A'>Addmod example</a></p>
+<p><a href='https://youtu.be/rMvSWDtZGVo'>Google AdWords tutorial</a></p>
+<p><a href='https://github.com/EddyVerbruggen/nativescript-plugin-firebase/blob/master/docs/ANALYTICS.md'>Firebase Analytics example</a></p>
+<p><a href='https://youtu.be/uyCZIN_gDIw'>Firebase Analytics tutorial</a></p>
+<p><a href='https://github.com/NativeScript/NativeScript/issues/3738'>Deep Link example</a></p>
+
 
 <h2>Enneagram Analyzing</h2>
 
@@ -43,22 +52,10 @@ Enneagram - Analyzing Natural Language
 <p>JDBC Hive query : document/googling</p>
 <p>DeepLearning : 밑바닥부터 시작하는 딥러닝</p>
 <p>Tensorflow tutorial : Utube tutorial</p>
-
-<h1>Next Step</h1>
-
-<h2>Marketting tools</h2>
-
-<p><a href='https://youtu.be/WzL-98kEfhs'>Tracking User Data for marketting</a></p>
-<p><a href='https://youtu.be/V0doxN0gkoI'>Login by Facebook ID tutorial</a></p>
-<p><a href='https://github.com/EddyVerbruggen/nativescript-admob'>Addmod example</a></p>
-<p><a href='https://youtu.be/w7muIkMYE_A'>Addmod example</a></p>
-<p><a href='https://youtu.be/rMvSWDtZGVo'>Google AdWords tutorial</a></p>
-<p><a href='https://github.com/EddyVerbruggen/nativescript-plugin-firebase/blob/master/docs/ANALYTICS.md'>Firebase Analytics example</a></p>
-<p><a href='https://youtu.be/uyCZIN_gDIw'>Firebase Analytics tutorial</a></p>
-<p><a href='https://github.com/NativeScript/NativeScript/issues/3738'>Deep Link example</a></p>
-
-<h2>Analyzing tools</h2>
-
 <p><a href='https://www.youtube.com/watch?v=VSbU7bKfNkA&list=PL9ooVrP1hQOGyFc60sExNX1qBWJyV5IMb'>Spark and Scala tutorial</a></p>
 <p><a href='https://github.com/EddyVerbruggen/nativescript-plugin-firebase/blob/master/docs/ML_KIT.md'>Firebase Machine Learning : example</a></p>
 <p><a href='https://www.youtube.com/watch?v=T0273WiUQPI'></a></p>
+
+<h1>Stop Develope for a while</h1>
+<h2>Making tutorial for Ruby + Rails</h2>
+<p>Fab 2019 ~ Mar 2019</p>

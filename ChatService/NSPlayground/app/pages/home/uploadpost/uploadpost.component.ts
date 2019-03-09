@@ -3,6 +3,7 @@ import { ObservableArray } from "tns-core-modules/data/observable-array";
 import { TokenModel } from "nativescript-ui-autocomplete";
 import { ScrollView, ScrollEventData } from "tns-core-modules/ui/scroll-view";
 import * as dialogs from "ui/dialogs";
+import firebase = require("nativescript-plugin-firebase");
 
 import { UploadpostService } from "./uploadpost-service";
 import { FirebaseService } from "~/services/firebase.service";
@@ -27,10 +28,23 @@ export class UploadpostComponent implements OnInit {
   imageHeight:number = 300;
   isUploaded:boolean = false;
   titleValue:string = "";
+  isOpened:boolean;
+  openTime:any;
+  closeTime:any;
+  postRoles:any;
   descriptionValue:string = "";
   @ViewChild("scrollview") scrollview: ScrollView;
   @ViewChild("types") types: RadAutoCompleteTextViewComponent;
   @ViewChild("googleMapComponent") googleMapComponent: GoogleMapComponent;
+
+
+  private userEnneagramNum;
+  private userEnneagramBehavior;
+  private userEnneagramEmotion;
+  private userEnneagramThought;
+  private userEnneagramState;
+
+  loadedData: any;
   constructor(
     private uploadpostService: UploadpostService,
     private firebaseService: FirebaseService,
@@ -80,6 +94,25 @@ export class UploadpostComponent implements OnInit {
   onMapScroll(args: ScrollEventData){
     this.scrollview.isUserInteractionEnabled = false;
   }
+  loadPost(){
+    this.loadedData = this.firebaseService.getPost();
+    this.loadedData = JSON.parse(JSON.stringify(this.loadedData));
+    this.userEnneagramBehavior = this.loadedData['behavior'];
+    this.userEnneagramEmotion = this.loadedData['emotion'];
+    this.userEnneagramNum = this.loadedData['number'];
+    this.userEnneagramState = this.loadedData['state'];
+    this.userEnneagramThought = this.loadedData['thought'];
+    this.descriptionValue = this.loadedData['description'];
+    this.firebaseService.currentBlogImageFileURL = this.loadedData['image'];
+    this.isOpened = this.loadedData['isOpen'];
+    this.titleValue = this.loadedData['name'];
+    this.openTime = this.loadedData['openTime'];
+    this.closeTime = this.loadedData['closeTime'];
+    this.postRoles = this.loadedData['roles'];
+    this.uploadpostService.postLocation.position.latitude = this.loadedData['latitude'];
+    this.uploadpostService.postLocation.position.longitude = this.loadedData['longitude'];
+    this.uploadpostService.postType = this.loadedData['type'];
+  }
   onUploadTap(){
     if(!this.isUploaded){
       dialogs.alert("Please Select a image for post.");
@@ -90,44 +123,50 @@ export class UploadpostComponent implements OnInit {
       return;
     }
 
-    var userEnneagramNum;
-    var userEnneagramBehavior;
-    var userEnneagramEmotion;
-    var userEnneagramThought;
-    var userEnneagramState;
-    var postRoles = {};
-    for(var userID in this.firebaseService.thisUser){
-      userEnneagramNum = this.firebaseService.thisUser[userID]['enneagram']['number'];
-      userEnneagramBehavior = this.firebaseService.thisUser[userID]['enneagram']['behavior'];
-      userEnneagramEmotion = this.firebaseService.thisUser[userID]['enneagram']['emotion'];
-      userEnneagramThought = this.firebaseService.thisUser[userID]['enneagram']['thought'];
-      userEnneagramState = this.firebaseService.thisUser[userID]['enneagram']['state'];
-      postRoles[userID] = "owner";
+    // Default Data for the First Posting.
+    if(this.loadedData == null){
+      this.postRoles = {};
+      for(var userID in this.firebaseService.thisUser){
+        this.userEnneagramNum = this.firebaseService.thisUser[userID]['enneagram']['number'];
+        this.userEnneagramBehavior = this.firebaseService.thisUser[userID]['enneagram']['behavior'];
+        this.userEnneagramEmotion = this.firebaseService.thisUser[userID]['enneagram']['emotion'];
+        this.userEnneagramThought = this.firebaseService.thisUser[userID]['enneagram']['thought'];
+        this.userEnneagramState = this.firebaseService.thisUser[userID]['enneagram']['state'];
+        this.postRoles[userID] = "owner";
+      }
+      this.openTime = firebase.firestore.FieldValue.serverTimestamp();
+      this.isOpened = true;
+    }
+    else{
+      // Use loaded Data.
     }
 
     console.log(this.firebaseService.thisUser);
-    console.log(userEnneagramNum);
+    console.log(this.userEnneagramNum);
     var uploadData = {
-      behavior : userEnneagramBehavior,
-      emotion : userEnneagramEmotion,
-      number : userEnneagramNum,
-      state : userEnneagramState,
-      thought : userEnneagramThought,
+      behavior : this.userEnneagramBehavior,
+      emotion : this.userEnneagramEmotion,
+      number : this.userEnneagramNum,
+      state : this.userEnneagramState,
+      thought : this.userEnneagramThought,
       description : this.descriptionValue,
       image : this.firebaseService.currentBlogImageFileURL,
-      isOpen : true,
-      likes : "",
-      favorites : "",
-      comments : "",
+      isOpened : this.isOpened,
       name : this.titleValue,
-      openTime : Date.now(),
-      closeTime : "",
-      roles : postRoles,
+      openTime : this.openTime,
+      closeTime : this.closeTime,
+      roles : this.postRoles,
       latitude: this.uploadpostService.postLocation.position.latitude,
       longitude: this.uploadpostService.postLocation.position.longitude,
       type : this.uploadpostService.postType
     }
     this.firebaseService.addPost(uploadData);
     this.routerExtensions.navigate(['/'], { animated: false });
+  }
+  setCloseTime() {
+    this.closeTime = firebase.firestore.FieldValue.serverTimestamp();
+  }
+  toggleOpened(){
+    this.isOpened = !this.isOpened;
   }
 }

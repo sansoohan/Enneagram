@@ -1,13 +1,14 @@
 import firebase = require("nativescript-plugin-firebase");
 import firebaseWeb = require("nativescript-plugin-firebase/app");
 
-import { Injectable } from "@angular/core";
+import { Injectable, ElementRef } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { android, ios } from "tns-core-modules/application";
 
 import { ImageAsset } from "tns-core-modules/image-asset";
 import * as ApplicationSettings from "application-settings";
 import * as imagePicker from "nativescript-imagepicker";
+import { firestore } from "nativescript-plugin-firebase";
 var fs = require("tns-core-modules/file-system");
 
 @Injectable()
@@ -57,43 +58,6 @@ export class FirebaseService {
 
     }
 
-    public createBanner() {
-    firebase.admob.showBanner({
-        size: firebase.admob.AD_SIZE.SMART_BANNER, // see firebase.admob.AD_SIZE for all options
-        margins: { // optional nr of device independent pixels from the top or bottom (don't set both)
-        bottom: 0,
-        // top: 300
-        },
-        androidBannerId: this.androidBannerTestId,
-        iosBannerId: "ca-app-pub-9517346003011652/3985369721",
-        testing: false, // when not running in production set this to true, Google doesn't like it any other way
-        iosTestDeviceIds: [ //Android automatically adds the connected device as test device with testing:true, iOS does not
-            "45d77bf513dfabc2949ba053da83c0c7b7e87715", // Eddy's iPhone 6s
-            "fee4cf319a242eab4701543e4c16db89c722731f"  // Eddy's iPad Pro
-        ],
-        keywords: ["keyword1", "keyword2"] // add keywords for ad targeting
-    }).then(
-            function () {
-                console.log("AdMob banner showing");
-            },
-            function (errorMessage) {
-                alert({
-                title: "AdMob error",
-                message: errorMessage,
-                okButtonText: "Hmmkay"
-                });
-            }
-        );
-    }
-
-    public hideBanner() {
-    firebase.admob.hideBanner().then(function() {
-        console.log("admob hideBanner done");
-    }, function(error) {
-        console.log("admob hideBanner error: " + error);
-    });
-    }
-
     //------------------------ Analyzing User Section ------------------
     analyticsCount(activityName: string): void{
         firebase.analytics.logEvent({
@@ -113,13 +77,27 @@ export class FirebaseService {
     }
 
     //---------------------------- New Posting Section ------------------------------------------
-    searchPost(
+    public searchQueries(
+        type:string,
+        otheruserEnneagramNums:number[],
+        originLatitude:number,
+        originLongitude:number,
+        distanceMeter:number,
+    ){
+        this.postSearchResultArray = [];
+        for(var i=0;i<otheruserEnneagramNums.length;i++){
+            // console.log("type"+otheruserEnneagramNums[i]);
+            this.searchPost(type,otheruserEnneagramNums[i],originLatitude,originLongitude,distanceMeter);
+        }
+    }
+
+    private searchPost(
         type:string,
         otheruserEnneagramNum:number,
         originLatitude:number,
         originLongitude:number,
         distanceMeter:number
-    ){
+    ): void {
         const ONE_DEGREE_EARTH_PER_METER = 111000;
 
         var maxLatitudeDegree = originLatitude + distanceMeter/(2*ONE_DEGREE_EARTH_PER_METER);
@@ -143,7 +121,7 @@ export class FirebaseService {
             }
             if(minLongitudeDegree <= -180){
                 minLongitudeDegree = minLongitudeDegree - 360;
-            }    
+            }
         }
 
         if(minLongitudeDegree > maxLongitudeDegree){
@@ -213,21 +191,8 @@ export class FirebaseService {
             });
         });
     }
-    searchQueries(
-        type:string,
-        otheruserEnneagramNums:number[],
-        originLatitude:number,
-        originLongitude:number,
-        distanceMeter:number,
-    ){
-        this.postSearchResultArray = [];
-        for(var i=0;i<otheruserEnneagramNums.length;i++){
-            // console.log("type"+otheruserEnneagramNums[i]);
-            this.searchPost(type,otheruserEnneagramNums[i],originLatitude,originLongitude,distanceMeter);
-        }
-    }
 
-    getUserPosts(userID:string){
+    public getUserPosts(userID: string) {
         this.postSearchResultArray = [];
         firebaseWeb.firestore()
         .collection("posts")
@@ -243,35 +208,139 @@ export class FirebaseService {
         });
     }
 
-    addPost(postData){
+    public addPost(postData: any): void {
         firebaseWeb.firestore()
         .collection("posts")
         .add(postData).then(documentRef => {
             // console.log(`auto-generated post ID: ${documentRef.id}`);
         });
     }
-    addComment(postID, commentData){
-        var posts = firebaseWeb.firestore()
+    public updatePost(postData: any): void {
+        firebaseWeb.firestore()
+        .collection("posts")
+        .add(postData).then(documentRef => {
+            // console.log(`auto-generated post ID: ${documentRef.id}`);
+        });
+    }
+    public getPost(): firestore.DocumentData|void {
+        var postID = '71tjD5w4TpfDKGt4zNZ4';
+        firebaseWeb.firestore()
+        .collection("posts").doc(postID)
+        .get().then(document => {
+            // console.log(document);
+            if(!document.exists){
+                console.log('Post is not exist!');
+                return null
+            }
+            else{
+                console.log(document.data());
+                return document.data();
+            }
+        });
+    }
+
+    public addComment(): void{
+        var postID = '71tjD5w4TpfDKGt4zNZ4';
+        var postOwnerID = this.authuser.uid;
+        var commentData = {};
+        commentData['comment'] = "Hello";
+        commentData['timestamp'] = firebase.firestore.FieldValue.serverTimestamp();
+        commentData['roles'] = {};
+        commentData['roles'][this.authuser.uid] = 'commenter';
+        commentData['roles'][postOwnerID] = 'owner';
+        firebaseWeb.firestore()
         .collection("posts").doc(postID)
         .collection("comments")
         .add(commentData).then(documentRef => {
-            // console.log(`auto-generated comment ID: ${documentRef.id}`);
+            console.log(`auto-generated comment ID: ${documentRef.id}`);
         });
     }
-    
-    addFavorite(postID, commentData){
-        var posts = firebaseWeb.firestore()
+
+    public toggleLikeOnComment(): void {//postID:string, commentID: string, data: any){
+        var postID = '71tjD5w4TpfDKGt4zNZ4';
+        var commentID = 'NAE7GN4EoSJaVNkFQCBJ';
+        var commentData = {};
+        commentData['roles'] = {};
+        commentData['roles'][this.authuser.uid] = 'commenter';
+        var likeCollection = firebaseWeb.firestore()
         .collection("posts").doc(postID)
-        .collection("favorites")
-        .add(commentData).then(documentRef => {
-            // console.log(`auto-generated comment ID: ${documentRef.id}`);
+        .collection("comments").doc(commentID)
+        .collection("likes");
+        this.toggleData(likeCollection, commentData);
+    }
+    public toggleLikeOnPost(): void {//postID:string, data: any){
+        var postID = '71tjD5w4TpfDKGt4zNZ4';
+        var commentData = {};
+        commentData['roles'] = {};
+        commentData['roles'][this.authuser.uid] = 'commenter';
+        var likeCollection = firebaseWeb.firestore()
+        .collection("posts").doc(postID)
+        .collection("likes");
+        this.toggleData(likeCollection, commentData);
+    }
+    public toggleFavoriteOnPost(): void {//postID:string, data: any){
+        var postID = '71tjD5w4TpfDKGt4zNZ4';
+        var commentData = {};
+        commentData['roles'] = {};
+        commentData['roles'][this.authuser.uid] = 'commenter';
+        var favoriteCollection = firebaseWeb.firestore()
+        .collection("posts").doc(postID)
+        .collection("favorites");
+        this.toggleData(favoriteCollection, commentData);
+    }
+
+    private toggleData(collection: firebase.firestore.CollectionReference, data: any): void {
+        collection.doc(this.authuser.uid)
+        .get().then(document => {
+            // console.log(document);
+            if(!document.exists){
+                this.toggleOn(collection, data);
+            }
+            else{
+                this.toggleOff(collection);
+            }
         });
     }
-    addLike(postID, commentData){
-        var posts = firebaseWeb.firestore()
+    private toggleOn(collection: firebase.firestore.CollectionReference, data: any): void {
+        collection.doc(this.authuser.uid)
+        .set(data).then(() => {
+            console.log('marked ID : ' + this.authuser.uid);
+        });
+    }
+    private toggleOff(collection: firebase.firestore.CollectionReference): void {
+        collection.doc(this.authuser.uid)
+        .delete().then(()=>{
+            console.log('unmarked ID :'+ this.authuser.uid);
+        });
+    }
+    addLike(a,b){
+
+    }
+
+    public getLikeOnComment() :Array<any>|void {
+        var postID = '71tjD5w4TpfDKGt4zNZ4';
+        var commentID = 'NAE7GN4EoSJaVNkFQCBJ';
+        firebaseWeb.firestore()
         .collection("posts").doc(postID)
-        .update({
-            likes: commentData
+        .collection("comments").doc(commentID)
+        .collection("likes")
+        .get().then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                console.log(doc.data());
+            });
+            return querySnapshot.docSnapshots.length;
+        });
+    }
+    public getLikeOnPost() :number|void {
+        var postID = '71tjD5w4TpfDKGt4zNZ4';
+        firebaseWeb.firestore()
+        .collection("posts").doc(postID)
+        .collection("likes")
+        .get().then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                console.log(doc.data());
+            });
+            return querySnapshot.docSnapshots.length;
         });
     }
     // delete_data_from_document(){
@@ -291,7 +360,7 @@ export class FirebaseService {
     //         behavior: firebaseWeb.firestore.FieldValue().arrayUnion([{"red": "blue"}])
     //     });
     // }
-    updateComment(postID, commentID, commentData){
+    public updateComment(postID, commentID, commentData): void {
         firebaseWeb.firestore()
         .collection("posts").doc(postID)
         .collection("comments").doc(commentID)
@@ -300,7 +369,7 @@ export class FirebaseService {
         });
     }
 
-    getSelectedPost(){
+    public getSelectedPost(): void {
         for(var i=0 ;i<this.postSearchResultArray.length;i++){
             for(var postID in this.postSearchResultArray[i]){
                 if(this.selectedPostID === postID){
@@ -355,7 +424,7 @@ export class FirebaseService {
 
     //---------------------------- Picture Upload Section ------------------------------------------
     // 1. when user select picture, the picture uploaded into storage.
-    pickImage(imageType:string): void {
+    public pickImage(imageType:string): void {
 		const context = imagePicker.create({
 			mode: "single"
 		});
@@ -380,7 +449,7 @@ export class FirebaseService {
 			})
 		).catch((errorMessage: any) => console.log(errorMessage));
     }
-	getImageFilePath(imageAsset, imageType:string): Promise<string> {
+	private getImageFilePath(imageAsset, imageType:string): Promise<string> {
 		return new Promise((resolve) => {
 			// if (ios) { // create file from image asset and return its path
 			// 	const tempFolderPath = knownFolders.temp().getFolder("nsimagepicker").path;
@@ -423,7 +492,7 @@ export class FirebaseService {
             // resolve(null);
 		});
     }
-    uploadFile(fileType:string, filePath:string){
+    private uploadFile(fileType:string, filePath:string){
         var fileClass;
         var filePathSplited = filePath.split('/');
         var fileName = filePathSplited[filePathSplited.length-1];
@@ -460,7 +529,7 @@ export class FirebaseService {
     }
 
     // 2. get the picture URL for uploading the blog.
-    getFileURL(imageType, uid, fileName){
+    private getFileURL(imageType, uid, fileName){
         var fileURL;
         if(imageType ==="blog"){
             fileURL = "/blog/" + fileName;
@@ -497,7 +566,7 @@ export class FirebaseService {
     
     //---------------------------- Chatting Section ------------------------------------------
     // Listen Chat Rooms from Chat Database.
-    syncThisUserRoomList(){
+    private syncThisUserRoomList(): void{
         firebase.addChildEventListener(result => {
             // console.log("Event type: " + result.type);
             // console.log("Key: " + result.key);
@@ -511,7 +580,7 @@ export class FirebaseService {
             }
         );
     }
-    updateRoom(updatedRoomID: string){
+    private updateRoom(updatedRoomID: string): void {
         firebase.getValue('/rooms/' + updatedRoomID).then(result =>{
             // console.log(JSON.stringify(result));
             this.rooms[result['key']] = JSON.parse(JSON.stringify(result['value']));
@@ -521,7 +590,7 @@ export class FirebaseService {
     }
 
     // Listen Chat Messages from Chat Database.
-    syncRoomMessages(roomID: string){
+    private syncRoomMessages(roomID: string): void {
         firebase.addChildEventListener(result => {
             // console.log("Event type: " + result.type);
             // console.log("Key: " + result.key);
@@ -535,7 +604,7 @@ export class FirebaseService {
             }
         );
     }
-    updateRoomMessages(roomID:string, messageID:any, message:any){
+    private updateRoomMessages(roomID:string, messageID:any, message:any){
         if(!this.rooms[roomID]['messages']){
             this.rooms[roomID]['messages'] = {};
         }
@@ -677,15 +746,15 @@ export class FirebaseService {
     }
 
     // Select Friend for a Modal or Chat Room.
-    setSelectedFriendID(selectedFriendID: string): void {
+    public setSelectedFriendID(selectedFriendID: string): void {
         this.selectedFriendID = selectedFriendID;
     }
-    getSelectedFriendID(): string {
+    public getSelectedFriendID(): string {
         return this.selectedFriendID;
     }
 
     //---------------------------- Auth Section ------------------------------------------
-    register(email, passwd) {
+    public register(email, passwd): Promise<string|void> {
         return firebase.createUser({
             email: email,
             password: passwd
@@ -699,7 +768,7 @@ export class FirebaseService {
         )
     }
 
-    loginByEmail(user) {
+    public loginByEmail(user: any): void {
         firebase.login({
             type: firebase.LoginType.PASSWORD,
             passwordOptions: {
@@ -708,12 +777,11 @@ export class FirebaseService {
             }
         }).then((result: any) => {
             this.setCurrentUser();
-            return JSON.stringify(result);
         }, (errorMessage: any) => {
             alert(errorMessage);
         });
     }
-    loginByFacebook(){
+    public loginByFacebook(): void {
         firebase.login({
             type: firebase.LoginType.FACEBOOK,
             // Optional
@@ -723,12 +791,11 @@ export class FirebaseService {
             }
         }).then((result: any) => {
             this.setCurrentUser();
-            return JSON.stringify(result);
         }, (errorMessage: any) => {
             alert(errorMessage);
         });
     }
-    loginByGoogle(){
+    public loginByGoogle(): void {
         firebase.login({
             type: firebase.LoginType.GOOGLE,
             // Optional 
@@ -737,12 +804,11 @@ export class FirebaseService {
             }
         }).then((result: any) => {
             this.setCurrentUser();
-            return JSON.stringify(result);
         }, (errorMessage: any) => {
             alert(errorMessage);
         });
     }
-    setCurrentUser(){
+    private setCurrentUser(): void {
         firebase.getCurrentUser().then(user => {
             this.authuser = user;
             this.checkFirstUser();
@@ -750,7 +816,7 @@ export class FirebaseService {
     }
 
     // if thisuser is first user, make a firstuser data in firebase
-    checkFirstUser(){
+    private checkFirstUser(): void {
         firebase.getValue('/users/' + this.authuser.uid).then(result =>{
             // console.log(JSON.stringify(result));
             let newUserData = {
@@ -795,7 +861,7 @@ export class FirebaseService {
     }
 
     //---------------------------- Init Section ------------------------------------------
-    setAuthUser(){
+    public setAuthUser(){
         // set thisUser
         firebase.getValue('/users/' + this.authuser.uid).then(result =>{
             this.setThisUser(result);
@@ -816,11 +882,9 @@ export class FirebaseService {
             }
             this.setRooms(resultKeys);
         }).catch(error => console.log("getFriendsAndThisUserFromDatabase Error: " + error));
-        // set Advertising
-        this.createBanner();
         // this.notifyToUser();
     }
-    setThisUser(result:any){
+    private setThisUser(result:any){
         var key = JSON.parse(JSON.stringify(result.key));
         var value = JSON.parse(JSON.stringify(result.value));
         var user = {};
@@ -829,7 +893,7 @@ export class FirebaseService {
         this.analyzeUserLogin(this.authuser.uid);
         // console.log(this.thisUser);
     }
-    analyzeUserLogin(id:string){
+    private analyzeUserLogin(id:string){
         firebase.analytics.setAnalyticsCollectionEnabled(true);
         firebase.analytics.setUserId({
             userId: id
@@ -840,7 +904,7 @@ export class FirebaseService {
         );
     }
     
-    setFriends(friendIDs:string[]){ 
+    private setFriends(friendIDs:string[]){ 
         // console.log(friendIDs);
         var count = 0;        
         for(var i=0;i<friendIDs.length;i++){
@@ -873,16 +937,16 @@ export class FirebaseService {
             .catch(error => console.log("Error: " + error));;
         }
     }
-    addFriend(friend){
+    private addFriend(friend){
         for(var key in friend){
             this.friends[key] = friend[key];
         }
         // console.log(this.getUsersArray(this.getFriends()));
     }
-    setFriendArray(): void{
+    private setFriendArray(): void{
 		this.friendArray = this.jsonToArray(this.getFriends());
 	}
-    setRooms(roomIDs:string[]){ 
+    private setRooms(roomIDs: string[]): void{ 
         // console.log(roomIDs);
         var count = 0;
         for(var i=0;i<roomIDs.length;i++){
@@ -912,24 +976,30 @@ export class FirebaseService {
                     // console.log(this.rooms);
                     this.setRoomArray();
                     this.syncThisUserRoomList();
-                    this.setCurrentUserPicture();
+                    this.setCurrentUserPicture ();
+                    // this.testAddComment();
+                    this.toggleLikeOnComment();
+                    this.toggleLikeOnPost();
+                    this.toggleFavoriteOnPost();
+                    this.getLikeOnComment();
+                    this.getPost();
                 }
             })
             .catch(error => console.log("Error: " + error));;
         }
     }
 
-    addRoom(room){
+    private addRoom(room): void{
         for(var key in room){
             this.rooms[key] = room[key];
             this.syncRoomMessages(key);
         }
     }
-    public setRoomArray(){
+    private setRoomArray(): void{
         this.roomArray = this.jsonToArray(this.getRooms());
 	}
 
-    public jsonToArray(json){
+    public jsonToArray(json): Array<any>{
         var array = [];
         if(json!=null){
             for(var key in json){
@@ -941,7 +1011,7 @@ export class FirebaseService {
         return array;
     }
     
-    setCurrentUserPicture(){
+    private setCurrentUserPicture(): void{
         for(var id in this.thisUser){
             if(this.thisUser[id]['profile']['backgroundPicsrc'] !== ""){
                 this.currentBackgroundImageFileURL = this.thisUser[id]['profile']['backgroundPicsrc'];
@@ -952,29 +1022,28 @@ export class FirebaseService {
 		}
     }
 
-    public setGeneratedRoomID(generatedRoomID:string){
+    public setGeneratedRoomID(generatedRoomID: string): void{
         this.generatedRoomID = generatedRoomID;
         this.selectedRoomID = generatedRoomID;
     }
     public getGeneratedRoomID(): string{
         return this.generatedRoomID;
     }
-    public getFriends() {
+    public getFriends(): any {
         if(this.friends != null){
             return this.friends;
         }
         else return null;
     }
-    public getRooms() {
+    public getRooms(): any {
         if(this.rooms != null){
             return this.rooms;
         }
         else return null;
     }
 
-    logout(){
+    public logout(): void {
         ApplicationSettings.setBoolean("authenticated", false);
-        this.hideBanner();
         firebase.logout();
         this.authuser == null;
     }

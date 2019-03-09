@@ -8,7 +8,6 @@ import { FriendmatchingComponent } from "./friendmatching/friendmatching.compone
 import { IdeamatchingComponent } from "./ideamatching/ideamatching.component";
 
 import { SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
-import { View } from "tns-core-modules/ui/core/view";
 import { alert, confirm, prompt, login, action, inputType } from "tns-core-modules/ui/dialogs";
 
 var fs = require("tns-core-modules/file-system");
