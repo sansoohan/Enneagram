@@ -1,10 +1,13 @@
 import tensorflow as tf
 
-saved_model_dir = './export'
+graph_def_file = './enneagram_classification_model.pb'
 
-converter = tf.contrib.lite.TFLiteConverter.from_saved_model(saved_model_dir)
+input_arrays = ["x"]
+output_arrays = ["output"]
+
+converter = tf.lite.TFLiteConverter.from_frozen_graph(
+    graph_def_file, input_arrays, output_arrays)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
-converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
 
 tflite_model = converter.convert()
-open("./converted_model.tflite", "wb").write(tflite_model)
+open("./enneagram_classification_model.tflite", "wb").write(tflite_model)

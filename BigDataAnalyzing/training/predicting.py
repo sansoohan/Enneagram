@@ -11,13 +11,14 @@ X_test = np.reshape(X_test, (-1,676))
 
 models = []
 
-sess = tf.Session()
+sess = tf.compat.v1.Session()
 models = []
 num_models = 7
+input_placeholder = tf.compat.v1.placeholder(dtype=tf.float32, shape=[None,676], name="x")
 for m in range(num_models):
-	models.append(Model(sess,"model"+str(m)))
+	models.append(Model(sess,"model"+str(m),input_placeholder))
 
-saver = tf.train.Saver()
+saver = tf.compat.v1.train.Saver()
 saver.restore(sess, "./enneagram_classification_model.ckpt")
 
 test_size = len(X_test)
@@ -26,5 +27,5 @@ for m_idx, m in enumerate(models):
 	p = m.predict(X_test)
 	predictions += p
 
-print(sess.run(tf.argmax(predictions, 1)))
+print(sess.run(tf.compat.v1.argmax(predictions, 1, name='output')))
 
