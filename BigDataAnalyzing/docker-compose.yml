@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  tensorflow_dev:
+    build: ./
+    working_dir: /ML
+    image: tensorflow_1.14_py3
+    volumes:
+      - ./:/ML
+    
