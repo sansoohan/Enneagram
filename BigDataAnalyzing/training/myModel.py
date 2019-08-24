@@ -17,12 +17,12 @@ class Model:
 		W1 = tf.compat.v1.Variable(tf.compat.v1.random_normal([676, 256])/np.sqrt(676/2))
 		b1 = tf.compat.v1.Variable(tf.compat.v1.random_normal([256]))
 		L1 = tf.compat.v1.nn.relu(tf.matmul(self.X, W1) + b1)
-		L1 = tf.compat.v1.nn.dropout(L1, rate=1-self.keep_prob)
+		# L1 = tf.compat.v1.nn.dropout(L1, rate=1-self.keep_prob)
 
 		W2 = tf.compat.v1.Variable(tf.compat.v1.random_normal([256, 256])/np.sqrt(256/2))
 		b2 = tf.compat.v1.Variable(tf.compat.v1.random_normal([256]))
 		L2 = tf.compat.v1.nn.relu(tf.matmul(L1, W2) + b2)
-		L2 = tf.compat.v1.nn.dropout(L2, rate=1-self.keep_prob)
+		# L2 = tf.compat.v1.nn.dropout(L2, rate=1-self.keep_prob)
 
 		W3 = tf.compat.v1.Variable(tf.compat.v1.random_normal([256, 10])/np.sqrt(256/2))
 		b3 = tf.compat.v1.Variable(tf.compat.v1.random_normal([10]))

@@ -65,7 +65,7 @@ saver = tf.compat.v1.train.Saver()
 saver.save(sess, "./enneagram_classification_model.ckpt")
 
 test_output = tf.compat.v1.argmax(y_test_one_hot, 1)
-correct_predict_count = tf.compat.v1.equal(self.sess.run(prediction_output, feed_dict={input_placeholder: X_test, keep_prob_placeholder: 1}), test_output)
+correct_predict_count = tf.compat.v1.equal(sess.run(prediction_output, feed_dict={input_placeholder: X_test, keep_prob_placeholder: 1}), test_output)
 ensemble_accuracy = tf.compat.v1.reduce_mean(tf.compat.v1.cast(correct_predict_count, tf.float32))
 print('Ensemble accuracy:', sess.run(ensemble_accuracy))
 
