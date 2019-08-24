@@ -12,7 +12,7 @@ input_binary = False
 output_node_names = "output"
 restore_op_name = "save/restore_all"
 filename_tensor_name = "save/Const:0"
-output_frozen_graph_name = 'frozen_'+MODEL_NAME+'.pb'
+output_frozen_graph_name = MODEL_NAME+'.pb'
 output_optimized_graph_name = 'optimized_'+MODEL_NAME+'.pb'
 clear_devices = True
 
@@ -21,11 +21,10 @@ freeze_graph.freeze_graph(input_graph_path, input_saver_def_path,
                           restore_op_name, filename_tensor_name,
                           output_frozen_graph_name, clear_devices, "")
 
-
 # Optimize for inference
 
-input_graph_def = tf.GraphDef()
-with tf.gfile.Open(output_frozen_graph_name, "rb") as f:
+input_graph_def = tf.compat.v1.GraphDef()
+with tf.io.gfile.GFile(output_frozen_graph_name, "rb") as f:
     data = f.read()
     input_graph_def.ParseFromString(data)
 
@@ -35,10 +34,9 @@ output_graph_def = optimize_for_inference_lib.optimize_for_inference(
         ["output"], # an array of output nodes
         tf.float32.as_datatype_enum)
 
-
 # Save the optimized graph
 
-f = tf.gfile.FastGFile(output_optimized_graph_name, "w")
+f = tf.io.gfile.GFile(output_optimized_graph_name, "w")
 f.write(output_graph_def.SerializeToString())
 
 # tf.train.write_graph(output_graph_def, './', output_optimized_graph_name)

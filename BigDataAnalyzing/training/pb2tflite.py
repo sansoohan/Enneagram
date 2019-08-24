@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-graph_def_file = './enneagram_classification_model.pb'
+graph_def_file = './classification_model.pb'
 
 input_arrays = ["x"]
 output_arrays = ["output"]
@@ -11,3 +11,4 @@ converter.optimizations = [tf.lite.Optimize.DEFAULT]
 
 tflite_model = converter.convert()
 open("./enneagram_classification_model.tflite", "wb").write(tflite_model)
+
