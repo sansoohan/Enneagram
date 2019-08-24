@@ -1,7 +1,6 @@
 import tensorflow as tf
 import numpy as np
 from tensorflow.contrib.layers import fully_connected, batch_norm, dropout
-#  scp -r -i /c/Program\ Files/Git/test_swarm.pem ~/Desktop/Develope/Enneagram/BigDataAnalyzing ubuntu@15.164.35.0:/home/ubuntu/
 class Model:
 	def __init__(self,sess,name,input_placeholder, keep_prob_placeholder, y_one_hot_placeholder):
 		tf.compat.v1.set_random_seed(777)
