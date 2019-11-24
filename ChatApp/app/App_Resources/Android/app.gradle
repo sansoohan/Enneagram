@@ -1,0 +1,23 @@
+// Add your native dependencies here:
+
+// Uncomment to add recyclerview-v7 dependency
+//dependencies {
+//	compile 'com.android.support:recyclerview-v7:+'
+//}
+
+android {  
+  defaultConfig {  
+    multiDexEnabled true
+    generatedDensities = []
+  }
+  aaptOptions {  
+    additionalParameters "--no-version-vectors"  
+  }
+  dexOptions {
+    javaMaxHeapSize "4g"
+  }
+}
+
+project.ext {
+    googlePlayServicesVersion = "+"
+}
