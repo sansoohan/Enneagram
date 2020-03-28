@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>GADApplicationIdentifier</key>
+    <string>ca-app-pub-5445779750154576~5050033005</string>
+  	<key>NSCameraUsageDescription</key>
+  	<string>Access camera</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -45,3 +49,13 @@
 	</array>
 </dict>
 </plist>
+
+<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSAllowsArbitraryLoads</key>
+  <true/>
+  <key>NSAllowsArbitraryLoadsForMedia</key>
+  <true/>
+  <key>NSAllowsArbitraryLoadsInWebContent</key>
+  <true/>
+</dict>

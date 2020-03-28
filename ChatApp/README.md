@@ -4,24 +4,25 @@ We can give some recommendation to users with enneagram.<br>
 User can make friends easy with this app.<br>
 We can get some data from user. This data will be used for data analyzing.
 
-Build
+Setting Dev Env
 ---------------------
-Node.js > 10.x<br>
-nativescript > 6.2.0<br>
-[Android Studio](https://developer.android.com/studio/run/managing-avds) Or Other Android Emulator<br>
-<br>
-[Installation Guide](https://docs.nativescript.org/sidekick/intro/installation)
+[Windows](https://docs.nativescript.org/start/ns-setup-win)
+[MacOS](https://docs.nativescript.org/start/ns-setup-os-x)
+[Linux](https://docs.nativescript.org/start/ns-setup-linux)
 
-Build(Android Only)<br>
+Build Android
+--------------
 ```
-npm run build
-```
-
-Run(Android Only)<br>
-```
-npm run serve
+tns build android
+tns run android
 ```
 
+Build IOS
+------------
+```
+tns build ios
+tns run ios
+```
 
 Developement Steps.
 --------------

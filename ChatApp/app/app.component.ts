@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     firebase.init({
+      iOSEmulatorFlush: true,
       onPushTokenReceivedCallback: function(token) {
           console.log("Firebase push token: " + token);
       },
